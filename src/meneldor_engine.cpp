@@ -16,7 +16,8 @@ int tt_sufficient_depth{0};
 
 } // namespace
 
-// Returns a number that is positive if the side to move is winning, and negative if losing
+// Returns a number that is positive if the side to move is winning, and
+// negative if losing
 int Meneldor_engine::evaluate(Board const& board) const
 {
   // These arrays can be iterated in parallel
@@ -27,7 +28,8 @@ int Meneldor_engine::evaluate(Board const& board) const
   auto const state = board.calc_game_state();
   if (state == Game_state::white_victory || state == Game_state::black_victory)
   {
-    // Add depth so the search function can return a slightly higher value if it finds an earlier mate
+    // Add depth so the search function can return a slightly higher value if it
+    // finds an earlier mate
     return negative_inf + m_depth_for_current_search;
   }
   if (state == Game_state::draw || board.get_halfmove_clock() >= 100)
@@ -97,13 +99,14 @@ bool Meneldor_engine::has_more_time_() const
 
 void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
 {
-  // We won't exit right away once time has expired, so include a buffer 
+  // We won't exit right away once time has expired, so include a buffer
   // so we can return a move in time
   constexpr double c_percent_time_to_use{0.95};
 
   if (params.movetime > 0)
   {
-    m_search_desired_end_time = m_search_start_time; + (std::chrono::milliseconds{params.movetime} * c_percent_time_to_use);
+    m_search_desired_end_time = m_search_start_time;
+    +(std::chrono::milliseconds{params.movetime} * c_percent_time_to_use);
     return;
   }
 
@@ -126,12 +129,14 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
     double const time_ratio = std::max((static_cast<double>(our_time) / their_time), 1.0);
     moves_to_go = static_cast<int>(c_estimated_moves_to_go * std::min(2.0, time_ratio));
   }
-  
-  // Slight fudge factor to ensure that we don't go over when moves_to_go is small
-  // TODO: Is this necessary?
-  //moves_to_go += 3;
 
-  auto time_for_move = std::chrono::milliseconds{((m_board.get_active_color() == Color::black) ? params.btime : params.wtime) / (moves_to_go)};
+  // Slight fudge factor to ensure that we don't go over when moves_to_go is
+  // small
+  // TODO: Is this necessary?
+  // moves_to_go += 3;
+
+  auto time_for_move = std::chrono::milliseconds{
+    ((m_board.get_active_color() == Color::black) ? params.btime : params.wtime) / (moves_to_go)};
   time_for_move += std::chrono::milliseconds{our_increment};
   time_for_move *= c_percent_time_to_use;
 
@@ -163,29 +168,33 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       switch (entry->type)
       {
         case Transposition_table::Eval_type::alpha:
-          // Eval_type::alpha implies we didn't find a move from this position that was as good as a move that
-          // we could have made earlier to lead to a different position. That means the position has an evaluation
-          // that is at most "entry.evaluation"
+          // Eval_type::alpha implies we didn't find a move from this position
+          // that was as good as a move that we could have made earlier to lead to
+          // a different position. That means the position has an evaluation that
+          // is at most "entry.evaluation"
           beta = std::min(beta, entry->evaluation);
           break;
         case Transposition_table::Eval_type::beta:
-          // Eval_type::beta implies that we stopped evaluating last time because we didn't think the opposing player
-          // would allow this position to be reached. That means the position has an evaluation of at least "entry.evaluation",
-          // but there may be an even better move that was skipped
+          // Eval_type::beta implies that we stopped evaluating last time because
+          // we didn't think the opposing player would allow this position to be
+          // reached. That means the position has an evaluation of at least
+          // "entry.evaluation", but there may be an even better move that was
+          // skipped
           alpha = std::max(alpha, entry->evaluation);
           break;
         case Transposition_table::Eval_type::exact:
-          --m_visited_nodes; //TODO: Is this useful?
+          --m_visited_nodes; // TODO: Is this useful?
           return entry->evaluation;
           break;
       }
     }
     else if (entry->best_move.type() != Move_type::null)
     {
-      // TODO: Set the best move as the first one in our search; even though we need to search to a
-      // larger depth it still has a good chance of being the best move
+      // TODO: Set the best move as the first one in our search; even though we
+      // need to search to a larger depth it still has a good chance of being
+      // the best move
       best_guess = entry->best_move;
-      //std::cout << "Move: " << best_guess << "\n";
+      // std::cout << "Move: " << best_guess << "\n";
     }
   }
   else
@@ -196,7 +205,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   auto moves = Move_generator::generate_pseudo_legal_moves(board);
   m_orderer.sort_moves(moves, board);
 
-  //TODO: Test this
+  // TODO: Test this
   static const bool skip_guess_move = is_feature_enabled("skip_guess_move");
   if (!skip_guess_move)
   {
@@ -205,9 +214,10 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       auto const guess_location = std::find(moves.begin(), moves.end(), best_guess);
       if (guess_location != moves.end())
       {
-        //std::cout << "Move list (size: " << moves.size() << "): ";
-        //print_vector(std::cout, moves);
-        //MY_ASSERT(guess_location != moves.end(), "Move should always be present");
+        // std::cout << "Move list (size: " << moves.size() << "): ";
+        // print_vector(std::cout, moves);
+        // MY_ASSERT(guess_location != moves.end(), "Move should always be
+        // present");
         std::rotate(moves.begin(), guess_location, guess_location + 1);
       }
       else
@@ -217,7 +227,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     }
   }
 
-  // If we don't find a move here that's better than alpha, just save alpha as the upper bound for this position
+  // If we don't find a move here that's better than alpha, just save alpha as
+  // the upper bound for this position
   bool has_any_moves{false};
   auto eval_type = Transposition_table::Eval_type::alpha;
   Move best{moves.front()};
@@ -236,8 +247,9 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 
     if (score >= beta)
     {
-      // Stop evaluating here since the opposing player won't let us get even this position on their previous move
-      // Our evaluation here is a lower bound
+      // Stop evaluating here since the opposing player won't let us get even
+      // this position on their previous move Our evaluation here is a lower
+      // bound
       eval_type = Transposition_table::Eval_type::beta;
       m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
 
@@ -249,7 +261,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       alpha = score;
       best = move;
 
-      // If this is never hit, we know that the best alpha can be is the alpha that was passed into the function
+      // If this is never hit, we know that the best alpha can be is the alpha
+      // that was passed into the function
       eval_type = Transposition_table::Eval_type::exact;
     }
 
@@ -325,7 +338,7 @@ bool Meneldor_engine::isInitialized() const
 
 bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain  = nullptr */)
 {
-  //TODO: Use Output() to report errors in fen string
+  // TODO: Use Output() to report errors in fen string
   if (auto board = Board::from_fen(fen))
   {
     m_board = *board;
@@ -343,9 +356,9 @@ bool Meneldor_engine::makeMove(const std::string& move)
     if (m_board.get_halfmove_clock() == 0)
     {
       // If the halfmove clock was zero we just had a capture or pawn move, both
-      // of which make repeating positions impossible. That means we can't repeat
-      // any of the positions in the list, so clear it so we don't have to compare
-      // against them going forward
+      // of which make repeating positions impossible. That means we can't
+      // repeat any of the positions in the list, so clear it so we don't have
+      // to compare against them going forward
       m_previous_positions.clear();
     }
 
@@ -435,8 +448,8 @@ bool Meneldor_engine::stopRequested() const
 
 void Meneldor_engine::waitForSearchFinish()
 {
-  //constexpr bool old_value{true};
-  //m_is_searching.wait(old_value);
+  // constexpr bool old_value{true};
+  // m_is_searching.wait(old_value);
 
   while (m_is_searching.test())
   {
@@ -468,7 +481,8 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   constexpr static int c_depth_to_use_id_score{3};
 
   // TODO: Is this useful?
-  // Currently use_id_sort appears to slightly slow down the engine, and shows no benefit over the MVV/LVA tables
+  // Currently use_id_sort appears to slightly slow down the engine, and shows
+  // no benefit over the MVV/LVA tables
   static const bool use_id_sort = is_feature_enabled("use_id_sort");
   if (use_id_sort && depth < c_depth_to_use_id_score)
   {
@@ -512,13 +526,14 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   return best;
 }
 
-void Meneldor_engine::print_stats(std::pair<Move, int> best_move) const
+void Meneldor_engine::print_stats(std::pair<Move, int> best_move)
 {
   /*
-  Example output from stockfish:
-  info depth 1 seldepth 1 multipv 1 score cp -18 nodes 22 nps 7333 tbhits 0 time 3 pv e7e5
-  info depth 2 seldepth 2 multipv 1 score cp 3 nodes 43 nps 14333 tbhits 0 time 3 pv e7e5 a2a3
-  */
+     Example output from stockfish:
+     info depth 1 seldepth 1 multipv 1 score cp -18 nodes 22 nps 7333 tbhits 0
+     time 3 pv e7e5 info depth 2 seldepth 2 multipv 1 score cp 3 nodes 43 nps
+     14333 tbhits 0 time 3 pv e7e5 a2a3
+     */
 
   auto const stats = getSearchStats();
   auto const nodes_per_second =
@@ -527,21 +542,22 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move) const
   out << "info depth " << stats.depth << " seldepth " << stats.seldepth << " score cp " << best_move.second << " nodes "
       << stats.nodes << " nps " << nodes_per_second << " time " << stats.msecs;
 
-  if (auto pv = get_principle_variation(move_to_string(best_move.first)))
+  if ((m_current_pv = get_principle_variation(move_to_string(best_move.first))))
   {
     out << " pv ";
-    for (auto const& m : *pv)
+    for (auto const& m : *m_current_pv)
     {
       out << m << " ";
     }
   }
 
-  // Output() adds the prefix "info string" by default to make UCI clients ignore the info. We want to
-  // use the "info" prefix so UCI clients can parse the search info, so we add that prefix manually.
+  // Output() adds the prefix "info string" by default to make UCI clients
+  // ignore the info. We want to use the "info" prefix so UCI clients can parse
+  // the search info, so we add that prefix manually.
   senjo::Output(senjo::Output::OutputPrefix::NoPrefix) << out.str();
 }
 
-std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* /* ponder = nullptr */)
+std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* ponder)
 {
   m_search_start_time = std::chrono::system_clock::now();
 
@@ -599,6 +615,12 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* /* p
     tt_hits = 0;
     tt_misses = 0;
     tt_sufficient_depth = 0;
+  }
+
+  if (ponder && m_current_pv && m_current_pv->size() > 1)
+  {
+    MY_ASSERT(m_current_pv->front() == move_to_string(best_move.first), "Incorrect principle variation");
+    *ponder = m_current_pv->at(1);
   }
 
   m_is_searching.clear();

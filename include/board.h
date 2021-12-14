@@ -74,14 +74,15 @@ public:
   /**
    * Tries to make a move
    *
-   * Returns an empty optional for an illegal move, Piece::empty if the move succeeded
-   * but no piece was captured, and the piece if a piece was captured.
+   * Returns an empty optional for an illegal move, Piece::empty if the move
+   * succeeded but no piece was captured, and the piece if a piece was captured.
    */
   bool try_move(Move m);
 
   /**
    * Performs a move without validating the move
-   * @param skip_check_detection If this is false, the method will make sure the king is not in check
+   * @param skip_check_detection If this is false, the method will make sure the
+   * king is not in check
    */
   bool move_no_verify(Move m, bool skip_check_detection = true);
 
@@ -100,16 +101,18 @@ public:
   /**
    * Attempt to make a move encoded in uci format ("e2 e4")
    *
-   * Returns an empty optional for an illegal move or invalid string, Piece::empty if the move succeeded
-   * but no piece was captured, and the piece if a piece was captured.
+   * Returns an empty optional for an illegal move or invalid string,
+   * Piece::empty if the move succeeded but no piece was captured, and the piece
+   * if a piece was captured.
    */
   bool try_move_uci(std::string_view move_str);
 
   /**
    * Attempt to make a move encoded in algebraic notation ("Bxc3")
    *
-   * Returns an empty optional for an illegal move or invalid string, Piece::empty if the move succeeded
-   * but no piece was captured, and the piece if a piece was captured.
+   * Returns an empty optional for an illegal move or invalid string,
+   * Piece::empty if the move succeeded but no piece was captured, and the piece
+   * if a piece was captured.
    */
   bool try_move_algebraic(std::string_view move_str);
 
@@ -188,7 +191,7 @@ private:
   uint8_t m_halfmove_clock{0};
   uint8_t m_fullmove_count{1};
 
-  //NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables) Only used internally by board
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables) Only used internally by board
   static inline bool s_use_unicode_output{false};
 };
 

@@ -34,7 +34,7 @@ void print_bitboard_with_squares(std::vector<std::string> const& squares)
   std::cout << bb << "\nhex: " << bb.hex_str() << "\n";
 }
 
-//NOLINTNEXTLINE // Match signature of main function
+// NOLINTNEXTLINE // Match signature of main function
 void run_chess_game(int argc, char* argv[])
 {
   if (argc > 3)

@@ -53,14 +53,16 @@ static_assert(static_cast<uint8_t>(Color::white) == 1);
 
 using shift_fn = Bitboard (Bitboard::*)(int32_t) const;
 
-// This array can be indexed by Color, so the operator to be used for black pawns is first
+// This array can be indexed by Color, so the operator to be used for black
+// pawns is first
 constexpr std::array c_shift_functions{&Bitboard::operator>>, &Bitboard::operator<< };
 constexpr shift_fn get_pawn_shift_fn(Color color)
 {
   return c_shift_functions[static_cast<int32_t>(color)];
 }
 
-// This array can be indexed by Color, so the operator to be used for black pawns is first
+// This array can be indexed by Color, so the operator to be used for black
+// pawns is first
 constexpr std::array c_start_ranks{Bitboard_constants::seventh_rank, Bitboard_constants::second_rank};
 constexpr Bitboard get_pawn_start_rank(Color color)
 {
@@ -110,9 +112,9 @@ int pop_1st_bit(uint64_t* bb)
   return BitTable[(fold * 0x783a9b23) >> 26];
 }
 
-// Given a bitboard with n permutations (x one bits -> 2^x permutations), returns
-// the index'th permutation for the bitboard. Must be called n times to generate
-// every permutation.
+// Given a bitboard with n permutations (x one bits -> 2^x permutations),
+// returns the index'th permutation for the bitboard. Must be called n times to
+// generate every permutation.
 uint64_t blocker_permutation_from_index(int index, int bits, uint64_t m)
 {
   uint64_t result = 0ULL;
@@ -516,11 +518,12 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
   }
 }
 
-//TODO: Refactor this to be more like get_all_attacked_squares
+// TODO: Refactor this to be more like get_all_attacked_squares
 template <Color color>
 constexpr void generate_piece_moves(Board const& board, std::vector<Move>& moves)
 {
-  // Parallel arrays that can be iterated together to get the piece type and the function that matches it
+  // Parallel arrays that can be iterated together to get the piece type and the
+  // function that matches it
   constexpr std::array piece_types{Piece::rook, Piece::knight, Piece::bishop, Piece::queen, Piece::king};
   constexpr std::array piece_move_functions{&rook_attacks, &knight_attacks, &bishop_attacks, &queen_attacks,
                                             &king_attacks};
@@ -536,7 +539,8 @@ constexpr void generate_piece_moves(Board const& board, std::vector<Move>& moves
     {
       auto const piece_location = pieces.pop_first_bit();
       auto possible_moves = piece_move_functions[i](Coordinates{piece_location}, occupied);
-      possible_moves &= friends; // Throw out any moves to a square that is already occupied by our color
+      possible_moves &= friends; // Throw out any moves to a square that is
+        // already occupied by our color
       auto possible_attacks = possible_moves & enemies;
       possible_moves &= ~possible_attacks; // Handle attacks separately
 
@@ -559,7 +563,8 @@ constexpr void generate_piece_moves(Board const& board, std::vector<Move>& moves
 template <Color color>
 constexpr void generate_piece_attacks(Board const& board, std::vector<Move>& moves)
 {
-  // Parallel arrays that can be iterated together to get the piece type and the function that matches it
+  // Parallel arrays that can be iterated together to get the piece type and the
+  // function that matches it
   constexpr std::array piece_types{Piece::rook, Piece::knight, Piece::bishop, Piece::queen, Piece::king};
   constexpr std::array piece_move_functions{&rook_attacks, &knight_attacks, &bishop_attacks, &queen_attacks,
                                             &king_attacks};
@@ -574,7 +579,8 @@ constexpr void generate_piece_attacks(Board const& board, std::vector<Move>& mov
     {
       auto const piece_location = pieces.pop_first_bit();
       auto attacks = piece_move_functions[i](Coordinates{piece_location}, occupied);
-      attacks &= not_friends; // Throw out any moves to a square that is already occupied by our color
+      attacks &= not_friends; // Throw out any moves to a square that is already
+        // occupied by our color
       attacks &= enemies; // Throw out any moves that are not captures
       while (!attacks.is_empty())
       {
@@ -639,7 +645,8 @@ constexpr void generate_pawn_attacks(Board const& board, std::vector<Move>& move
 template <Color color>
 constexpr void generate_pawn_moves(Board const& board, std::vector<Move>& moves)
 {
-  // For a one square pawn push, the starting square will be either 8 squares higher or lower than the ending square
+  // For a one square pawn push, the starting square will be either 8 squares
+  // higher or lower than the ending square
   auto const offset_from_end_square = get_start_square_offset(color);
 
   auto short_advances =
@@ -737,7 +744,7 @@ std::vector<Move> Move_generator::generate_legal_moves(Board const& board)
   legal_moves.reserve(pseudo_legal_moves.size());
   Board tmp_board(board);
 
-  //TODO: Erase/remove to skip second call to new?
+  // TODO: Erase/remove to skip second call to new?
   std::copy_if(pseudo_legal_moves.cbegin(), pseudo_legal_moves.cend(), std::back_inserter(legal_moves),
                [&](auto m)
                {
@@ -877,7 +884,8 @@ bool Move_generator::is_square_attacked(Board const& board, Color attacking_colo
 // Faster than generating all moves and checking if the list is empty
 bool Move_generator::has_any_legal_moves(Board const& board)
 {
-  // Parallel arrays that can be iterated together to get the piece type and the function that matches it
+  // Parallel arrays that can be iterated together to get the piece type and the
+  // function that matches it
   constexpr static std::array piece_types{Piece::king, Piece::queen, Piece::knight, Piece::bishop, Piece::rook};
   constexpr static std::array piece_move_functions{&king_attacks, &queen_attacks, &knight_attacks, &bishop_attacks,
                                                    &rook_attacks};
@@ -891,7 +899,8 @@ bool Move_generator::has_any_legal_moves(Board const& board)
     {
       auto const piece_location = pieces.pop_first_bit();
       auto possible_moves = piece_move_functions[i](Coordinates{piece_location}, board.get_occupied_squares());
-      possible_moves &= ~board.get_all(color); // Throw out any moves to a square that is already occupied by our color
+      possible_moves &= ~board.get_all(color); // Throw out any moves to a square that is
+        // already occupied by our color
 
       while (!possible_moves.is_empty())
       {

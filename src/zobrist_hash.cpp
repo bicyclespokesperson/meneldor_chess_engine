@@ -5,7 +5,6 @@
 
 namespace
 {
-
 } // namespace
 
 Zobrist_hash::Zobrist_hash(Board const& board)

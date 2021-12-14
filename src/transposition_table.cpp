@@ -18,14 +18,15 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
   /*
- * Deep + Always replacement scheme
- *
- * Here we store two entries at every position, the first entry being 'replace by depth' and the second 'always replace'. 
- * So if the new entry had greater depth, we put it in the first entry. If it had smaller depth we replace the 
- * second entry without looking at it.
- * The TwoDeep scheme here:
- * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
- */
+   * Deep + Always replacement scheme
+   *
+   * Here we store two entries at every position, the first entry being 'replace
+   * by depth' and the second 'always replace'. So if the new entry had greater
+   * depth, we put it in the first entry. If it had smaller depth we replace the
+   * second entry without looking at it.
+   * The TwoDeep scheme here:
+   * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
+   */
 
   // If first entry depth is lower, replace and return
   auto hash_value = hash_fn_(key);
@@ -74,8 +75,9 @@ Transposition_table::Entry const* Transposition_table::walk_(zhash_t key) const
 
 Transposition_table::Entry* Transposition_table::walk_(zhash_t key)
 {
-  // Idiom for sharing implementation between const and non-const versions of a method
-  //NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
+  // Idiom for sharing implementation between const and non-const versions of a
+  // method
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
   return const_cast<Entry*>(std::as_const(*this).walk_(key));
 }
 

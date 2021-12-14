@@ -16,8 +16,8 @@ public:
 
   std::string const& get_name() const;
 
-  // Called when a move is made successfully, either by this player or the opponent
-  // "move" is a string in UCI format ("e2e4" or "a7a8q")
+  // Called when a move is made successfully, either by this player or the
+  // opponent "move" is a string in UCI format ("e2e4" or "a7a8q")
   virtual void notify(std::string const& move) = 0;
 
   // Get the player's next move

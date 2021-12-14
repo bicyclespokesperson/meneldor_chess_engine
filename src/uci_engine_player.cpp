@@ -40,7 +40,8 @@ Uci_engine_player::Uci_engine_player(std::string name, std::filesystem::path eng
     std::cout << "Launching: " << m_engine_path << "\n";
     std::array<char const*, 2> args{m_engine_path.c_str(), nullptr};
 
-    //NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast) Necessary for execv interface
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast) Necessary for execv
+    // interface
     execv(m_engine_path.c_str(), const_cast<char**>(args.data()));
     MY_ASSERT(false, "Failed to fork engine process");
   }

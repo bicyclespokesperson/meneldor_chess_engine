@@ -36,7 +36,7 @@ public:
 
   size_t get_capacity() const;
 
-  //Debugging
+  // Debugging
   size_t count() const
   {
     return std::count_if(m_table.cbegin(), m_table.cend(),

@@ -1,0 +1,3 @@
+Checks: '-*,clang-analyzer-*,cppcoreguidelines-*,bugprone-*,modernize-*,performance-*,-readability-*,-modernize-use-trailing-return-type,-bugprone-narrowing-conversions,-cppcoreguidelines-narrowing-conversions,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-avoid-magic-numbers,-bugprone-easily-swappable-parameters,-modernize-use-nodiscard,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-avoid-non-const-global-variables'
+
+

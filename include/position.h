@@ -4,8 +4,8 @@
 #include "bitboard.h"
 #include "chess_types.h"
 
-// TODO: Integrate this with the Board class. May mean keeping a position object on the board, or maybe just adding
-// these methods directly to the board
+// TODO: Integrate this with the Board class. May mean keeping a position object
+// on the board, or maybe just adding these methods directly to the board
 class Position
 {
 public:
@@ -35,8 +35,8 @@ public:
   }
 
 private:
-  // Store one bitboard for each piece type (e.g. all pawns, regardless of color)
-  // Also store one for all white pieces and one for all black pieces
+  // Store one bitboard for each piece type (e.g. all pawns, regardless of
+  // color) Also store one for all white pieces and one for all black pieces
   std::array<Bitboard, static_cast<size_t>(Piece::_count)> m_bitboards;
   Bitboard m_en_passant_square{0};
 };

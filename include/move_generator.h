@@ -37,7 +37,8 @@ public:
     std::array<Bitboard, 64> bishop_possible_blockers;
     std::array<Bitboard, 64> rook_possible_blockers;
 
-    // Table of possible attacked squares for a rook/bishop for each possible set of blockers
+    // Table of possible attacked squares for a rook/bishop for each possible
+    // set of blockers
     std::array<std::array<Bitboard, 512>, 64> bishop_attacks{};
     std::array<std::array<Bitboard, 4096>, 64> rook_attacks{};
 

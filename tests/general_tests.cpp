@@ -317,9 +317,11 @@ TEST_CASE("Pawn promotion", "[board]")
 {
   static const std::string fen{"r1b4r/p1kppPP1/2p5/1pP5/1B2N3/KP6/P2P2pp/R2Q4 w - - 0 1"};
   auto board = Board::from_fen(fen);
-  REQUIRE(board.has_value()); // Pawn promotion is invalid without a specified promotion piece
+  REQUIRE(board.has_value()); // Pawn promotion is invalid without a specified
+    // promotion piece
 
-  REQUIRE(!board->try_move_uci("g7 g8")); // Pawn promotion is invalid without a specified promotion piece
+  REQUIRE(!board->try_move_uci("g7 g8")); // Pawn promotion is invalid without a
+    // specified promotion piece
   REQUIRE(board->try_move_uci("g7 g8q"));
   REQUIRE(!board->try_move_uci("h2h1k")); // Cannot promote to king
   REQUIRE(!board->try_move_uci("h2h1p")); // Cannot promote to pawn
@@ -370,8 +372,9 @@ TEST_CASE("bitboard", "[bitboard]")
   REQUIRE((~b3).val == ~(b3.val));
 }
 
-//TODO: Bring these back using the updated move generator API? The functions have been inlined for performance
-//      and so are no longer accessible
+// TODO: Bring these back using the updated move generator API? The functions
+// have been inlined for performance
+//       and so are no longer accessible
 #if 0
 TEST_CASE("Piece moves", "[Move_generator]")
 {
@@ -513,9 +516,11 @@ TEST_CASE("Threefold repetition", "[Threefold_repetition_detector]")
 {
   Threefold_repetition_detector detector;
   REQUIRE(!detector.add_fen("r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"));
-  REQUIRE(!detector.add_fen("r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq f3 30 10 "));
+  REQUIRE(!detector.add_fen("r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/"
+                            "R1B2RK1 b kq f3 30 10 "));
   REQUIRE(!detector.add_fen("r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 0 19"));
-  REQUIRE(detector.add_fen("r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq f3 10 1 "));
+  REQUIRE(detector.add_fen("r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/"
+                           "R1B2RK1 b kq f3 10 1 "));
 }
 
 TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
@@ -528,7 +533,8 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
   SECTION("White to play should change hash")
   {
     // Ensure that white to play yields a different hash
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 w kq f3 1 1"};
+    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
+                                         "P2P4/1PP1N1PP/R1B2RK1 w kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
     REQUIRE(hash1 != hash2);
@@ -546,7 +552,8 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("Different castling rights should change hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kQ f3 1 1"};
+    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
+                                         "P2P4/1PP1N1PP/R1B2RK1 b kQ f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
     REQUIRE(hash1 != hash2);
@@ -571,7 +578,8 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("The same board with piece colors swapped should change the hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
+    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
+                                         "p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
     REQUIRE(hash1 != hash2);
@@ -579,7 +587,8 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("The same board with piece colors swapped should change the hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
+    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
+                                         "p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
     REQUIRE(hash1 != hash2);

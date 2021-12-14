@@ -70,7 +70,8 @@ bool king_can_move(Coordinates from, Coordinates to, Board const& board)
   {
     if (!board.can_castle_to(to))
     {
-      return false; // One of the pieces necessary for castling has already moved
+      return false; // One of the pieces necessary for castling has already
+        // moved
     }
 
     Coordinates transit_square{static_cast<int32_t>((from.x() + to.x()) / 2), from.y()};
@@ -264,7 +265,8 @@ Castling_rights Board::get_castling_rights() const
   return m_rights;
 }
 
-//TODO: Can the return value here be removed? Might need to make sure Move::type_en_passant is always correctly set
+// TODO: Can the return value here be removed? Might need to make sure
+// Move::type_en_passant is always correctly set
 std::optional<std::pair<Coordinates, Piece>> Board::perform_move_(Move m, Coordinates capture_location)
 {
   MY_ASSERT(get_piece(capture_location) == m.victim(), "Move is in an invalid state");
@@ -402,7 +404,8 @@ bool Board::try_move(Move m)
     return false;
   }
 
-  // Ensure that a promotion square is present iff we have a pawn move to the back rank
+  // Ensure that a promotion square is present iff we have a pawn move to the
+  // back rank
   if ((m.piece() == Piece::pawn && (m.to().y() == 0 || m.to().y() == 7)) != (m.promotion() != Piece::empty))
   {
     std::cerr << "Invalid promotion target: " << m.promotion() << "\n";
@@ -630,7 +633,8 @@ void Board::update_castling_rights_(Color color, Piece piece, Move m)
  * Calculates the distance between two squares on the board
  * @param from The first square
  * @param to The second square
- * @return The resulting distance, or -1 if there is no line between the two squares
+ * @return The resulting distance, or -1 if there is no line between the two
+ * squares
  */
 int Board::distance_between(Coordinates from, Coordinates to) const
 {
@@ -809,7 +813,8 @@ Game_state Board::calc_game_state() const
 {
   auto const color = get_active_color();
 
-  //TODO: Should insufficient material, repetition, and 50 move rule be here as well?
+  // TODO: Should insufficient material, repetition, and 50 move rule be here as
+  // well?
 
   if (Move_generator::has_any_legal_moves(*this))
   {
@@ -1102,7 +1107,8 @@ std::optional<Board> Board::from_pgn(std::string_view pgn)
 
   while (index < pgn.size() && index != std::string::npos)
   {
-    // Skip to the next non-space character, starting at the first character we haven't seen yet
+    // Skip to the next non-space character, starting at the first character we
+    // haven't seen yet
     if (index != 0)
     {
       ++index;
@@ -1287,7 +1293,8 @@ std::optional<Board> Board::from_fen(std::string_view fen)
 
   if (fen_str[index] != '-')
   {
-    // En passant is possible, denote this by setting previous move to the pawn move that allowed en passant
+    // En passant is possible, denote this by setting previous move to the pawn
+    // move that allowed en passant
 
     auto capture_square = Coordinates::from_str(std::string_view{fen_str.c_str() + index, 2});
     if (!capture_square)

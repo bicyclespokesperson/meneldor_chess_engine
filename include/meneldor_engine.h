@@ -84,7 +84,7 @@ public:
 
   std::optional<std::vector<std::string>> get_principle_variation(std::string move_str) const;
 
-  void print_stats(std::pair<Move, int> best_move) const;
+  void print_stats(std::pair<Move, int> best_move);
 
 private:
   enum class Search_mode
@@ -112,6 +112,7 @@ private:
 
   constexpr static size_t c_transposition_table_size_bytes{128UL * 1024UL * 1024UL};
   Transposition_table m_transpositions{c_transposition_table_size_bytes};
+  std::optional<std::vector<std::string>> m_current_pv;
 
   mutable uint32_t m_visited_nodes{0};
   mutable uint32_t m_visited_quiesence_nodes{0};
@@ -120,9 +121,10 @@ private:
   std::chrono::time_point<std::chrono::system_clock> m_search_desired_end_time;
   std::chrono::time_point<std::chrono::system_clock> m_search_end_time;
 
-  // How likely we think we are to win/lose to the opponent. Influences how valuable a draw is.
-  // scores <0 imply we think we will win, so draws should be avoided (draws are worse than an even position).
-  // 0 means equally strong opponent.
+  // How likely we think we are to win/lose to the opponent. Influences how
+  // valuable a draw is. scores <0 imply we think we will win, so draws should
+  // be avoided (draws are worse than an even position). 0 means equally strong
+  // opponent.
   static constexpr int c_contempt_score{-10};
 };
 

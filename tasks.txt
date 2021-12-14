@@ -5,8 +5,6 @@ Finish uci compliance (ponder, double check all functions in interface, time awa
 
 Make move generator aware of check
 
-Fancy magics for better cache performance?
-
 Search
   Principle variation search
   Null move pruning // See laser, search "null move pruning"

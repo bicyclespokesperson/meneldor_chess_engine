@@ -15,12 +15,13 @@ const auto Move_orderer::mvv_lva_table = []
   static constexpr std::array pieces{Piece::king,   Piece::queen, Piece::rook, Piece::bishop,
                                      Piece::knight, Piece::pawn,  Piece::empty};
 
-  //NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init) Initialized in this function
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init) Initialized in this function
   std::array<std::array<int, c_piece_count>, c_piece_count> result;
 
-  // Create a lookup table of move priorities. Move with the most valuable victim piece will be prioritied highest,
-  // and moves with the same victim will be prioritized by the least valuable attacker. Higher priorities correspond
-  // to better moves
+  // Create a lookup table of move priorities. Move with the most valuable
+  // victim piece will be prioritied highest, and moves with the same victim
+  // will be prioritized by the least valuable attacker. Higher priorities
+  // correspond to better moves
 
   int current_val{1};
 

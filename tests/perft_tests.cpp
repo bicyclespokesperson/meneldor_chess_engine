@@ -65,7 +65,8 @@ TEST_CASE("Perft position 5", "[.Move_generator]")
 
 TEST_CASE("Perft position 6", "[.Move_generator]")
 {
-  std::string fen_str = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10";
+  std::string fen_str = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/"
+                        "1PP1QPPP/R4RK1 w - - 0 10";
   int depth{4};
   uint64_t expected{3'894'594};
   test_perft(fen_str, depth, expected);

@@ -7,8 +7,8 @@ namespace
 {
 auto engine_stats_from_position(std::string_view fen, bool debug = false)
 {
-  static std::string const c_performance_log_filename{
-    "/Users/jeremysigrist/Desktop/code_projects/chess_engine/output/performance_log.txt"};
+  static std::string const c_performance_log_filename{"/Users/jeremysigrist/Desktop/code_projects/chess_engine/output/"
+                                                      "performance_log.txt"};
   std::ofstream outfile{c_performance_log_filename, std::ios_base::app};
   MY_ASSERT(outfile.good(), "Outfile could not be opened");
 
@@ -55,8 +55,9 @@ TEST_CASE("Evaluate", "[Meneldor_engine]")
 
   Meneldor_engine engine;
 
-  // The evaluation function will change over time, but black is clearly winning in this position
-  // Black to move -> should return a positive value to indicate black is better
+  // The evaluation function will change over time, but black is clearly winning
+  // in this position Black to move -> should return a positive value to
+  // indicate black is better
   REQUIRE(engine.evaluate(board) > 0);
 }
 
@@ -122,6 +123,28 @@ TEST_CASE("Search_mate1", "[.Meneldor_engine]")
   REQUIRE(best_move == "f3g4");
 }
 
+TEST_CASE("Search_ponder_move", "[.Meneldor_engine]")
+{
+  std::string fen = "8/q1P1k3/8/8/8/8/5PP1/6K1 w - - 0 1";
+
+  Meneldor_engine engine;
+  engine.setDebug(false);
+  engine.initialize();
+  engine.setPosition(fen);
+
+  senjo::GoParams params;
+  params.depth = 5;
+
+  std::string ponder;
+  auto best_move = engine.go(params, &ponder);
+
+  engine.makeMove(best_move);
+  params.depth--;
+  best_move = engine.go(params, nullptr);
+
+  REQUIRE(ponder == best_move);
+}
+
 TEST_CASE("Search_repetition", "[.Meneldor_engine]")
 {
   std::string fen = "4k3/p6q/8/7N/8/7P/PP3PP1/R5K1 w - - 0 1";
@@ -145,6 +168,7 @@ TEST_CASE("Search_repetition", "[.Meneldor_engine]")
 
   best_move = engine.go(params);
 
-  // Now f6 would be a draw by repetition, so the engine should find something else
+  // Now f6 would be a draw by repetition, so the engine should find something
+  // else
   REQUIRE(best_move != "h5f6");
 }

@@ -1,19 +1,20 @@
 #ifndef MY_ASSERT_H_2323
 #define MY_ASSERT_H_2323
 
-//NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define ASSERT_IN_RELEASE 0
 
 #if defined(NDEBUG) && ASSERT_IN_RELEASE
 #warning "Assert statements enabled in release build. This will impact performance"
 #endif
 
-// From: https://stackoverflow.com/questions/3692954/add-custom-messages-in-assert
+// From:
+// https://stackoverflow.com/questions/3692954/add-custom-messages-in-assert
 #if not defined(NDEBUG) || ASSERT_IN_RELEASE
-//NOLINTNEXTLINE
+// NOLINTNEXTLINE
 #define MY_ASSERT(Expr, Msg) my_assert_utl_macro_(#Expr, Expr, __FILE__, __LINE__, Msg)
 #else
-//NOLINTNEXTLINE
+// NOLINTNEXTLINE
 #define MY_ASSERT(Expr, Msg) ;
 #endif
 

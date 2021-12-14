@@ -25,9 +25,9 @@ public:
 
   constexpr auto operator<=>(Zobrist_hash const& other) const = default;
 
-  // These functions are their own inverses. To keep the hash up to date, they should be called
-  // with both the old and new values of a change in board state, to unset the old value and then
-  // set the new value.
+  // These functions are their own inverses. To keep the hash up to date, they
+  // should be called with both the old and new values of a change in board
+  // state, to unset the old value and then set the new value.
   constexpr void update_en_passant_square(Bitboard ep_square)
   {
     if (!ep_square.is_empty())
@@ -38,7 +38,8 @@ public:
 
   constexpr void update_castling_rights(Castling_rights rights)
   {
-    // Castling rights is a uint8 with 16 possible values, so we can use it as an array offset
+    // Castling rights is a uint8 with 16 possible values, so we can use it as
+    // an array offset
     m_hash ^= m_random_numbers[c_castling_rights_offset + static_cast<uint8_t>(rights)];
   }
 
