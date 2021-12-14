@@ -92,9 +92,7 @@ bool Meneldor_engine::has_more_time_() const
     return true;
   }
 
-  auto const current_time = std::chrono::system_clock::now();
-  std::chrono::duration<double> const elapsed_time = current_time - m_search_start_time;
-  return elapsed_time < m_time_for_move;
+  return std::chrono::system_clock::now() < m_search_desired_end_time;
 }
 
 void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
@@ -105,7 +103,7 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
 
   if (params.movetime > 0)
   {
-    m_time_for_move = std::chrono::milliseconds{params.movetime} * c_percent_time_to_use;
+    m_search_desired_end_time = m_search_start_time; + (std::chrono::milliseconds{params.movetime} * c_percent_time_to_use);
     return;
   }
 
@@ -130,11 +128,14 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
   }
   
   // Slight fudge factor to ensure that we don't go over when moves_to_go is small
-  moves_to_go += 3;
+  // TODO: Is this necessary?
+  //moves_to_go += 3;
 
-  m_time_for_move = std::chrono::milliseconds{((m_board.get_active_color() == Color::black) ? params.btime : params.wtime) / (moves_to_go)};
-  m_time_for_move += std::chrono::milliseconds{our_increment};
-  m_time_for_move *= c_percent_time_to_use;
+  auto time_for_move = std::chrono::milliseconds{((m_board.get_active_color() == Color::black) ? params.btime : params.wtime) / (moves_to_go)};
+  time_for_move += std::chrono::milliseconds{our_increment};
+  time_for_move *= c_percent_time_to_use;
+
+  m_search_desired_end_time = m_search_start_time + time_for_move;
 }
 
 int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remaining)
