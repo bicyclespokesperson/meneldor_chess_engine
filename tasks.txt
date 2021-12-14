@@ -1,0 +1,68 @@
+Fancy magics? Might have better cache performance
+  Implemented, appears slower unfortunately
+
+Finish uci compliance (ponder, double check all functions in interface, time awareness, quicker stopping on stopSearch)
+
+Make move generator aware of check
+
+Fancy magics for better cache performance?
+
+Search
+  Principle variation search
+  Null move pruning // See laser, search "null move pruning"
+  Move ordering
+    Attack piece that most recently moved first?
+    SEE?
+
+  Better quiescence search
+    https://chess.stackexchange.com/questions/27257/chess-engine-quiescence-search-increases-required-time-by-a-factor-of-20
+      Use iterative deepening to order all moves, not just best move?
+
+Implement insufficient material draws? Would this actually affect anything?
+
+Iterative deepening articles:
+https://fizyka.umk.pl/~duch/Wyklady/AI/Notki/Chess%20Programming%20Theory.htm
+
+Transposition table articles:
+http://mediocrechess.blogspot.com/2007/01/guide-transposition-tables.html
+https://adamberent.com/2019/03/02/transposition-table-and-zobrist-hashing/
+
+This article is good, might also want to just look at the source code for the engine
+https://www.rhysre.net/fast-chess-move-generation-with-magic-bitboards.html
+
+Article on legal move generation
+https://peterellisjones.com/posts/generating-legal-chess-moves-efficiently/
+
+Another good look at move generation
+  Contains pesudocode for bitboard -> move function
+https://www.josherv.in/2021/03/19/chess-1/
+
+Improving move generation speed:
+https://chess.stackexchange.com/questions/16890/efficient-ways-to-go-from-pseduo-legal-to-fully-legal-move-generation
+https://chess.stackexchange.com/questions/25137/chess-engine-generate-a-bitboard-of-pinned-pieces?rq=1
+
+https://www.chessprogramming.org/Classical_Approach
+https://www.chessprogramming.org/Bitboard_Board-Definition
+https://www.chessprogramming.org/Efficient_Generation_of_Sliding_Piece_Attacks#Bitboard_Board-Definition
+https://www.chessprogramming.org/General_Setwise_Operations#UpdateByMove
+
+Integrated UCI protocol using
+  https://github.com/zd3nik/SenjoUCIAdapter
+
+qperft runs at 170,000,000 nodes/sec on my macbook
+Stockfish is somewhere around 120,000,000 nodes/sec (very rough estimate)
+Shallow blue is somewhere around 17,000,000 nodes/sec (very rough estimate)
+Python chess lib is 60,000 nodes/sec
+My perft implementation runs at 16,300,000 by comparison
+
+WORST CODE OF ALL TIME
+https://home.hccnet.nl/h.g.muller/delay.html
+
+Findings from Instruments (profiling 1 minute of a computer vs computer game)
+  It takes 1.6 seconds to allocate a 1 GB vector for the transposition table
+  86% of our time is spent in negamax
+  Zero time is spent copying the board? Could probably afford to make it larger
+  Move generation, checking for check, and evaluating all take up time
+  Generating all attack squares takes up a good chunk of time (15% just in evaluate, more in stalemate and checking for check in move generation)
+  Almost half the time is spent quiescence searching, sometimes qsearch gets to depth 12
+

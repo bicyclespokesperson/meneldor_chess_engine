@@ -1,0 +1,20 @@
+Notes from stockfish
+  Calculate blockers every move, based on pinners from the previous board state?
+  SF also keeps track of squares each piece type could be on that would attack the king
+
+  How does SF's legal function work if you are already in check? The move generator must know about that state
+
+  We have a position.checkers() bitboard with the pieces giving check to the king. This can be used to generate "target" squares for a move 
+  (anything between the king and the checker, or capturing the checker). Only moves to the target squares are considered. 
+  When in double check (checkers.occupancy() > 1), only king moves are generated.
+
+  How is checkers updated? Is this expensive?
+    In the do_move function, checkers is updated using the attacks_to bitboard (roughly how I currently determine if the king is in check)
+      attacks_to (king_square) & enemy_pieces
+
+    The position::gives_check function is somewhat complicated, though its similar to the blockers logic combined with the attacks_to bitboard
+
+  This approach makes the board heavier, but also wouldn't need to be copied as much? The moves would still need to be undone though
+
+
+

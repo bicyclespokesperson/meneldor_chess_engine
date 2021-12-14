@@ -1,0 +1,18 @@
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2021.10.11"]
+[Round "?"]
+[White "Sigrist"]
+[Black "chess_user"]
+[Result "1-0"]
+[ECO "C28"]
+[WhiteElo "1205"]
+[BlackElo "1280"]
+[TimeControl "600"]
+[EndTime "0:00:40 PDT"]
+[Termination "Sigrist won by resignation"]
+
+1. e4 e5 2. Nc3 Nf6 3. f4 exf4 4. e5 Ng8 5. Nf3 Bc5 6. d4 Bb4 7. Bxf4 Qe7 8. Bc4
+d6 9. O-O dxe5 10. Bxe5 Qd8 11. Bxg7 f6 12. Re1+ Be7 13. Bxh8 Nc6 14. Bxg8 Bg4
+15. Bxf6 Kf8 16. Bxe7+ Nxe7 17. Bb3 Nf5 18. Qd2 Qf6 19. Qf4 Bxf3 20. Qxf3 Kg7
+21. Qg4+ Kh6 22. Re6 Qxe6 23. Bxe6 Ne3 24. Qf4+ 1-0
