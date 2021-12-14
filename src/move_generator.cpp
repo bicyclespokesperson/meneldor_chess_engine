@@ -7,47 +7,37 @@ namespace
 {
 
 // Generated with code from: https://www.chessprogramming.org/Looking_for_Magics
-constexpr std::array<uint64_t, c_board_dimension_squared> c_rook_magics{
-  0xa8002c000108020ULL,  0x6c00049b0002001ULL,  0x100200010090040ULL,  0x2480041000800801ULL, 0x280028004000800ULL,
-  0x900410008040022ULL,  0x280020001001080ULL,  0x2880002041000080ULL, 0xa000800080400034ULL, 0x4808020004000ULL,
-  0x2290802004801000ULL, 0x411000d00100020ULL,  0x402800800040080ULL,  0xb000401004208ULL,    0x2409000100040200ULL,
-  0x1002100004082ULL,    0x22878001e24000ULL,   0x1090810021004010ULL, 0x801030040200012ULL,  0x500808008001000ULL,
-  0xa08018014000880ULL,  0x8000808004000200ULL, 0x201008080010200ULL,  0x801020000441091ULL,  0x800080204005ULL,
-  0x1040200040100048ULL, 0x120200402082ULL,     0xd14880480100080ULL,  0x12040280080080ULL,   0x100040080020080ULL,
-  0x9020010080800200ULL, 0x813241200148449ULL,  0x491604001800080ULL,  0x100401000402001ULL,  0x4820010021001040ULL,
-  0x400402202000812ULL,  0x209009005000802ULL,  0x810800601800400ULL,  0x4301083214000150ULL, 0x204026458e001401ULL,
-  0x40204000808000ULL,   0x8001008040010020ULL, 0x8410820820420010ULL, 0x1003001000090020ULL, 0x804040008008080ULL,
-  0x12000810020004ULL,   0x1000100200040208ULL, 0x430000a044020001ULL, 0x280009023410300ULL,  0xe0100040002240ULL,
-  0x200100401700ULL,     0x2244100408008080ULL, 0x8000400801980ULL,    0x2000810040200ULL,    0x8010100228810400ULL,
-  0x2000009044210200ULL, 0x4080008040102101ULL, 0x40002080411d01ULL,   0x2005524060000901ULL, 0x502001008400422ULL,
-  0x489a000810200402ULL, 0x1004400080a13ULL,    0x4000011008020084ULL, 0x26002114058042ULL,
+const std::array<uint64_t, 64> c_rook_magics{
+  0xa8002c000108020ULL,  0x6040004109200130ULL, 0x5820000814a02040ULL, 0x400800122040c4ULL,   0xa00211004010204ULL,
+  0x24010204000080ULL,   0x120004000822600ULL,  0x100024284a20700ULL,  0x4818080004040ULL,    0x4008e4804100ULL,
+  0x20200018000400ULL,   0x22001020081a040ULL,  0x30400200102205ULL,   0x201280018c020201ULL, 0x10401000486040e0ULL,
+  0x80290000804001ULL,   0x2000241002a08410ULL, 0x8018012008a84000ULL, 0x2015081004600090ULL, 0x8006803002208200ULL,
+  0xc220101090c800ULL,   0x20800404018aa200ULL, 0x4800900102200ULL,    0x600400980002015ULL,  0x198688480024008ULL,
+  0x10201040002000ULL,   0x403420002004c021ULL, 0x411081801804004ULL,  0x61004108016600ULL,   0x12400088240004ULL,
+  0x4004280806000100ULL, 0x840a0220005484ULL,   0x140311c080c00022ULL, 0x1004082010400040ULL, 0x110002400200400ULL,
+  0x40a02240200800ULL,   0x70480080d09040ULL,   0x1083000100800204ULL, 0x40042a510020006ULL,  0x8261014280380100ULL,
+  0x24402210042000ULL,   0x808000841001810ULL,  0x2000800811420004ULL, 0x8050006140100100ULL, 0x8002040100200dULL,
+  0x40080008100ULL,      0xa004108004204002ULL, 0xaa100429009ULL,      0x104000802080ULL,     0x400922050090118ULL,
+  0x810820104c25200ULL,  0x290005902801001ULL,  0x208080100810010aULL, 0x5004400011240ULL,    0x8104032040ULL,
+  0x1002000a0426420ULL,  0x82042081041042ULL,   0x8040c2900804001ULL,  0x884401004200882ULL,  0x88040220a000402ULL,
+  0x2303800644201ULL,    0x86e000980c122ULL,    0x82220a0461048204ULL, 0x1104010024104082ULL,
 };
 
-constexpr std::array<uint64_t, c_board_dimension_squared> c_bishop_magics{
-  0x89a1121896040240ULL, 0x2004844802002010ULL, 0x2068080051921000ULL, 0x62880a0220200808ULL, 0x4042004000000ULL,
-  0x100822020200011ULL,  0xc00444222012000aULL, 0x28808801216001ULL,   0x400492088408100ULL,  0x201c401040c0084ULL,
-  0x840800910a0010ULL,   0x82080240060ULL,      0x2000840504006000ULL, 0x30010c4108405004ULL, 0x1008005410080802ULL,
-  0x8144042209100900ULL, 0x208081020014400ULL,  0x4800201208ca00ULL,   0xf18140408012008ULL,  0x1004002802102001ULL,
-  0x841000820080811ULL,  0x40200200a42008ULL,   0x800054042000ULL,     0x88010400410c9000ULL, 0x520040470104290ULL,
-  0x1004040051500081ULL, 0x2002081833080021ULL, 0x400c00c010142ULL,    0x941408200c002000ULL, 0x658810000806011ULL,
-  0x188071040440a00ULL,  0x4800404002011c00ULL, 0x104442040404200ULL,  0x511080202091021ULL,  0x4022401120400ULL,
-  0x80c0040400080120ULL, 0x8040010040820802ULL, 0x480810700020090ULL,  0x102008e00040242ULL,  0x809005202050100ULL,
-  0x8002024220104080ULL, 0x431008804142000ULL,  0x19001802081400ULL,   0x200014208040080ULL,  0x3308082008200100ULL,
-  0x41010500040c020ULL,  0x4012020c04210308ULL, 0x208220a202004080ULL, 0x111040120082000ULL,  0x6803040141280a00ULL,
-  0x2101004202410000ULL, 0x8200000041108022ULL, 0x21082088000ULL,      0x2410204010040ULL,    0x40100400809000ULL,
-  0x822088220820214ULL,  0x40808090012004ULL,   0x910224040218c9ULL,   0x402814422015008ULL,  0x90014004842410ULL,
-  0x1000042304105ULL,    0x10008830412a00ULL,   0x2520081090008908ULL, 0x40102000a0a60140ULL,
+const std::array<uint64_t, 64> c_bishop_magics{
+  0x4010002202254010ULL, 0x4000506049214012ULL, 0xc41200304280c044ULL, 0x8a2444c808010008ULL, 0x4020484080440000ULL,
+  0x86088240010401ULL,   0x204024041988805ULL,  0x121235021204012ULL,  0x8004024c10108a00ULL, 0x4c0060220023ULL,
+  0x20105844b4000ULL,    0xa0346880041000ULL,   0x225028000009ULL,     0x44010144025ULL,      0x10048044002224ULL,
+  0xc080a01403010021ULL, 0x4005000068002041ULL, 0x810000062002511ULL,  0x4440210104804484ULL, 0x2094000820401000ULL,
+  0x4024000080214001ULL, 0x488080800820020cULL, 0x210100118410a820ULL, 0x1d02104483a600b0ULL, 0x368201006002200ULL,
+  0x120262000800430cULL, 0x1914008001000900ULL, 0x86c080014006088ULL,  0x812002202008040ULL,  0x13410020040c2ULL,
+  0x80008008010008c0ULL, 0x20a004040050090ULL,  0x40100400120480ULL,   0x8011001064029428ULL, 0x404d0c02a140100ULL,
+  0x40020080080080ULL,   0x40040120c0100ULL,    0x44620040a032ULL,     0x8204610810002c32ULL, 0x12204034a400ULL,
+  0xa24a40a000600ULL,    0x1080401a0420810ULL,  0x103041010500200ULL,  0x8000029088002070ULL, 0x80048100420400ULL,
+  0x521041000080382ULL,  0x802886021808c040ULL, 0x1002842408080084ULL, 0x80c41040414ULL,      0x516118080102000ULL,
+  0x20008040130020ULL,   0x684044040ULL,        0x29002000c5100920ULL, 0x806004944406ULL,     0x8410002140d40088ULL,
+  0x1060032c0408eULL,    0x8000023202014000ULL, 0x102001008821081ULL,  0x706418104102c08ULL,  0x1064008000034400ULL,
+  0x110018809820080ULL,  0x462824088020422ULL,  0x88600e210a00a020ULL, 0x6011008100188200ULL,
 };
-
-// Occupancy of (blockers & rook attacks) for each square
-constexpr std::array<uint64_t, c_board_dimension_squared> RBits{
-  12, 11, 11, 11, 11, 11, 11, 12, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10,
-  10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10,
-  10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 12, 11, 11, 11, 11, 11, 11, 12};
-
-constexpr std::array<uint64_t, c_board_dimension_squared> BBits{
-  6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5,
-  5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6};
 
 constexpr void update_if_in_bounds_(Bitboard& bb, int x, int y)
 {
@@ -271,7 +261,8 @@ Bitboard bishop_attacked_squares(int sq, uint64_t block)
 
 int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
 {
-  return static_cast<int>((blockers * magic) >> (64 - bits));
+  MY_ASSERT(bits == 9 || bits == 12, "Fixed shift");
+  return (int)((blockers * magic) >> (64 - bits));
 }
 
 } // namespace
@@ -282,15 +273,14 @@ Move_generator::Tables::Tables()
 {
   initialize_knight_attacks_();
   initialize_king_attacks_();
-  int start{0};
   for (int sq{0}; sq < c_board_dimension_squared; ++sq)
   {
-    start = init_bishop_magic_tables_(sq, start);
-    start = init_rook_magic_tables_(sq, start);
+    init_bishop_magic_tables_(sq);
+    init_rook_magic_tables_(sq);
   }
 }
 
-int Move_generator::Tables::init_bishop_magic_tables_(int index, int starting_offset)
+void Move_generator::Tables::init_bishop_magic_tables_(int index)
 {
   // Based on code from: https://www.chessprogramming.org/Looking_for_Magics
   // (The plain implementation)
@@ -302,25 +292,21 @@ int Move_generator::Tables::init_bishop_magic_tables_(int index, int starting_of
   int n = possible_blockers.occupancy();
   auto blocker_permutations = (1 << n);
 
-  bishop_attacks_starting_offset[index] = starting_offset;
   for (int i = 0; i < blocker_permutations; ++i)
   {
     auto blockers = blocker_permutation_from_index(i, n, possible_blockers.val);
 
-    int shift = BBits[index];
+    int shift = 9;
     auto key = magic_hash_fn(blockers, c_bishop_magics[index], shift);
     auto attacked_squares = bishop_attacked_squares(index, blockers);
-    attacks[bishop_attacks_starting_offset[index] + key] = attacked_squares;
-    ++starting_offset;
+    bishop_attacks[index][key] = attacked_squares;
   }
-
-  return starting_offset;
 }
 
-int Move_generator::Tables::init_rook_magic_tables_(int index, int starting_offset)
+void Move_generator::Tables::init_rook_magic_tables_(int index)
 {
   // Based on code from: https://www.chessprogramming.org/Looking_for_Magics
-  // (The "fancy" implementation)
+  // (The plain implementation)
 
   Bitboard possible_blockers = rook_potential_blockers(index);
   rook_possible_blockers[index] = possible_blockers;
@@ -329,19 +315,15 @@ int Move_generator::Tables::init_rook_magic_tables_(int index, int starting_offs
   int n = possible_blockers.occupancy();
   auto blocker_permutations = (1 << n);
 
-  rook_attacks_starting_offset[index] = starting_offset;
   for (int i = 0; i < blocker_permutations; ++i)
   {
     auto blockers = blocker_permutation_from_index(i, n, possible_blockers.val);
 
-    int shift = RBits[index];
+    int shift = 12;
     auto key = magic_hash_fn(blockers, c_rook_magics[index], shift);
     auto attacked_squares = rook_attacked_squares(index, blockers);
-    attacks[rook_attacks_starting_offset[index] + key] = attacked_squares;
-    ++starting_offset;
+    rook_attacks[index][key] = attacked_squares;
   }
-
-  return starting_offset;
 }
 
 void Move_generator::Tables::initialize_knight_attacks_()
@@ -392,16 +374,16 @@ constexpr Bitboard rook_attacks(Coordinates square, Bitboard occupied)
 {
   int const index = square.square_index();
   occupied &= Move_generator::m_tables.rook_possible_blockers[index];
-  auto key = magic_hash_fn(occupied.val, c_rook_magics[index], RBits[index]);
-  return Move_generator::m_tables.attacks[Move_generator::m_tables.rook_attacks_starting_offset[index] + key];
+  auto key = magic_hash_fn(occupied.val, c_rook_magics[index], 12);
+  return Move_generator::m_tables.rook_attacks[index][key];
 }
 
 constexpr Bitboard bishop_attacks(Coordinates square, Bitboard occupied)
 {
   int index = square.square_index();
   occupied &= Move_generator::m_tables.bishop_possible_blockers[index];
-  auto key = magic_hash_fn(occupied.val, c_bishop_magics[index], BBits[index]);
-  return Move_generator::m_tables.attacks[Move_generator::m_tables.bishop_attacks_starting_offset[index] + key];
+  auto key = magic_hash_fn(occupied.val, c_bishop_magics[index], 9);
+  return Move_generator::m_tables.bishop_attacks[index][key];
 }
 
 constexpr Bitboard queen_attacks(Coordinates square, Bitboard occupied)
