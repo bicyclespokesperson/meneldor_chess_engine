@@ -5,8 +5,6 @@
 
 struct Bitboard_iterator;
 
-struct Bitboard;
-
 struct Bitboard
 {
   using Iterator = Bitboard_iterator;
