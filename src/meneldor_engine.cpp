@@ -105,8 +105,10 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
 
   if (params.movetime > 0)
   {
-    m_search_desired_end_time = m_search_start_time;
-    +(std::chrono::milliseconds{params.movetime} * c_percent_time_to_use);
+    auto time_for_move = std::chrono::milliseconds{ params.movetime };
+    time_for_move *= c_percent_time_to_use;
+    m_search_desired_end_time = m_search_start_time + time_for_move;
+
     return;
   }
 
@@ -130,13 +132,9 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
     moves_to_go = static_cast<int>(c_estimated_moves_to_go * std::min(2.0, time_ratio));
   }
 
-  // Slight fudge factor to ensure that we don't go over when moves_to_go is
-  // small
-  // TODO: Is this necessary?
-  // moves_to_go += 3;
+  // Slight fudge factor to ensure that we don't go over when moves_to_go is small
 
-  auto time_for_move = std::chrono::milliseconds{
-    ((m_board.get_active_color() == Color::black) ? params.btime : params.wtime) / (moves_to_go)};
+  auto time_for_move = std::chrono::milliseconds{our_time / moves_to_go};
   time_for_move += std::chrono::milliseconds{our_increment};
   time_for_move *= c_percent_time_to_use;
 
