@@ -144,6 +144,10 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
 int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remaining)
 {
   ++m_visited_nodes;
+  if (!has_more_time_())
+  {
+    return alpha;
+  }
 
   if (depth_remaining == 0)
   {
@@ -262,11 +266,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       // If this is never hit, we know that the best alpha can be is the alpha
       // that was passed into the function
       eval_type = Transposition_table::Eval_type::exact;
-    }
-
-    if (!has_more_time_())
-    {
-      break;
     }
   }
 

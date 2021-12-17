@@ -1,7 +1,7 @@
 Fancy magics? Might have better cache performance
   Implemented, appears slower unfortunately
 
-Finish uci compliance (ponder, double check all functions in interface, time awareness, quicker stopping on stopSearch)
+Clean up stopping on stopSearch?
 
 Make move generator aware of check
 
@@ -9,7 +9,7 @@ Search
   Principle variation search
   Null move pruning // See laser, search "null move pruning"
   Move ordering
-    Attack piece that most recently moved first?
+    Attack piece that most recently moved, first?
     SEE?
 
   Better quiescence search
