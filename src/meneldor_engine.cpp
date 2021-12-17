@@ -105,7 +105,7 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
 
   if (params.movetime > 0)
   {
-    auto time_for_move = std::chrono::milliseconds{ params.movetime };
+    auto time_for_move = std::chrono::milliseconds{params.movetime};
     time_for_move *= c_percent_time_to_use;
     m_search_desired_end_time = m_search_start_time + time_for_move;
 
