@@ -84,7 +84,7 @@ public:
 
   std::optional<std::vector<std::string>> get_principle_variation(std::string move_str) const;
 
-  void print_stats(std::pair<Move, int> best_move);
+  void print_stats(std::pair<Move, int> best_move, std::optional<std::vector<std::string>> const& pv);
 
 private:
   enum class Search_mode
@@ -101,6 +101,7 @@ private:
   void calc_time_for_move_(senjo::GoParams const& params);
 
   bool m_is_debug{false};
+  bool m_search_timed_out{false};
   std::atomic_flag m_stop_requested{false};
   std::atomic_flag m_is_searching{false};
   Board m_board;

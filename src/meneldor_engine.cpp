@@ -103,40 +103,36 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
   // so we can return a move in time
   constexpr double c_percent_time_to_use{0.95};
 
+  std::chrono::milliseconds time_for_move{0};
   if (params.movetime > 0)
   {
-    auto time_for_move = std::chrono::milliseconds{params.movetime};
-    time_for_move *= c_percent_time_to_use;
-    m_search_desired_end_time = m_search_start_time + time_for_move;
-
-    return;
+    time_for_move = std::chrono::milliseconds{static_cast<int>(c_percent_time_to_use * params.movetime)};
   }
-
-  int our_time = params.wtime;
-  int their_time = params.btime;
-  int our_increment = params.winc;
-  int their_increment = params.winc;
-  if (m_board.get_active_color() == Color::black)
+  else
   {
-    std::swap(our_time, their_time);
-    std::swap(our_increment, their_increment);
+    int our_time = params.wtime;
+    int their_time = params.btime;
+    int our_increment = params.winc;
+    int their_increment = params.winc;
+    if (m_board.get_active_color() == Color::black)
+    {
+      std::swap(our_time, their_time);
+      std::swap(our_increment, their_increment);
+    }
+
+    int moves_to_go = params.movestogo;
+    if (moves_to_go == 0)
+    {
+      constexpr int c_estimated_moves_to_go{20};
+
+      // We need to move faster if our opponent has more time than we do
+      double const time_ratio = std::clamp((static_cast<double>(their_time) / our_time), 1.0, 2.0);
+      moves_to_go = static_cast<int>(c_estimated_moves_to_go * time_ratio);
+    }
+
+    time_for_move = std::chrono::milliseconds{static_cast<int>(c_percent_time_to_use * our_time / moves_to_go)};
+    time_for_move += std::chrono::milliseconds{our_increment};
   }
-
-  int moves_to_go = params.movestogo;
-  if (moves_to_go == 0)
-  {
-    constexpr int c_estimated_moves_to_go{20};
-
-    // We need to move faster if our opponent has more time than we do
-    double const time_ratio = std::max((static_cast<double>(our_time) / their_time), 1.0);
-    moves_to_go = static_cast<int>(c_estimated_moves_to_go * std::min(2.0, time_ratio));
-  }
-
-  // Slight fudge factor to ensure that we don't go over when moves_to_go is small
-
-  auto time_for_move = std::chrono::milliseconds{our_time / moves_to_go};
-  time_for_move += std::chrono::milliseconds{our_increment};
-  time_for_move *= c_percent_time_to_use;
 
   m_search_desired_end_time = m_search_start_time + time_for_move;
 }
@@ -146,7 +142,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   ++m_visited_nodes;
   if (!has_more_time_())
   {
-    return alpha;
+    m_search_timed_out = true;
+    return 0;
   }
 
   if (depth_remaining == 0)
@@ -523,13 +520,12 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   return best;
 }
 
-void Meneldor_engine::print_stats(std::pair<Move, int> best_move)
+void Meneldor_engine::print_stats(std::pair<Move, int> best_move, std::optional<std::vector<std::string>> const& pv)
 {
   /*
      Example output from stockfish:
-     info depth 1 seldepth 1 multipv 1 score cp -18 nodes 22 nps 7333 tbhits 0
-     time 3 pv e7e5 info depth 2 seldepth 2 multipv 1 score cp 3 nodes 43 nps
-     14333 tbhits 0 time 3 pv e7e5 a2a3
+     info depth 1 seldepth 1 multipv 1 score cp -18 nodes 22 nps 7333 tbhits 0 time 3 pv e7e5 
+     info depth 2 seldepth 2 multipv 1 score cp 3 nodes 43 nps 14333 tbhits 0 time 3 pv e7e5 a2a3
      */
 
   auto const stats = getSearchStats();
@@ -539,7 +535,7 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move)
   out << "info depth " << stats.depth << " seldepth " << stats.seldepth << " score cp " << best_move.second << " nodes "
       << stats.nodes << " nps " << nodes_per_second << " time " << stats.msecs;
 
-  if ((m_current_pv = get_principle_variation(move_to_string(best_move.first))))
+  if (pv)
   {
     out << " pv ";
     for (auto const& m : *m_current_pv)
@@ -580,19 +576,17 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   }
 
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)}; depth <= max_depth; ++depth)
+  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
+    m_search_timed_out = false;
     m_depth_for_current_search = depth;
 
-    best_move = search(m_depth_for_current_search, legal_moves);
-    print_stats(best_move);
-    if (!has_more_time_())
+    auto move_candidate = search(m_depth_for_current_search, legal_moves);
+    if (!m_search_timed_out)
     {
-      if (m_is_debug)
-      {
-        std::cout << "Searched to depth: " << depth << "\n";
-      }
-      break;
+      best_move = move_candidate;
+      m_current_pv = get_principle_variation(move_to_string(best_move.first));
+      print_stats(best_move, m_current_pv);
     }
   }
 
