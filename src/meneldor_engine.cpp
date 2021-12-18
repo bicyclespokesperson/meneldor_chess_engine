@@ -576,7 +576,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   }
 
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  for (int depth{std::min(2, max_depth)};
+       (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
