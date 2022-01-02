@@ -586,7 +586,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     if (!m_search_timed_out)
     {
       best_move = move_candidate;
-      m_current_pv = get_principle_variation(move_to_string(best_move.first));
+      m_current_pv = get_principal_variation(move_to_string(best_move.first));
       print_stats(best_move, m_current_pv);
     }
   }
@@ -646,7 +646,7 @@ void Meneldor_engine::showEngineStats() const
 }
 
 // Should be called after go() but before makeMove()
-std::optional<std::vector<std::string>> Meneldor_engine::get_principle_variation(std::string move_str) const
+std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation(std::string move_str) const
 {
   std::vector<std::string> result;
   Board tmp_board{m_board};

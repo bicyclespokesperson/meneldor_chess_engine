@@ -82,7 +82,7 @@ public:
 
   int evaluate(Board const& board) const;
 
-  std::optional<std::vector<std::string>> get_principle_variation(std::string move_str) const;
+  std::optional<std::vector<std::string>> get_principal_variation(std::string move_str) const;
 
   void print_stats(std::pair<Move, int> best_move, std::optional<std::vector<std::string>> const& pv);
 
