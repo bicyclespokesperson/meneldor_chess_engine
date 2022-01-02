@@ -229,6 +229,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   // If we don't find a move here that's better than alpha, just save alpha as
   // the upper bound for this position
   bool has_any_moves{false};
+  bool perform_full_search{true};
   auto eval_type = Transposition_table::Eval_type::alpha;
   Move best{moves.front()};
   Board tmp_board{board};
@@ -242,13 +243,26 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     }
     has_any_moves = true;
 
-    auto const score = -negamax_(tmp_board, -beta, -alpha, depth_remaining - 1);
+    int score{0};
+    if (perform_full_search)
+    {
+      score = -negamax_(tmp_board, -beta, -alpha, depth_remaining - 1);
+    }
+    else
+    {
+      score = -negamax_(tmp_board, -alpha - 1, -alpha, depth_remaining - 1);
+      if (alpha < score && score < beta)
+      {
+        // If we found a better move than our previous best move, perform a full search to get its accurate value
+        score = -negamax_(tmp_board, -beta, -alpha, depth_remaining - 1);
+      }
+    }
+    perform_full_search = false;
 
     if (score >= beta)
     {
-      // Stop evaluating here since the opposing player won't let us get even
-      // this position on their previous move Our evaluation here is a lower
-      // bound
+      // Stop evaluating here since the opposing player won't let us get even this position on their previous move.
+      // Our evaluation here is a lower bound
       eval_type = Transposition_table::Eval_type::beta;
       m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
 
@@ -491,15 +505,31 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
                      });
   }
 
+  bool perform_full_search{true};
   std::pair<Move, int> best{legal_moves.front(), negative_inf};
   for (auto& move : legal_moves)
   {
     auto tmp_board = m_board;
     tmp_board.move_no_verify(move);
 
-    auto const score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+    int score{0};
+    if (perform_full_search)
+    {
+      score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+    }
+    else
+    {
+      score = -negamax_(tmp_board, -best.second - 1, -best.second, depth - 1);
+      if (score > best.second)
+      {
+        score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+      }
+    }
+    perform_full_search = false;
+
     auto score_four_bits = static_cast<uint8_t>(std::clamp((score / 200) + 7, 0, 15));
     move.set_score(score_four_bits);
+
 
     if (m_is_debug)
     {
@@ -575,6 +605,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     m_search_mode = Search_mode::time;
   }
 
+  // Iterative deepening loop
   std::pair<Move, int> best_move;
   for (int depth{std::min(2, max_depth)};
        (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
@@ -582,7 +613,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
 
-    auto move_candidate = search(m_depth_for_current_search, legal_moves);
+    auto const move_candidate = search(m_depth_for_current_search, legal_moves);
     if (!m_search_timed_out)
     {
       best_move = move_candidate;
