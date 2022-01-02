@@ -1,9 +1,10 @@
 #include "uci_engine_player.h"
 
-Uci_engine_player::Uci_engine_player(std::string name, std::filesystem::path engine_path)
+Uci_engine_player::Uci_engine_player(std::string name, std::filesystem::path engine_path, int depth)
 : Player(std::move(name)),
   m_engine_path(std::move(engine_path)),
-  m_board{}
+  m_board{},
+  m_search_depth(depth)
 {
   MY_ASSERT(std::filesystem::exists(m_engine_path), "Engine executable does not exist");
 
@@ -109,8 +110,7 @@ std::optional<std::string> Uci_engine_player::get_next_move(std::istream& /* in 
   static const std::string move_prefix{"bestmove "};
   send_message_(std::string{"position fen "} + m_board.to_fen());
 
-  int const depth = 6;
-  send_message_(std::string{"go depth "} + std::to_string(depth));
+  send_message_(std::string{"go depth "} + std::to_string(m_search_depth));
 
   size_t index{0};
   auto msg = receive_message_();

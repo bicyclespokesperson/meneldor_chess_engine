@@ -12,14 +12,14 @@ std::atomic_flag is_cancelled;
 
 const std::filesystem::path c_engine_binary_dir{"/Users/jeremysigrist/Desktop/chess_engine_binaries"};
 
-std::unique_ptr<Uci_engine_player> create_engine_player(std::filesystem::path const& name)
+std::unique_ptr<Uci_engine_player> create_engine_player(std::filesystem::path const& name, int search_depth)
 {
   auto engine_path = c_engine_binary_dir / name;
   if (!std::filesystem::exists(engine_path))
   {
     return nullptr;
   }
-  return std::make_unique<Uci_engine_player>(name, engine_path);
+  return std::make_unique<Uci_engine_player>(name, engine_path, search_depth);
 }
 } // namespace
 
@@ -72,9 +72,8 @@ void Game::player_vs_computer(Color player_color)
   {
     User_player white_player("White player");
     Engine_player black_player("Black engine");
-    // auto black_player = create_engine_player("stockfish");
-    // auto black_player = std::make_unique<Uci_engine_player>("Meneldor",
-    // "/Users/jeremysigrist/Desktop/code_projects/chess_engine/bin/engine_main");
+    // auto black_player = create_engine_player("stockfish", 10);
+    // auto black_player = std::make_unique<Uci_engine_player>("Meneldor", "/Users/jeremysigrist/Desktop/code_projects/chess_engine/bin/meneldor", 8);
     play_game(white_player, black_player);
   }
   else
@@ -88,13 +87,12 @@ void Game::player_vs_computer(Color player_color)
 void Game::computer_vs_computer()
 {
   // Engine_player white_player("Meneldor");
-  // auto white_player = create_engine_player("laser");
-  auto white_player = create_engine_player("Defenchess");
-  // auto white_player = create_engine_player("stockfish");
-  // auto white_player = create_engine_player("shallowblue");
-  auto black_player =
-    std::make_unique<Uci_engine_player>("Meneldor", "/Users/jeremysigrist/Desktop/code_projects/chess_engine/bin/"
-                                                    "engine_main");
+  // auto white_player = create_engine_player("laser", 10);
+  //auto white_player = create_engine_player("Defenchess", 10);
+  // auto white_player = create_engine_player("stockfish", 10);
+  // auto white_player = create_engine_player("shallowblue", 8);
+  auto white_player = std::make_unique<Uci_engine_player>("Meneldor_white", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
+  auto black_player = std::make_unique<Uci_engine_player>("Meneldor_black", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
 
   // auto black_player = create_engine_player("stockfish");
 

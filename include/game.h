@@ -36,6 +36,6 @@ public:
 private:
   void init_handler_();
 
-  std::string m_starting_position_fen{"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
+  std::string m_starting_position_fen{c_start_position_fen};
 };
 #endif

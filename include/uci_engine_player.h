@@ -6,7 +6,7 @@
 class Uci_engine_player : public Player
 {
 public:
-  Uci_engine_player(std::string name, std::filesystem::path engine_path);
+  Uci_engine_player(std::string name, std::filesystem::path engine_path, int depth);
 
   ~Uci_engine_player() override;
 
@@ -26,6 +26,7 @@ private:
 
   std::filesystem::path m_engine_path{};
   Board m_board;
+  int m_search_depth;
 
   std::array<int, 2> m_to_child{};
   std::array<int, 2> m_from_child{};

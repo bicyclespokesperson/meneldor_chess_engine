@@ -62,8 +62,7 @@ TEST_CASE("Evaluate", "[Meneldor_engine]")
 
 TEST_CASE("Search_opening", "[.Meneldor_engine]")
 {
-  std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  engine_stats_from_position(fen);
+  engine_stats_from_position(c_start_position_fen);
 }
 
 TEST_CASE("Search_mid1", "[.Meneldor_engine]")

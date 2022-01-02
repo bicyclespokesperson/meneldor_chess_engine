@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     exit(-1);
   }
 
-  std::string starting_position = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  std::string starting_position = c_start_position_fen;
   if (argc == 3)
   {
     starting_position = argv[2];
