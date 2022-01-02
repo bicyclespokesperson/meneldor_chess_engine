@@ -46,10 +46,10 @@ target_precompile_headers(perft
 target_link_libraries(perft PRIVATE chess_engine_lib )
 
 
-add_executable(engine_main engine_main.cpp)
-target_compile_features(engine_main PRIVATE cxx_std_20)
-target_include_directories(engine_main PUBLIC ../include)
-target_precompile_headers(engine_main
+add_executable(meneldor engine_main.cpp)
+target_compile_features(meneldor PRIVATE cxx_std_20)
+target_include_directories(meneldor PUBLIC ../include)
+target_precompile_headers(meneldor
   PRIVATE
     <algorithm>
     <compare>
@@ -67,4 +67,4 @@ target_precompile_headers(engine_main
     <unordered_map>
     <vector>
 )
-target_link_libraries(engine_main PRIVATE chess_engine_lib senjo)
+target_link_libraries(meneldor PRIVATE chess_engine_lib senjo)
