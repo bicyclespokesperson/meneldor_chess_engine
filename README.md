@@ -20,7 +20,7 @@ Meneldor chess engine is a UCI Compilent chess engine written in C++
 ## Building
 
 Meneldor engine uses CMake (version 3.16+). CMake can be used directly, or a `create_build.sh` script is provided for convenience.
-The engine is developed with clang 13, though theoretically any C++20 complient compiler can be used. The path to the compiler
+The engine is developed with clang 13, though theoretically any C++20 compliant compiler can be used. The path to the compiler
 can be set in the `create_build.sh` script.
 
 ```
