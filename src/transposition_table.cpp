@@ -28,9 +28,33 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
    * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
    */
 
+  if (key == 0x000000004e438ee7UL)
+  {
+      std::cout << ""; // Alpha cutoff for "Crash"
+  }
+    
+  if (key == 0x0000000056f57630) // Beta cutoff for search_end1
+  {
+      std::cout << "";
+  }
+/*
+  auto val = walk_(key);
+  if (val != nullptr)
+  {
+      if (val->depth >= entry.depth)
+      {
+          MY_ASSERT(val->type != Transposition_table::Eval_type::exact, "Never replace exact value with alpha value of same depth");
+      }
+  }
+ */
+    
   // If first entry depth is lower, replace and return
   auto hash_value = hash_fn_(key);
-  if (m_table[hash_value].depth < entry.depth)
+  if (hash_value == 0x000000000040446c && key != 0x0000000056f57630)
+  {
+      std::cout << ""; // Hash collision
+  }
+  if (m_table[hash_value].depth < entry.depth || m_table[hash_value].key == entry.key) // || eval_type of existing is weaker?
   {
     m_table[hash_value] = entry;
   }
@@ -39,46 +63,46 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
     m_table[hash_value + 1] = entry;
   }
 }
-
-bool Transposition_table::contains(zhash_t key) const
+ 
+Transposition_table::Entry const* Transposition_table::get(zhash_t key, int depth) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-
-  return walk_(key) != nullptr;
-}
-
-Transposition_table::Entry const* Transposition_table::get(zhash_t key) const
-{
-  MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-  if (auto result = walk_(key))
+    
+  if (key == 0x000000004e438ee7UL)
+  {
+    std::cout << "";
+  }
+  
+  if (auto result = walk_(key, depth))
   {
     return result;
   }
+    
   return nullptr;
 }
 
-Transposition_table::Entry const* Transposition_table::walk_(zhash_t key) const
+Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int depth) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
   auto const hash_value = hash_fn_(key);
-  if (m_table[hash_value].key == key)
+  if (m_table[hash_value].key == key && m_table[hash_value].depth == depth)
   {
     return &m_table[hash_value];
   }
-  if (m_table[hash_value + 1].key == key)
+  if (m_table[hash_value + 1].key == key && m_table[hash_value + 1].depth == depth)
   {
     return &m_table[hash_value + 1];
   }
   return nullptr;
 }
 
-Transposition_table::Entry* Transposition_table::walk_(zhash_t key)
+Transposition_table::Entry* Transposition_table::walk_(zhash_t key, int depth)
 {
   // Idiom for sharing implementation between const and non-const versions of a
   // method
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
-  return const_cast<Entry*>(std::as_const(*this).walk_(key));
+  return const_cast<Entry*>(std::as_const(*this).walk_(key, depth));
 }
 
 size_t Transposition_table::get_capacity() const

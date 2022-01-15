@@ -158,7 +158,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   }
 
   Move best_guess{};
-  if (auto entry = m_transpositions.get(board.get_hash_key()))
+  if (auto entry = m_transpositions.get(board.get_hash_key(), depth_remaining))
   {
     ++tt_hits;
     if (entry->depth >= depth_remaining)
@@ -177,8 +177,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           // Eval_type::beta implies that we stopped evaluating last time because
           // we didn't think the opposing player would allow this position to be
           // reached. That means the position has an evaluation of at least
-          // "entry.evaluation", but there may be an even better move that was
-          // skipped
+          // "entry.evaluation", but there may be an even better move that was skipped
           alpha = std::max(alpha, entry->evaluation);
           break;
         case Transposition_table::Eval_type::exact:
@@ -215,8 +214,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       {
         // std::cout << "Move list (size: " << moves.size() << "): ";
         // print_vector(std::cout, moves);
-        // MY_ASSERT(guess_location != moves.end(), "Move should always be
-        // present");
+        // MY_ASSERT(guess_location != moves.end(), "Move should always be present");
         std::rotate(moves.begin(), guess_location, guess_location + 1);
       }
       else
@@ -456,9 +454,6 @@ bool Meneldor_engine::stopRequested() const
 
 void Meneldor_engine::waitForSearchFinish()
 {
-  // constexpr bool old_value{true};
-  // m_is_searching.wait(old_value);
-
   while (m_is_searching.test())
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
@@ -505,21 +500,34 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
                      });
   }
 
+  std::string move_string = "";
   bool perform_full_search{true};
   std::pair<Move, int> best{legal_moves.front(), negative_inf};
   for (auto& move : legal_moves)
   {
     auto tmp_board = m_board;
     tmp_board.move_no_verify(move);
+    move_string = move_to_string(move);
 
+    if (!is_feature_enabled("use_pvs"))
+    {
+        perform_full_search = true;
+    }
+      
     int score{0};
     if (perform_full_search)
     {
       score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+      if (!is_feature_enabled("use_pvs"))
+      {
+          std::cout << move_string << ": " << score << std::endl;
+      }
+
     }
     else
     {
       score = -negamax_(tmp_board, -best.second - 1, -best.second, depth - 1);
+        MY_ASSERT(score == best.second || score == (best.second + 1), "Engine is not performing a fail hard search");
       if (score > best.second)
       {
         score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
@@ -530,13 +538,12 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     auto score_four_bits = static_cast<uint8_t>(std::clamp((score / 200) + 7, 0, 15));
     move.set_score(score_four_bits);
 
-
     if (m_is_debug)
     {
       std::cout << "Evaluating move: " << move << ", score: " << std::to_string(score) << "\n";
     }
 
-    if (score > best.second)
+    if (score > best.second && move_string.size() > 0)
     {
       best = {move, score};
     }
@@ -598,6 +605,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   calc_time_for_move_(params);
   auto legal_moves = Move_generator::generate_legal_moves(m_board);
 
+  //int const max_depth = 2;
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
   m_search_mode = Search_mode::depth;
   if (params.wtime > 0 || params.btime > 0)
@@ -607,7 +615,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)};
+  for (int depth{std::min(7, max_depth)}; //TODO: set to 2
        (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
@@ -691,7 +699,7 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
       return {};
     }
 
-    auto entry = m_transpositions.get(tmp_board.get_hash_key());
+    auto entry = m_transpositions.get(tmp_board.get_hash_key(), depth);
     if (!entry)
     {
       return {};
@@ -702,6 +710,8 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
 
     if (entry->type != Transposition_table::Eval_type::exact)
     {
+      // TODO: Run Search_end1 test at depth 7 and see why we're getting a beta cutoff here
+
       return {};
     }
   }

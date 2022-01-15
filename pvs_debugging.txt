@@ -1,0 +1,42 @@
+Search_end1 - Score for each move from start position
+d7d8b: -29
+d7d8n: -29
+d7d8r: -29
+d7d8q: -29
+d3c1: -287
+d3e1: -30
+d3b2: -30
+d3b4: -172
+d3f4: -240
+d3c5: -315
+d3e5: 30
+e2d1: -27
+e2f1: -26
+e2f3: 33
+e2g4: 78
+  Gives 71 with TT requiring depth to match as well as zobrist hash
+  Gives 72 with small window search first and TT only requiring hash match
+  Gives 68 with no TT
+  Gives 78 with no small window search and TT only requiring hash match
+e2h5: 116
+g1a1: 261
+g1b1: -28
+g1c1: -13
+g1d1: -29
+g1e1: -29
+g1f1: -18
+g1h1: -832
+g1g2: -581
+g1h2: -14
+g1g3: 16
+g1g4: 18
+g1g5: 23
+g1g6: -882
+g1g7: -933
+g1g8: -932
+f2e1: 271
+f2f1: 76
+f2e3: 25
+f2g3: -29
+
+
