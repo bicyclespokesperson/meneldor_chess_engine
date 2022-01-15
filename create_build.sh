@@ -8,14 +8,14 @@ UNAME_OUT="$(uname -s)"
 case "${UNAME_OUT}" in
   Linux*)     MACHINE=Linux;;
   Darwin*)    MACHINE=Mac;;
-  CYGWIN*)    MACHINE=Cygwin;;
-  MINGW*)     MACHINE=MinGw;;
+  CYGWIN*)    MACHINE=Windows;;
+  MINGW*)     MACHINE=Windows;;
   *)          MACHINE="UNKNOWN:${UNAME_OUT}"
 esac
 
 CXX_COMPILER="/usr/local/Cellar/llvm/13.0.0_1/bin/clang++"
 
-if [[ "$MACHINE" == "MinGw" ]]; then
+if [[ "$MACHINE" == "Windows" ]]; then
   # Need to use the CMake installed here, not the one installed via MinGW, to access the Visual Studio generator
   C:/Program\ Files/CMake/bin/cmake.exe -G "Visual Studio 17 2022" -A x64 CMakeLists.txt
   exit
