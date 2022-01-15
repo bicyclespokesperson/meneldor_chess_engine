@@ -198,6 +198,11 @@ feature_set.txt
 # Visual Studio files
 .vs
 out
+x64
+x86
+*.user
 *.vcxproj
 *.filters
 *.sln
+*.dir
+Debug
