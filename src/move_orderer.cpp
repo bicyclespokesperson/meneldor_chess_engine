@@ -10,13 +10,13 @@ int Move_orderer::score_move_(Move m, Board const& /* board */)
   return score;
 }
 
-const auto Move_orderer::mvv_lva_table = []
+const std::array<std::array<int, Move_orderer::c_piece_count>, Move_orderer::c_piece_count> Move_orderer::mvv_lva_table = []
 {
   static constexpr std::array pieces{Piece::king,   Piece::queen, Piece::rook, Piece::bishop,
                                      Piece::knight, Piece::pawn,  Piece::empty};
 
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-member-init) Initialized in this function
-  std::array<std::array<int, c_piece_count>, c_piece_count> result;
+  std::array<std::array<int, Move_orderer::c_piece_count>, Move_orderer::c_piece_count> result;
 
   // Create a lookup table of move priorities. Move with the most valuable
   // victim piece will be prioritied highest, and moves with the same victim
@@ -27,9 +27,9 @@ const auto Move_orderer::mvv_lva_table = []
 
   // Start with the least valuable victim, and increment current_val as we go so
   // more valuable victims have higher priorities
-  for (size_t victim{c_piece_count}; victim > 0; --victim)
+  for (size_t victim{Move_orderer::c_piece_count}; victim > 0; --victim)
   {
-    for (size_t attacker{0}; attacker < c_piece_count; ++attacker)
+    for (size_t attacker{0}; attacker < Move_orderer::c_piece_count; ++attacker)
     {
       auto victim_index = static_cast<uint8_t>(pieces[victim - 1]) - static_cast<uint8_t>(Piece::pawn);
       auto attacker_index = static_cast<uint8_t>(pieces[attacker]) - static_cast<uint8_t>(Piece::pawn);

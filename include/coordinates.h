@@ -15,14 +15,14 @@ public:
     MY_ASSERT(0 <= y && y < 8, "A board has coordinates 0-7");
     static_assert(sizeof(Coordinates) == 1);
 
-    m_square_index = y * c_board_dimension + x;
+    m_square_index = static_cast<uint8_t>(y * c_board_dimension + x);
   }
 
   explicit constexpr Coordinates(int32_t square_index)
   {
     MY_ASSERT(0 <= square_index && square_index < c_board_dimension_squared, "A board has 64 squares");
 
-    m_square_index = square_index;
+    m_square_index = static_cast<uint8_t>(square_index);
   }
 
   constexpr Coordinates(Coordinates const& other) = default;

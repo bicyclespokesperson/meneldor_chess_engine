@@ -261,7 +261,7 @@ Bitboard bishop_attacked_squares(int sq, uint64_t block)
   return result;
 }
 
-int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
+constexpr int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
 {
   MY_ASSERT(bits == 9 || bits == 12, "Fixed shift");
   return (int)((blockers * magic) >> (64 - bits));
@@ -466,7 +466,7 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
   auto const castling_rights = board.get_castling_rights();
   auto const occupied = board.get_occupied_squares();
 
-  if (color == Color::white)
+  if constexpr (color == Color::white)
   {
     if (white_can_short_castle(castling_rights) &&
         (occupied & Bitboard_constants::short_castling_empty_squares_white).is_empty())

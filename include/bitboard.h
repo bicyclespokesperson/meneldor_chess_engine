@@ -3,6 +3,10 @@
 
 #include "coordinates.h"
 
+#ifdef _WIN32
+#include <intrin.h>
+#endif
+
 struct Bitboard_iterator;
 
 struct Bitboard
@@ -157,7 +161,13 @@ struct Bitboard
     {
       return -1;
     }
-    return __builtin_ffsll(val) - 1;
+    #ifdef _WIN32
+      unsigned long result;
+      _BitScanForward64(&result, val);
+      return static_cast<int>(result);
+    #else
+      return __builtin_ffsll(val) - 1;
+    #endif
   }
 
   constexpr int bitscan_reverse()
@@ -166,8 +176,14 @@ struct Bitboard
     {
       return -1;
     }
-    return 63 - __builtin_clzll(val);
-  }
+    #ifdef _WIN32
+      unsigned long result;
+      _BitScanReverse64(&result, val);
+      return 63 - static_cast<int>(result);
+    #else
+      return 63 - __builtin_clzll(val);
+    #endif
+    }
 
   std::string hex_str() const
   {

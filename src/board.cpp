@@ -610,19 +610,19 @@ void Board::update_castling_rights_(Color color, Piece piece, Move m)
   }
   else
   {
-    if (Coordinates target{0, 0}; m.to() == target || m.from() == target)
+    if (Coordinates a1{0, 0}; m.to() == a1 || m.from() == a1)
     {
       set_white_long_castle_false(m_rights);
     }
-    else if (Coordinates target{7, 0}; m.to() == target || m.from() == target)
+    else if (Coordinates h1{7, 0}; m.to() == h1 || m.from() == h1)
     {
       set_white_short_castle_false(m_rights);
     }
-    else if (Coordinates target{0, 7}; m.to() == target || m.from() == target)
+    else if (Coordinates a8{0, 7}; m.to() == a8 || m.from() == a8)
     {
       set_black_long_castle_false(m_rights);
     }
-    else if (Coordinates target{7, 7}; m.to() == target || m.from() == target)
+    else if (Coordinates h8{7, 7}; m.to() == h8 || m.from() == h8)
     {
       set_black_short_castle_false(m_rights);
     }
@@ -910,12 +910,16 @@ std::vector<Coordinates> Board::find_pieces_that_can_move_to(Piece piece, Color 
 std::optional<Move> Board::move_from_uci(std::string move_str) const
 {
   move_str.erase(std::remove_if(move_str.begin(), move_str.end(), isspace), move_str.end());
-  std::transform(move_str.begin(), move_str.end(), move_str.begin(), toupper);
+  std::transform(move_str.begin(), move_str.end(), move_str.begin(),
+                 [](char c)
+                 {
+                   return std::toupper(c, std::locale());
+                 });
 
   Piece promotion_result{Piece::empty};
   if (move_str.size() == 5 && !isdigit(move_str.back()))
   {
-    promotion_result = from_char(toupper(move_str.back()));
+    promotion_result = from_char(std::toupper(move_str.back(), std::locale()));
     move_str.resize(move_str.size() - 1);
   }
 
@@ -960,7 +964,7 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
       std::cerr << "Invalid promotion target" << std::endl;
       return {};
     }
-    promotion_result = from_char(toupper(move_str[index + 1]));
+    promotion_result = from_char(std::toupper(move_str[index + 1], std::locale()));
     move_str.resize(move_str.size() - 2);
   }
 
@@ -1237,7 +1241,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
     else if (isalpha(fen_str[index]))
     {
       auto color = islower(fen_str[index]) ? Color::black : Color::white;
-      auto piece = from_char(toupper(fen_str[index]));
+      auto piece = from_char(std::toupper(fen_str[index], std::locale()));
       board->add_piece_(color, piece, {x, y});
 
       x = (x + 1) % c_board_dimension;
@@ -1262,11 +1266,11 @@ std::optional<Board> Board::from_fen(std::string_view fen)
   }
   ++index;
 
-  if (tolower(fen_str[index]) == 'w')
+  if (std::tolower(fen_str[index], std::locale()) == 'w')
   {
     board->m_active_color = Color::white;
   }
-  else if (tolower(fen_str[index]) == 'b')
+  else if (std::tolower(fen_str[index], std::locale()) == 'b')
   {
     board->m_active_color = Color::black;
   }
@@ -1350,7 +1354,7 @@ std::string Board::to_fen() const
     ss << piece;
 
     char result = ss.str().front();
-    return (color == Color::white) ? toupper(result) : tolower(result);
+    return (color == Color::white) ? std::toupper(result, std::locale()) : std::tolower(result, std::locale());
   };
 
   for (int8_t y = c_board_dimension - 1; y >= 0; --y)

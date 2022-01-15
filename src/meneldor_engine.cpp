@@ -110,10 +110,10 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
   }
   else
   {
-    int our_time = params.wtime;
-    int their_time = params.btime;
-    int our_increment = params.winc;
-    int their_increment = params.winc;
+    auto our_time = params.wtime;
+    auto their_time = params.btime;
+    auto our_increment = params.winc;
+    auto their_increment = params.winc;
     if (m_board.get_active_color() == Color::black)
     {
       std::swap(our_time, their_time);
@@ -456,7 +456,7 @@ uint64_t Meneldor_engine::perft(const int depth)
   m_stop_requested.clear();
 
   auto const start = std::chrono::system_clock::now();
-  std::atomic_flag is_cancelled{false};
+  std::atomic_flag is_cancelled;
   auto const result = Move_generator::perft(depth, m_board, is_cancelled);
   auto const end = std::chrono::system_clock::now();
   std::chrono::duration<double> const elapsed = end - start;
@@ -498,7 +498,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     tmp_board.move_no_verify(move);
 
     auto const score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
-    uint8_t score_four_bits = std::clamp((score / 200) + 7, 0, 15);
+    auto score_four_bits = static_cast<uint8_t>(std::clamp((score / 200) + 7, 0, 15));
     move.set_score(score_four_bits);
 
     if (m_is_debug)

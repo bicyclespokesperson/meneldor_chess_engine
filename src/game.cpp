@@ -9,18 +9,6 @@ namespace
 {
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables) Can't be a member variable because we want to use it in a handler
 std::atomic_flag is_cancelled;
-
-const std::filesystem::path c_engine_binary_dir{"/Users/jeremysigrist/Desktop/chess_engine_binaries"};
-
-std::unique_ptr<Uci_engine_player> create_engine_player(std::filesystem::path const& name, int search_depth)
-{
-  auto engine_path = c_engine_binary_dir / name;
-  if (!std::filesystem::exists(engine_path))
-  {
-    return nullptr;
-  }
-  return std::make_unique<Uci_engine_player>(name, engine_path, search_depth);
-}
 } // namespace
 
 void my_handler(int /* s */)
@@ -35,6 +23,7 @@ Game::Game()
 
 void Game::init_handler_()
 {
+#ifndef _WIN32
   // We still want to print out moves if the game is cancelled, so
   // set a handler for ctrl-c that sets a flag that is tested in the loop
   struct sigaction sigIntHandler
@@ -46,6 +35,7 @@ void Game::init_handler_()
   sigIntHandler.sa_flags = 0;
 
   sigaction(SIGINT, &sigIntHandler, nullptr);
+#endif
 }
 
 bool Game::set_starting_position(std::string fen)
@@ -71,10 +61,10 @@ void Game::player_vs_computer(Color player_color)
   if (player_color == Color::white)
   {
     User_player white_player("White player");
-    Engine_player black_player("Black engine");
-    // auto black_player = create_engine_player("stockfish", 10);
-    // auto black_player = std::make_unique<Uci_engine_player>("Meneldor", "/Users/jeremysigrist/Desktop/code_projects/chess_engine/bin/meneldor", 8);
-    play_game(white_player, black_player);
+    //Engine_player black_player("Black engine");
+    // auto black_player = Uci_engine_player::create("stockfish", 10);
+    auto black_player = std::make_unique<Uci_engine_player>("Meneldor", "/Users/jeremysigrist/Desktop/code_projects/chess_engine/bin/meneldor", 8);
+    play_game(white_player, *black_player);
   }
   else
   {
@@ -86,15 +76,16 @@ void Game::player_vs_computer(Color player_color)
 
 void Game::computer_vs_computer()
 {
-  // Engine_player white_player("Meneldor");
-  // auto white_player = create_engine_player("laser", 10);
-  //auto white_player = create_engine_player("Defenchess", 10);
-  // auto white_player = create_engine_player("stockfish", 10);
-  // auto white_player = create_engine_player("shallowblue", 8);
-  auto white_player = std::make_unique<Uci_engine_player>("Meneldor_white", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
-  auto black_player = std::make_unique<Uci_engine_player>("Meneldor_black", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
+  //Engine_player white_player("Meneldor_w");
+  //Engine_player black_player("Meneldor_b");
+  auto white_player = Uci_engine_player::create("laser", 10);
+  //auto white_player = Uci_engine_player::create("Defenchess", 10);
+  //auto white_player = Uci_engine_player::create("stockfish", 10);
+  //auto white_player = Uci_engine_player::create("shallowblue", 8);
+  //auto white_player = std::make_unique<Uci_engine_player>("Meneldor_white", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
+  //auto black_player = std::make_unique<Uci_engine_player>("Meneldor_black", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
 
-  // auto black_player = create_engine_player("stockfish");
+  auto black_player = Uci_engine_player::create("stockfish", 8);
 
   play_game(*white_player, *black_player);
 }

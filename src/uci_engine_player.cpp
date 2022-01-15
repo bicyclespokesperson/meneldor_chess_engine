@@ -1,4 +1,18 @@
+
+#ifndef _WIN32 // Not supported on Windows
 #include "uci_engine_player.h"
+#include <unistd.h>    
+
+
+std::unique_ptr<Uci_engine_player> Uci_engine_player::create(std::filesystem::path const& name, int search_depth)
+{
+  auto engine_path = c_engine_binary_dir / name;
+  if (!std::filesystem::exists(engine_path))
+  {
+    return nullptr;
+  }
+  return std::make_unique<Uci_engine_player>(name, engine_path, search_depth);
+}
 
 Uci_engine_player::Uci_engine_player(std::string name, std::filesystem::path engine_path, int depth)
 : Player(std::move(name)),
@@ -206,3 +220,4 @@ void Uci_engine_player::terminate_engine_process_()
     std::cout << get_name() << " exited successfully\n";
   }
 }
+#endif

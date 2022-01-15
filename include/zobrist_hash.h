@@ -5,6 +5,8 @@
 #include "castling_rights.h"
 #include "move.h"
 
+#include "chess_types.h"
+
 class Board;
 
 using zhash_t = uint64_t;

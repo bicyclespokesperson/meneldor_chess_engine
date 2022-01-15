@@ -194,3 +194,10 @@ SharedPrecompiledHeaders
 # Chess Engine files
 output/performance_log.txt
 feature_set.txt
+
+# Visual Studio files
+.vs
+out
+*.vcxproj
+*.filters
+*.sln

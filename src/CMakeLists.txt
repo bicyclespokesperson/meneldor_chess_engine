@@ -12,6 +12,7 @@ target_precompile_headers(chess_engine_lib
   PRIVATE
     <algorithm>
     <atomic>
+    <array>
     <compare>
     <cstdint>
     <filesystem>
@@ -22,14 +23,12 @@ target_precompile_headers(chess_engine_lib
     <limits>
     <map>
     <numeric>
-    <numeric>
     <random>
     <set>
     <span>
     <signal.h>
     <string>
     <sstream>
-    <unistd.h>    
     <unordered_map>
     <unordered_set>
     <vector>

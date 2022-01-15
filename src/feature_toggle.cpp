@@ -4,7 +4,7 @@ namespace
 {
 std::string c_feature_toggle_file_path{"./feature_set.txt"};
 
-std::unordered_set<std::string> parse_features(std::string_view filename)
+std::unordered_set<std::string> parse_features(std::string const& filename)
 {
   std::unordered_set<std::string> enabled_features;
   std::ifstream infile{filename};
@@ -19,7 +19,12 @@ std::unordered_set<std::string> parse_features(std::string_view filename)
   while (std::getline(infile, line))
   {
     line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
-    std::transform(line.begin(), line.end(), line.begin(), tolower);
+    std::transform(line.begin(), line.end(), line.begin(),
+                   [](char c)
+                   {
+                     return std::tolower(c, std::locale());
+                   });
+
     if (line.empty())
     {
       continue;

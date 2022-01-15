@@ -8,6 +8,8 @@ FetchContent_MakeAvailable(catch)
 
 # Tests need to be added as executables first
 add_executable(tests general_tests.cpp engine_tests.cpp perft_tests.cpp)
+set_property(TARGET tests PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_property(TARGET tests PROPERTY WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 # Compiler settings for the test code
 
@@ -18,6 +20,7 @@ target_compile_features(tests PRIVATE cxx_std_20)
 target_precompile_headers(tests
   PRIVATE
     <algorithm>
+    <array>
     <compare>
     <cstdint>
     <ctime>
@@ -43,3 +46,4 @@ target_link_libraries(tests PRIVATE chess_engine_lib senjo Catch2::Catch2)
 # Name = arg to make test
 # Command = executable make test will run
 add_test(NAME general_tests COMMAND tests  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} )
+

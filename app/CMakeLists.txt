@@ -4,6 +4,7 @@ target_include_directories(chess_game PUBLIC ../include)
 target_precompile_headers(chess_game
   PRIVATE
     <algorithm>
+    <array>
     <compare>
     <cstdint>
     <filesystem>
@@ -28,6 +29,7 @@ target_include_directories(perft PUBLIC ../include)
 target_precompile_headers(perft
   PRIVATE
     <algorithm>
+    <array>
     <compare>
     <cstdint>
     <filesystem>
@@ -52,6 +54,7 @@ target_include_directories(meneldor PUBLIC ../include)
 target_precompile_headers(meneldor
   PRIVATE
     <algorithm>
+    <array>
     <compare>
     <cstdint>
     <filesystem>

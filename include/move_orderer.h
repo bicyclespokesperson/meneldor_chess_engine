@@ -9,6 +9,7 @@ class Board;
 class Move_orderer
 {
 public:
+
   Move_orderer() = default;
   ~Move_orderer() = default;
 

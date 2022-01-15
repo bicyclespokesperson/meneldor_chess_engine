@@ -1,19 +1,30 @@
 #!/usr/bin/env bash
 
-rm -r ./CMakeScripts
-rm -r ./CMakeFiles 
-rm -r ./CMakeCache.txt 
-rm -r ./CTestTestfile.cmake 
-rm -r ./DartConfiguration.tcl 
-rm -r ./Debug 
-rm -r ./Testing 
+rm -rf ./CMakeScripts
+rm -rf ./CMakeFiles 
+rm -rf ./CMakeCache.txt 
+rm -rf ./CTestTestfile.cmake 
+rm -rf ./DartConfiguration.tcl 
+rm -rf ./Debug 
+rm -rf ./Testing 
 rm -rf ./_deps 
-rm -r ./bin/*
-rm -r ./build
-rm -r ./compile_commands.json
-rm -r ./Makefile
+rm -rf ./out 
+rm -rf ./bin/*
+rm -rf ./build
+rm -rf ./compile_commands.json
+rm -rf ./Makefile
+rm -rf ./chess_engine.sln
+rm -rf ./x64
+rm -rf ./.vs
 
-find . -name '*.xcodeproj' -delete
-find . -name '*.build' -delete
-find . -name 'cmake_install.cmake' -delete
-find . -name 'SharedPrecompiledHeaders' -delete
+# Pipe to xargs to avoid warnings
+# -delete can only delete empty directories
+# -exec rm prints spurrious errors when it tries to look inside deleted folders
+find . -name "CMakeFiles" -type d -print0 | xargs -r0 -- rm -r
+find . -name "*.xcodeproj" -print0 | xargs -r0 -- rm -r
+find . -name "*.vcxproj*" -print0 | xargs -r0 -- rm -r
+find . -name "*.build" -print0 | xargs -r0 -- rm -r
+find . -name "cmake_install.cmake" -print0 | xargs -r0 -- rm -r
+find . -name "SharedPrecompiledHeaders" -print0 | xargs -r0 -- rm -r
+find . -name "Debug" -type d -print0 | xargs -r0 -- rm -r
+
