@@ -7,7 +7,7 @@ class Uci_engine_player : public Player
 {
 #ifdef _WIN32
 
-  Uci_engine_player(std::string name, std::filesystem::path /* engine_path */, int /* depth */) 
+  Uci_engine_player(std::string name, std::filesystem::path /* engine_path */, int /* depth */)
   : Player(std::move(name))
   {
     MY_ASSERT(false, "Uci_engine_player not supported on Windows");
