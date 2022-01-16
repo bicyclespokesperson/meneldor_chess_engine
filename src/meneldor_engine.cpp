@@ -170,7 +170,13 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::optional<int> expected_score;
 
   Move best_guess{};
-  auto entry = m_transpositions.get(board.get_hash_key(), depth_remaining);
+  auto const hash_key = board.get_hash_key();
+  if (hash_key == uint64_t{351466276})
+  {
+    // 3rd time finds the mate
+    std::cout << "Found\n"; 
+  }
+  auto entry = m_transpositions.get(hash_key, depth_remaining);
   if (entry)
   {
     ++tt_hits;
@@ -302,7 +308,9 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 
   if (expected_score)
   {
-    // TODO: While running "crash" test, why do we only see checkmate the second time calculating this?
+    // Do the moves match?
+
+    // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
     MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
   }
 
