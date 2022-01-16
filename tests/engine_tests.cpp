@@ -55,8 +55,8 @@ TEST_CASE("Evaluate", "[Meneldor_engine]")
   Meneldor_engine engine;
 
   // The evaluation function will change over time, but black is clearly winning
-  // in this position Black to move -> should return a positive value to
-  // indicate black is better
+  // in this position 
+  // Black to move -> should return a positive value to indicate black is better
   REQUIRE(engine.evaluate(board) > 0);
 }
 

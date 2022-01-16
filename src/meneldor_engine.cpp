@@ -39,16 +39,26 @@ int Meneldor_engine::evaluate(Board const& board) const
 
   auto const color = board.get_active_color();
   auto const enemy_color = opposite_color(color);
-  int result{0};
+  int material_result{0};
   for (size_t i{0}; i < pieces.size(); ++i)
   {
-    result +=
+    material_result +=
       (board.get_piece_set(color, pieces[i]).occupancy() - board.get_piece_set(enemy_color, pieces[i]).occupancy()) *
       piece_values[i];
   }
 
   // Positions that can attack more squares are better
-  result += Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
+  auto mobility_result = Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
+
+  auto result = material_result + mobility_result;
+  #if 0
+  int const target_score = 2248;
+  if (result == target_score)
+  {
+    std::cout << m_board.to_fen() << std::endl;
+    std::cout << "Found " << target_score << "\n ";
+  }
+  #endif
 
   return result;
 }
@@ -157,11 +167,14 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score; // Draw by repetition
   }
 
+  std::optional<int> expected_score;
+
   Move best_guess{};
-  if (auto entry = m_transpositions.get(board.get_hash_key(), depth_remaining))
+  auto entry = m_transpositions.get(board.get_hash_key(), depth_remaining);
+  if (entry)
   {
     ++tt_hits;
-    if (entry->depth >= depth_remaining)
+    if (entry->depth == depth_remaining) //TODO: == instead of <=
     {
       ++tt_sufficient_depth;
       switch (entry->type)
@@ -182,7 +195,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           break;
         case Transposition_table::Eval_type::exact:
           --m_visited_nodes; // TODO: Is this useful?
-          return entry->evaluation;
+          expected_score = entry->evaluation;
           break;
       }
     }
@@ -285,6 +298,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       return negative_inf + (m_depth_for_current_search - depth_remaining);
     }
     return c_contempt_score;
+  }
+
+  if (expected_score)
+  {
+    // TODO: While running "crash" test, why do we only see checkmate the second time calculating this?
+    MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
   }
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});

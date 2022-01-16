@@ -2,7 +2,7 @@
 
 namespace
 {
-std::string c_feature_toggle_file_path{"../../feature_set.txt"};
+std::string c_feature_toggle_file_path{"feature_set.txt"};
 
 std::unordered_set<std::string> parse_features(std::string const& filename)
 {
