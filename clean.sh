@@ -19,7 +19,7 @@ rm -rf ./.vs
 
 # Pipe to xargs to avoid warnings
 # -delete can only delete empty directories
-# -exec rm prints spurrious errors when it tries to look inside deleted folders
+# -exec rm prints spurious errors when it tries to look inside deleted folders
 find . -name "CMakeFiles" -type d -print0 | xargs -r0 -- rm -r
 find . -name "*.xcodeproj" -print0 | xargs -r0 -- rm -r
 find . -name "*.vcxproj*" -print0 | xargs -r0 -- rm -r
