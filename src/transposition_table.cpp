@@ -54,11 +54,14 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   {
       std::cout << ""; // Hash collision
   }
-  if (m_table[hash_value].depth < entry.depth || m_table[hash_value].key == entry.key) // || eval_type of existing is weaker?
+  //if (m_table[hash_value].depth < entry.depth || m_table[hash_value].key == entry.key) // || eval_type of existing is weaker?
+  
+  // Temporarily use a "never_replace" scheme
+  if (m_table[hash_value].best_move.type() == Move_type::null)
   {
     m_table[hash_value] = entry;
   }
-  else
+  else if (m_table[hash_value + 1].best_move.type() == Move_type::null)
   {
     m_table[hash_value + 1] = entry;
   }

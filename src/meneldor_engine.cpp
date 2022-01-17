@@ -170,16 +170,22 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::optional<int> expected_score;
 
   Move best_guess{};
+  std::string best_guess_str;
   auto const hash_key = board.get_hash_key();
+  bool found{false};
   if (hash_key == uint64_t{351466276})
   {
     // 3rd time finds the mate
-    std::cout << "Found\n"; 
+    unused(3);
+    found = true;
   }
   auto entry = m_transpositions.get(hash_key, depth_remaining);
   if (entry)
   {
+    best_guess = entry->best_move;
+    best_guess_str = move_to_string(best_guess);
     ++tt_hits;
+    
     if (entry->depth == depth_remaining) //TODO: == instead of <=
     {
       ++tt_sufficient_depth;
@@ -280,8 +286,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     {
       // Stop evaluating here since the opposing player won't let us get even this position on their previous move.
       // Our evaluation here is a lower bound
-      eval_type = Transposition_table::Eval_type::beta;
-      m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
+      //eval_type = Transposition_table::Eval_type::beta;
+      //m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
 
       return beta;
     }
@@ -309,12 +315,16 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   if (expected_score)
   {
     // Do the moves match?
-
+    std::string this_move_str = move_to_string(best);
     // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
     MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
+    unused(best_guess_str, this_move_str);
   }
 
-  m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
+  if (eval_type == Transposition_table::Eval_type::exact)
+  {
+    m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
+  }
   return alpha;
 }
 
