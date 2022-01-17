@@ -18,6 +18,9 @@ Search
 
 Implement insufficient material draws? Would this actually affect anything?
 
+Should probably update create_build.sh to default to an out of source build, that would also make cleaning easier. 
+Would need to see if there's a way to add make run or something to avoid CDing everywhere to run things
+
 Iterative deepening articles:
 https://fizyka.umk.pl/~duch/Wyklady/AI/Notki/Chess%20Programming%20Theory.htm
 
