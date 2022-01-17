@@ -1,4 +1,3 @@
-
 # Download catch2 (Need to include FetchContent in the parent CMakeLists.txt file)
 FetchContent_Declare(
   catch
@@ -9,7 +8,8 @@ FetchContent_MakeAvailable(catch)
 # Tests need to be added as executables first
 add_executable(tests general_tests.cpp engine_tests.cpp perft_tests.cpp)
 set_property(TARGET tests PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
-set_property(TARGET tests PROPERTY WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+set_property(TARGET tests PROPERTY XCODE_GENERATE_SCHEME TRUE)
+set_property(TARGET tests PROPERTY XCODE_SCHEME_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
 # Compiler settings for the test code
 

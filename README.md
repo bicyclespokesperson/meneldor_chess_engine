@@ -19,7 +19,7 @@ Meneldor chess engine is a UCI Compilant chess engine written in C++
 
 ## Building
 
-Meneldor engine uses CMake (version 3.16+). 
+Meneldor engine uses CMake (version 3.17+). 
 
 #### Mac/Linux
 

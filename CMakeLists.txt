@@ -3,7 +3,7 @@
 #
 # Much of this file comes from: https://cliutils.gitlab.io/modern-cmake/
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.17)
 
 project (chess_engine VERSION 0.1 LANGUAGES CXX)
 
@@ -20,9 +20,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   # Place the complied executable in the bin directory
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-  #set(CMAKE_CXX_CLANG_TIDY 
-  #clang-tidy; 
-  #-header-filter=./include)
+  set(CMAKE_XCODE_GENERATE_SCHEME TRUE)
+
+  #set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=./include)
 
   # Let's nicely support folders in IDEs
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
