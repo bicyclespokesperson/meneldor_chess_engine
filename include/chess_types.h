@@ -28,9 +28,9 @@ enum class Piece : uint8_t
 
 enum class Move_type : uint8_t
 {
-  normal = 0,
+  null = 0,
+  normal,
   en_passant,
-  null,
   _count,
 };
 

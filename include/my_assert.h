@@ -2,7 +2,7 @@
 #define MY_ASSERT_H_2323
 
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
-#define ASSERT_IN_RELEASE 0
+#define ASSERT_IN_RELEASE 1
 
 #if defined(NDEBUG) && ASSERT_IN_RELEASE
 #warning "Assert statements enabled in release build. This will impact performance"

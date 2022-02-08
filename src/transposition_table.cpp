@@ -1,4 +1,5 @@
 #include "transposition_table.h"
+#include "utils.h"
 
 size_t Transposition_table::hash_fn_(zhash_t key) const
 {
@@ -10,6 +11,8 @@ size_t Transposition_table::hash_fn_(zhash_t key) const
 
 Transposition_table::Transposition_table(size_t table_size_bytes) : m_table_capacity(table_size_bytes / sizeof(Entry))
 {
+  static_assert(static_cast<uint8_t>(Move_type::null) == 0, "Make sure initializing the table to 0 sets the entry move types to null");
+  
   m_table.resize(m_table_capacity);
 }
 
@@ -37,6 +40,13 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   {
       std::cout << "";
   }
+  
+  if (key == 1871625706)
+  {
+    //TODO: Am I inserting entries with the correct depth? Or am I off by one?
+    // The get_pv function can't find this one because the depth is off by one (1 here, 2 there)
+    std::cout << "";
+  }
 /*
   auto val = walk_(key);
   if (val != nullptr)
@@ -50,6 +60,11 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
     
   // If first entry depth is lower, replace and return
   auto hash_value = hash_fn_(key);
+  if (hash_value == 1933136)
+  {
+    unused(0);
+  }
+  
   if (hash_value == 0x000000000040446c && key != 0x0000000056f57630)
   {
       std::cout << ""; // Hash collision
@@ -89,7 +104,8 @@ Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int de
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
   auto const hash_value = hash_fn_(key);
-  if (m_table[hash_value].key == key && m_table[hash_value].depth == depth)
+  auto candidate = m_table[hash_value];
+  if (candidate.key == key && candidate.depth == depth)
   {
     return &m_table[hash_value];
   }

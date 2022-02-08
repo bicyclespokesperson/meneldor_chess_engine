@@ -40,7 +40,7 @@ else()
   target_compile_options(chess_engine_lib PRIVATE -Wall -Wextra -pedantic -Wno-missing-braces)
 endif()
 
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "./include/modern/*.h")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "./include/*.h")
 #file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${ModernCMakeExample_SOURCE_DIR}/include/modern/*.hpp")
 
 # IDEs should put the headers in a nice place

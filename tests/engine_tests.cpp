@@ -27,7 +27,7 @@ auto engine_stats_from_position(std::string_view fen, bool debug = false)
   engine.setPosition(std::string{fen});
 
   senjo::GoParams params;
-  params.depth = 7;
+  params.depth = 6;
   params.nodes = 0; // ignored for now
 
   auto const engine_move = engine.go(params, nullptr);

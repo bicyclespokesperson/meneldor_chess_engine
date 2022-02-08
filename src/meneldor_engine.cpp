@@ -323,6 +323,11 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 
   if (eval_type == Transposition_table::Eval_type::exact)
   {
+    if (board.get_hash_key() == 1871625706)
+    {
+      std::cout << board << std::endl;
+    }
+    
     m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
   }
   return alpha;
@@ -590,6 +595,8 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
       break;
     }
   }
+  
+  //TODO: Update TT here?
 
   return best;
 }
@@ -652,8 +659,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  for (int depth{std::min(7, max_depth)}; //TODO: set to 2
-       (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
@@ -725,32 +731,31 @@ void Meneldor_engine::showEngineStats() const
 std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation(std::string move_str) const
 {
   std::vector<std::string> result;
+  result.push_back(move_str);
+  
   Board tmp_board{m_board};
   auto next_move = tmp_board.move_from_uci(std::move(move_str));
+  std::cout << tmp_board;
 
-  auto depth = m_depth_for_current_search;
-  while (depth > 1)
+  auto depth = m_depth_for_current_search - 1;
+  while (depth > 0)
   {
     if (!tmp_board.try_move(*next_move))
     {
       return {};
     }
+    std::cout << tmp_board;
 
-    auto entry = m_transpositions.get(tmp_board.get_hash_key(), depth);
-    if (!entry)
-    {
-      return {};
-    }
-    result.push_back(move_to_string(*next_move));
-    depth = entry->depth;
-    next_move = entry->best_move;
-
-    if (entry->type != Transposition_table::Eval_type::exact)
+    auto hash_code = tmp_board.get_hash_key();
+    auto entry = m_transpositions.get(hash_code, depth);
+    if (!entry || entry->type != Transposition_table::Eval_type::exact)
     {
       // TODO: Run Search_end1 test at depth 7 and see why we're getting a beta cutoff here
-
       return {};
     }
+    depth -= 1; // TODO: Should this be entry.depth?
+    next_move = entry->best_move;
+    result.push_back(move_to_string(*next_move));
   }
 
   return result;
