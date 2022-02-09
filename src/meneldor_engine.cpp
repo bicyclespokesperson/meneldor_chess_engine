@@ -49,7 +49,6 @@ int Meneldor_engine::evaluate(Board const& board) const
 
   // Positions that can attack more squares are better
   auto mobility_result = Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
-
   auto result = material_result + mobility_result;
   #if 0
   int const target_score = 2248;
@@ -173,7 +172,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::string best_guess_str;
   auto const hash_key = board.get_hash_key();
   bool found{false};
-  if (hash_key == uint64_t{351466276})
+  if (hash_key == uint64_t{823878171}) // Why is this changing from -30 to -29?
   {
     // 3rd time finds the mate
     unused(3);

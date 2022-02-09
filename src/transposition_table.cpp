@@ -11,14 +11,13 @@ size_t Transposition_table::hash_fn_(zhash_t key) const
 
 Transposition_table::Transposition_table(size_t table_size_bytes) : m_table_capacity(table_size_bytes / sizeof(Entry))
 {
-  static_assert(static_cast<uint8_t>(Move_type::null) == 0, "Make sure initializing the table to 0 sets the entry move types to null");
-  
   m_table.resize(m_table_capacity);
 }
 
 void Transposition_table::insert(zhash_t key, Entry const& entry)
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
+  MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Index out of bounds");
 
   /*
    * Deep + Always replacement scheme
@@ -84,6 +83,10 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
  
 Transposition_table::Entry const* Transposition_table::get(zhash_t key, int depth) const
 {
+#if 0
+  unused(key, depth);
+  return nullptr;
+#else
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
     
   if (key == 0x000000004e438ee7UL)
@@ -97,6 +100,7 @@ Transposition_table::Entry const* Transposition_table::get(zhash_t key, int dept
   }
     
   return nullptr;
+#endif
 }
 
 Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int depth) const

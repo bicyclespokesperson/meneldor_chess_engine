@@ -6,7 +6,16 @@
 
 struct Move
 {
-  constexpr Move() = default;
+  constexpr Move()
+  {
+    set_from(Coordinates{0, 0});
+    set_to(Coordinates{0, 0});
+    set_piece(Piece::empty);
+    set_victim(Piece::empty);
+    set_promotion(Piece::empty);
+    set_type(Move_type::null);
+    set_score(0);
+  }
 
   constexpr Move(Coordinates from_coord,
                  Coordinates to_coord,
@@ -41,7 +50,6 @@ struct Move
   constexpr void set_from(Coordinates from)
   {
     MY_ASSERT(from.square_index() < c_board_dimension_squared, "Square index too large");
-    MY_ASSERT(this->from() == Coordinates{0}, "From square already set");
     m_val |= static_cast<uint8_t>(from.square_index());
     MY_ASSERT(this->from() == from, "Invalid state");
   }
@@ -54,7 +62,6 @@ struct Move
   constexpr void set_to(Coordinates to)
   {
     MY_ASSERT(this->from().square_index() < c_board_dimension_squared, "Square index too large");
-    MY_ASSERT(this->to() == Coordinates{0}, "To square already set");
     m_val |= (static_cast<uint8_t>(to.square_index()) << 6);
     MY_ASSERT(this->to() == to, "Invalid state");
   }
@@ -66,7 +73,6 @@ struct Move
 
   constexpr void set_piece(Piece piece)
   {
-    MY_ASSERT(this->piece() == static_cast<Piece>(0), "Piece already set");
     m_val |= (static_cast<uint8_t>(piece) << 12);
     MY_ASSERT(this->piece() == piece, "Invalid state");
   }
@@ -78,7 +84,6 @@ struct Move
 
   constexpr void set_victim(Piece victim)
   {
-    MY_ASSERT(this->victim() == static_cast<Piece>(0), "Victim already set");
     m_val |= (static_cast<uint8_t>(victim) << 16);
     MY_ASSERT(this->victim() == victim, "Invalid state");
   }
@@ -90,7 +95,6 @@ struct Move
 
   constexpr void set_promotion(Piece promotion)
   {
-    MY_ASSERT(this->promotion() == static_cast<Piece>(0), "Promotion already set");
     m_val |= (static_cast<uint8_t>(promotion) << 20);
     MY_ASSERT(this->promotion() == promotion, "Invalid state");
   }
@@ -102,7 +106,6 @@ struct Move
 
   constexpr void set_type(Move_type type)
   {
-    MY_ASSERT(this->type() == static_cast<Move_type>(0), "Type already set");
     m_val |= (static_cast<uint8_t>(type) << 24);
     MY_ASSERT(this->type() == type, "Invalid state");
   }
