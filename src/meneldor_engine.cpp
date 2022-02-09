@@ -618,10 +618,7 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move, std::optional<
   if (pv)
   {
     out << " pv ";
-    for (auto const& m : *m_current_pv)
-    {
-      out << m << " ";
-    }
+    std::copy(pv->cbegin(), pv->cend(), std::ostream_iterator<std::string>(out, " "));
   }
 
   // Output() adds the prefix "info string" by default to make UCI clients
@@ -658,7 +655,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  //for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  int depth = 4;
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
