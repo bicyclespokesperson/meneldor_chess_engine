@@ -62,6 +62,24 @@ int Meneldor_engine::evaluate(Board const& board) const
   return result;
 }
 
+
+#if 0
+First time hitting quiese
+
+alpha=26
+beta=2147...
+
+Second time
+
+alpha=28
+beta=29
+If score >= beta, return score, so we get 29 the second time
+
+So, first time through, we haven't seen anything else, so 30 is the score. 
+Second time through, we know there's another way for opponent to get to 29, so we just call this one 29? 
+Is that the correct behavior?
+#endif
+
 int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
 {
   ++m_visited_quiesence_nodes;
@@ -257,6 +275,10 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   Board tmp_board{board};
   for (auto const move : moves)
   {
+
+    auto test_move_str = move_to_string(move);
+    unused(test_move_str);
+
     tmp_board = board;
     tmp_board.move_no_verify(move);
     if (tmp_board.is_in_check(opposite_color(tmp_board.get_active_color())))
@@ -317,12 +339,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     std::string this_move_str = move_to_string(best);
     // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
     MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
-    unused(best_guess_str, this_move_str);
+    unused(best_guess_str, this_move_str, depth_remaining);
   }
 
   if (eval_type == Transposition_table::Eval_type::exact)
   {
-    if (board.get_hash_key() == 1871625706)
+    if (board.get_hash_key() == uint64_t{823878171}) // Why is this changing from -30 to -29?
     {
       std::cout << board << std::endl;
     }
@@ -647,6 +669,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   //int const max_depth = 2;
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
+  unused(max_depth);
   m_search_mode = Search_mode::depth;
   if (params.wtime > 0 || params.btime > 0)
   {
