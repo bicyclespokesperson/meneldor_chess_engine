@@ -85,11 +85,10 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
   ++m_visited_quiesence_nodes;
   auto score = evaluate(board);
   
-  //TODO: remove this
-  if (board.get_hash_key() != 0)
-  {
-    return score;
-  }
+#if 1
+  unused(board, alpha, beta);
+  return score;
+#else
   
   if (score >= beta)
   {
@@ -119,6 +118,7 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
   }
 
   return alpha;
+#endif
 }
 
 bool Meneldor_engine::has_more_time_() const
