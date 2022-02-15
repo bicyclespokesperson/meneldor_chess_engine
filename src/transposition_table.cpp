@@ -94,12 +94,8 @@ Transposition_table::Entry const* Transposition_table::get(zhash_t key, int dept
     std::cout << "";
   }
   
-  if (auto result = walk_(key, depth))
-  {
-    return result;
-  }
-    
-  return nullptr;
+  return walk_(key, depth);
+
 #endif
 }
 

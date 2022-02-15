@@ -84,6 +84,13 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
 {
   ++m_visited_quiesence_nodes;
   auto score = evaluate(board);
+  
+  //TODO: remove this
+  if (board.get_hash_key() != 0)
+  {
+    return score;
+  }
+  
   if (score >= beta)
   {
     return beta;
@@ -333,11 +340,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score;
   }
 
-  if (expected_score)
+  if (expected_score && eval_type == Transposition_table::Eval_type::exact)
   {
     // Do the moves match?
     std::string this_move_str = move_to_string(best);
     // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
+    // TODO: Run crash test on depth 6 (maybe less will find it to) and determine why it is failing here
     MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
     unused(best_guess_str, this_move_str, depth_remaining);
   }
@@ -581,10 +589,12 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     if (perform_full_search)
     {
       score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+      /*
       if (!is_feature_enabled("use_pvs"))
       {
           std::cout << move_string << ": " << score << std::endl;
       }
+      */
 
     }
     else
@@ -678,8 +688,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  //for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
-  int depth = 4;
+  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  //int depth = 4;
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
