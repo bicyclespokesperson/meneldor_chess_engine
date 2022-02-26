@@ -10,11 +10,13 @@ struct Move
   {
     set_from(Coordinates{0, 0});
     set_to(Coordinates{0, 0});
-    set_piece(Piece::empty);
-    set_victim(Piece::empty);
-    set_promotion(Piece::empty);
+    set_piece(Piece::black);
+    set_victim(Piece::black);
+    set_promotion(Piece::black);
     set_type(Move_type::null);
     set_score(0);
+    
+    MY_ASSERT(m_val == 0, "Move should be initialized to zero by default");
   }
 
   constexpr Move(Coordinates from_coord,
