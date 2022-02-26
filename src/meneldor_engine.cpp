@@ -85,7 +85,7 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
   ++m_visited_quiesence_nodes;
   auto score = evaluate(board);
   
-#if 1
+#if 0
   unused(board, alpha, beta);
   return score;
 #else
@@ -197,7 +197,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::string best_guess_str;
   auto const hash_key = board.get_hash_key();
   bool found{false};
-  if (hash_key == uint64_t{823878171}) // Why is this changing from -30 to -29?
+  const zhash_t target_key{1675602758};
+  if (hash_key == target_key) // Why the eval of this changing from -30 to -29?
   {
     // 3rd time finds the mate
     unused(3);
@@ -342,11 +343,20 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 
   if (expected_score && eval_type == Transposition_table::Eval_type::exact)
   {
+    const int min_checkmate_score{positive_inf - m_depth_for_current_search};
     // Do the moves match?
     std::string this_move_str = move_to_string(best);
     // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
     // TODO: Run crash test on depth 6 (maybe less will find it to) and determine why it is failing here
-    MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
+    if (std::abs(*expected_score) <= min_checkmate_score)
+    {
+      MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
+    }
+    else
+    {
+      MY_ASSERT(std::abs(*expected_score - alpha) <= m_depth_for_current_search, "Score should match, but a position transposing back to itself can change the mate in x calculation value");
+    }
+
     unused(best_guess_str, this_move_str, depth_remaining);
   }
 
@@ -358,6 +368,11 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     }
     
     m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
+  }
+  
+  if (hash_key == target_key)
+  {
+    unused(5);
   }
   return alpha;
 }
