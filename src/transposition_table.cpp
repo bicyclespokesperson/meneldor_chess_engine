@@ -17,7 +17,7 @@ Transposition_table::Transposition_table(size_t table_size_bytes) : m_table_capa
 void Transposition_table::insert(zhash_t key, Entry const& entry)
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-  MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Index out of bounds");
+  //MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Debugging check");
 
   /*
    * Deep + Always replacement scheme
@@ -30,48 +30,21 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
    * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
    */
 
-  if (key == 0x000000004e438ee7UL)
-  {
-      std::cout << ""; // Alpha cutoff for "Crash"
-  }
-    
-  if (key == 0x0000000056f57630) // Beta cutoff for search_end1
-  {
-      std::cout << "";
-  }
-  
   if (key == 1871625706)
   {
     //TODO: Am I inserting entries with the correct depth? Or am I off by one?
     // The get_pv function can't find this one because the depth is off by one (1 here, 2 there)
-    std::cout << "";
+    unused(3);
   }
-/*
-  auto val = walk_(key);
-  if (val != nullptr)
-  {
-      if (val->depth >= entry.depth)
-      {
-          MY_ASSERT(val->type != Transposition_table::Eval_type::exact, "Never replace exact value with alpha value of same depth");
-      }
-  }
- */
     
-  // If first entry depth is lower, replace and return
-  auto hash_value = hash_fn_(key);
-  if (hash_value == 1933136)
-  {
-    unused(0);
-  }
-  
-  if (hash_value == 0x000000000040446c && key != 0x0000000056f57630)
-  {
-      std::cout << ""; // Hash collision
-  }
-  //if (m_table[hash_value].depth < entry.depth || m_table[hash_value].key == entry.key) // || eval_type of existing is weaker?
   
   // Temporarily use a "never_replace" scheme
-  if (m_table[hash_value].best_move.type() == Move_type::null)
+  //if (m_table[hash_value].best_move.type() == Move_type::null)
+
+  auto hash_value = hash_fn_(key);
+
+  // If first entry depth is lower, replace and return
+  if (m_table[hash_value].depth < entry.depth)
   {
     m_table[hash_value] = entry;
   }
@@ -83,20 +56,9 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
  
 Transposition_table::Entry const* Transposition_table::get(zhash_t key, int depth) const
 {
-#if 0
-  unused(key, depth);
-  return nullptr;
-#else
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-    
-  if (key == 0x000000004e438ee7UL)
-  {
-    std::cout << "";
-  }
   
   return walk_(key, depth);
-
-#endif
 }
 
 Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int depth) const
@@ -104,7 +66,7 @@ Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int de
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
   auto const hash_value = hash_fn_(key);
-  auto candidate = m_table[hash_value];
+  auto const& candidate = m_table[hash_value];
   if (candidate.key == key && candidate.depth == depth)
   {
     return &m_table[hash_value];
@@ -118,8 +80,7 @@ Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int de
 
 Transposition_table::Entry* Transposition_table::walk_(zhash_t key, int depth)
 {
-  // Idiom for sharing implementation between const and non-const versions of a
-  // method
+  // Idiom for sharing implementation between const and non-const versions of a method
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
   return const_cast<Entry*>(std::as_const(*this).walk_(key, depth));
 }

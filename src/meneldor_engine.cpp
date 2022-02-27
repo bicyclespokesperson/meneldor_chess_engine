@@ -347,7 +347,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     // Do the moves match?
     std::string this_move_str = move_to_string(best);
     // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
-    // TODO: Run crash test on depth 6 (maybe less will find it to) and determine why it is failing here
+    // TODO: Run crash test on depth 6 (maybe less will find it too) and determine why it is failing here
     if (std::abs(*expected_score) <= min_checkmate_score)
     {
       MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
@@ -771,6 +771,10 @@ void Meneldor_engine::showEngineStats() const
 {
   // Called when "test" command is received
 }
+
+
+//TODO(jeremy, 2/26/2022): Run "Crash" test and see why the principal variation is only being printed up to depth 3 
+// ... it's mate in two. Need to implement support for still printing these principal variations
 
 // Should be called after go() but before makeMove()
 std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation(std::string move_str) const

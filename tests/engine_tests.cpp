@@ -114,7 +114,7 @@ TEST_CASE("Crash", "[.Meneldor_engine]")
   engine.setPosition(fen);
 
   senjo::GoParams params;
-  params.depth = 6;
+  params.depth = 8;
 
   auto best_move = engine.go(params);
   std::cout << "Move: " << best_move;
