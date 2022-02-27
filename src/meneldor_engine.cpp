@@ -54,8 +54,8 @@ int Meneldor_engine::evaluate(Board const& board) const
   int const target_score = 2248;
   if (result == target_score)
   {
-    std::cout << m_board.to_fen() << std::endl;
-    std::cout << "Found " << target_score << "\n ";
+    //std::cout << m_board.to_fen() << std::endl;
+    //std::cout << "Found " << target_score << "\n ";
   }
   #endif
 
@@ -364,7 +364,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   {
     if (board.get_hash_key() == uint64_t{823878171}) // Why is this changing from -30 to -29?
     {
-      std::cout << board << std::endl;
+      //std::cout << board << std::endl;
     }
     
     m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
@@ -781,10 +781,10 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
 {
   std::vector<std::string> result;
   result.push_back(move_str);
+  bool found_mate{false};
   
   Board tmp_board{m_board};
   auto next_move = tmp_board.move_from_uci(std::move(move_str));
-  std::cout << tmp_board;
 
   auto depth = m_depth_for_current_search - 1;
   while (depth > 0)
@@ -793,18 +793,27 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
     {
       return {};
     }
-    std::cout << tmp_board;
 
     auto hash_code = tmp_board.get_hash_key();
     auto entry = m_transpositions.get(hash_code, depth);
+    if (!entry && found_mate)
+    {
+      // Checkmate, no more moves to find
+      return result;
+    }
     if (!entry || entry->type != Transposition_table::Eval_type::exact)
     {
       // TODO: Run Search_end1 test at depth 7 and see why we're getting a beta cutoff here
       return {};
     }
-    depth -= 1; // TODO: Should this be entry.depth?
+
+    depth -= 1;
     next_move = entry->best_move;
     result.push_back(move_to_string(*next_move));
+    if (std::abs(entry->evaluation) >= positive_inf - m_depth_for_current_search)
+    {
+      found_mate = true;
+    }
   }
 
   return result;
