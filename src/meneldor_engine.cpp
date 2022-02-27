@@ -360,20 +360,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     unused(best_guess_str, this_move_str, depth_remaining);
   }
 
+  //TODO: Remove this without breaking Mate_in_2_defend test
   if (eval_type == Transposition_table::Eval_type::exact)
   {
-    if (board.get_hash_key() == uint64_t{823878171}) // Why is this changing from -30 to -29?
-    {
-      //std::cout << board << std::endl;
-    }
-    
     m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
   }
   
-  if (hash_key == target_key)
-  {
-    unused(5);
-  }
   return alpha;
 }
 
