@@ -105,7 +105,7 @@ TEST_CASE("Search_end3", "[.Meneldor_engine]")
   engine_stats_from_position(fen);
 }
 
-TEST_CASE("Crash", "[.Meneldor_engine]") //TODO: Rename to mate_in_2_attack
+TEST_CASE("Crash", "[.Meneldor_engine]")
 {
   std::string fen{"3k4/8/n7/6p1/1p2bq2/7r/8/4K3 b - - 0 1"};
   //std::string fen{"7k/7p/7p/8/8/7P/7P/7K b - - 0 1"};
@@ -124,7 +124,7 @@ TEST_CASE("Crash", "[.Meneldor_engine]") //TODO: Rename to mate_in_2_attack
   REQUIRE(result);
 }
 
-TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]") //TODO: Rename to mate_in_2_attack
+TEST_CASE("Mate_in_3_attack", "[.Meneldor_engine]")
 {
   std::string fen{"r5n1/ppp1q3/2bp2kp/5rP1/3Qp3/2N5/PPP1B3/2KR3R w - - 0 1"};
   Meneldor_engine engine;
@@ -132,10 +132,34 @@ TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]") //TODO: Rename to mate_in_2_
   engine.setPosition(fen);
   
   senjo::GoParams params;
-  params.depth = 8;
+  params.depth = 6;
   
   auto best_move = engine.go(params);
-  std::cout << "Move: " << best_move;
+  
+  std::vector<std::string> const expected_pv{"e2h5", "g6g5", "d1g1", "g5f4", "c3e2"};
+  auto actual_pv = engine.get_principal_variation("e2h5");
+  
+  bool match = std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
+  REQUIRE(match);
+}
+
+TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]")
+{
+  std::string fen{"r5n1/ppp1q3/2bp2kp/5rPB/3Qp3/2N5/PPP5/2KR3R b - - 1 1"};
+  Meneldor_engine engine;
+  engine.initialize();
+  engine.setPosition(fen);
+  
+  senjo::GoParams params;
+  params.depth = 5;
+  
+  auto best_move = engine.go(params);
+  
+  std::vector<std::string> const expected_pv{"g6g5", "d1g1", "g5f4", "c3e2"};
+  auto actual_pv = engine.get_principal_variation("g6g5");
+  
+  bool match = std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
+  REQUIRE(match);
 }
 
 TEST_CASE("Search_mate1", "[.Meneldor_engine]")
