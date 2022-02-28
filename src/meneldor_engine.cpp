@@ -361,7 +361,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   }
 
   //TODO: Remove this without breaking Mate_in_2_defend test
-  if (eval_type == Transposition_table::Eval_type::exact)
+  //if (eval_type == Transposition_table::Eval_type::exact)
   {
     m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
   }

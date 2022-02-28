@@ -30,26 +30,38 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
    * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
    */
 
-  if (key == 1871625706)
+  auto eval_type_weaker = [](Eval_type e1, Eval_type e2)
   {
-    //TODO: Am I inserting entries with the correct depth? Or am I off by one?
-    // The get_pv function can't find this one because the depth is off by one (1 here, 2 there)
-    unused(3);
-  }
-    
+    if (e1 == e2)
+    {
+      return false;
+    }
+    if (e1 == Eval_type::exact)
+    {
+      return true;
+    }
+    return false;
+  };
   
-  // Temporarily use a "never_replace" scheme
-  //if (m_table[hash_value].best_move.type() == Move_type::null)
-
   auto hash_value = hash_fn_(key);
 
   // If first entry depth is lower, replace and return
-  if (m_table[hash_value].depth < entry.depth)
+  if (m_table[hash_value].depth < entry.depth && !eval_type_weaker(entry.type, m_table[hash_value].type))
   {
+    if (m_table[hash_value].best_move.type() != Move_type::null && m_table[hash_value].key != entry.key)
+    {
+      std::cout << "Performing overwrite in TT\n";
+      unused(0);
+    }
     m_table[hash_value] = entry;
   }
-  else if (m_table[hash_value + 1].best_move.type() == Move_type::null)
+  else if (!eval_type_weaker(entry.type, m_table[hash_value + 1].type))
   {
+    if (m_table[hash_value + 1].best_move.type() != Move_type::null && m_table[hash_value + 1].key != entry.key)
+    {
+      std::cout << "Performing overwrite in TT\n";
+      unused(0);
+    }
     m_table[hash_value + 1] = entry;
   }
 }
