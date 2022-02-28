@@ -420,7 +420,7 @@ bool Meneldor_engine::isInitialized() const
   return true;
 }
 
-bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain  = nullptr */)
+bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain = nullptr */)
 {
   // TODO: Use Output() to report errors in fen string
   if (auto board = Board::from_fen(fen))
@@ -763,10 +763,6 @@ void Meneldor_engine::showEngineStats() const
 {
   // Called when "test" command is received
 }
-
-
-//TODO(jeremy, 2/26/2022): Run "Crash" test and see why the principal variation is only being printed up to depth 3 
-// ... it's mate in two. Need to implement support for still printing these principal variations
 
 // Should be called after go() but before makeMove()
 std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation(std::string move_str) const
