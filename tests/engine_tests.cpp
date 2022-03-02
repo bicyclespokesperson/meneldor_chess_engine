@@ -108,7 +108,6 @@ TEST_CASE("Search_end3", "[.Meneldor_engine]")
 TEST_CASE("Crash", "[.Meneldor_engine]")
 {
   std::string fen{"3k4/8/n7/6p1/1p2bq2/7r/8/4K3 b - - 0 1"};
-  //std::string fen{"7k/7p/7p/8/8/7P/7P/7K b - - 0 1"};
   Meneldor_engine engine;
   engine.initialize();
   engine.setPosition(fen);
@@ -139,7 +138,7 @@ TEST_CASE("Mate_in_3_attack", "[.Meneldor_engine]")
   std::vector<std::string> const expected_pv{"e2h5", "g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("e2h5");
   
-  bool match = std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
+  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
   REQUIRE(match);
 }
 
@@ -158,7 +157,7 @@ TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]")
   std::vector<std::string> const expected_pv{"g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("g6g5");
   
-  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
+  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
   REQUIRE(match);
 }
 
