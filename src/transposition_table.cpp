@@ -19,6 +19,7 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
   //MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Debugging check");
 
+  // This may be obsolete, need to use eval_type_stronger to be able to read PV from TT more reliably
   /*
    * Deep + Always replacement scheme
    *
@@ -30,21 +31,41 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
    * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
    */
 
-  auto eval_type_weaker = [](Eval_type e1, Eval_type e2)
+  // e1 > e2
+  auto eval_type_stronger = [&](Eval_type e1, Eval_type e2)
   {
     if (e1 == e2)
     {
       return false;
     }
+
     if (e1 == Eval_type::exact)
     {
       return true;
     }
+
     return false;
+  };
+
+  //TODO: Profile this and see if the TT is noticeably slower
+  auto should_replace = [&](Entry const& existing, Entry const& replacement)
+  {
+    if (eval_type_stronger(replacement.type, existing.type))
+    {
+      return true;
+    }
+
+    if (existing.depth >= replacement.depth)
+    {
+      return false;
+    }
+
+    return true;
   };
   
   auto hash_value = hash_fn_(key);
 
+  #if 0
   // If first entry depth is lower, replace and return
   if (m_table[hash_value].depth < entry.depth && !eval_type_weaker(entry.type, m_table[hash_value].type))
   {
@@ -62,6 +83,17 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
       std::cout << "Performing overwrite in TT\n";
       unused(0);
     }
+    m_table[hash_value + 1] = entry;
+  }
+  #endif
+
+  // If first entry depth is lower, replace and return
+  if (should_replace(m_table[hash_value], entry))
+  {
+    m_table[hash_value] = entry;
+  }
+  else if (should_replace(m_table[hash_value + 1], entry))
+  {
     m_table[hash_value + 1] = entry;
   }
 }

@@ -360,11 +360,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     unused(best_guess_str, this_move_str, depth_remaining);
   }
 
-  //TODO: Remove this without breaking Mate_in_2_defend test
-  //if (eval_type == Transposition_table::Eval_type::exact)
-  {
-    m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
-  }
+  m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
   
   return alpha;
 }
@@ -789,9 +785,14 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
       // Checkmate, no more moves to find
       return result;
     }
-    if (!entry || entry->type != Transposition_table::Eval_type::exact)
+    if (!entry)
     {
       // TODO: Run Search_end1 test at depth 7 and see why we're getting a beta cutoff here
+      return {};
+    }
+
+    if (entry->type != Transposition_table::Eval_type::exact)
+    {
       return {};
     }
 

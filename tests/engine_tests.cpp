@@ -158,7 +158,7 @@ TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]")
   std::vector<std::string> const expected_pv{"g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("g6g5");
   
-  bool match = std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
+  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin());
   REQUIRE(match);
 }
 
