@@ -194,7 +194,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::optional<int> expected_score;
 
   Move best_guess{};
-  std::string best_guess_str;
   auto const hash_key = board.get_hash_key();
   bool found{false};
   const zhash_t target_key{1675602758};
@@ -208,7 +207,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   if (entry)
   {
     best_guess = entry->best_move;
-    best_guess_str = move_to_string(best_guess);
     ++tt_hits;
     
     if (entry->depth == depth_remaining) //TODO: == instead of <=
@@ -315,8 +313,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     {
       // Stop evaluating here since the opposing player won't let us get even this position on their previous move.
       // Our evaluation here is a lower bound
-      //eval_type = Transposition_table::Eval_type::beta;
-      //m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
+
+      //TODO: Enable this without breaking mate_in_3_attack test
+#if 1
+      eval_type = Transposition_table::Eval_type::beta;
+      m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
+#endif
 
       return beta;
     }
@@ -345,9 +347,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   {
     const int min_checkmate_score{positive_inf - m_depth_for_current_search};
     // Do the moves match?
-    std::string this_move_str = move_to_string(best);
-    // TODO: While running "crash" test, why do we only see checkmate the third time calculating this?
-    // TODO: Run crash test on depth 6 (maybe less will find it too) and determine why it is failing here
     if (std::abs(*expected_score) <= min_checkmate_score)
     {
       MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
@@ -357,7 +356,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       MY_ASSERT(std::abs(*expected_score - alpha) <= m_depth_for_current_search, "Score should match, but a position transposing back to itself can change the mate in x calculation value");
     }
 
-    unused(best_guess_str, this_move_str, depth_remaining);
+    unused(depth_remaining);
   }
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});

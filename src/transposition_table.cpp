@@ -19,6 +19,13 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
   //MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Debugging check");
 
+
+  // We're having trouble finding this for principal variation reporting in Mate_in_3_attack, depth 6
+  if (key == zhash_t{1162523464})
+  {
+    unused(4);
+  }
+
   // This may be obsolete, need to use eval_type_stronger to be able to read PV from TT more reliably
   /*
    * Deep + Always replacement scheme
@@ -55,15 +62,18 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
       return true;
     }
 
-    if (existing.depth >= replacement.depth)
+    if (replacement.type == existing.type)
     {
-      return false;
+      if (replacement.depth >= existing.depth)
+      {
+        return true;
+      }
     }
 
-    return true;
+    return false;
   };
   
-  auto hash_value = hash_fn_(key);
+  auto const hash_value = hash_fn_(key);
 
   #if 0
   // If first entry depth is lower, replace and return
