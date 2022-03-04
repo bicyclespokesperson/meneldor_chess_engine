@@ -21,6 +21,8 @@ void print_vector(std::ostream& os, std::vector<T> const& v)
 
 std::string move_to_string(Move m);
 
+std::string move_to_string_extended(Move m);
+
 template <typename... T>
 void unused(T&&...)
 {

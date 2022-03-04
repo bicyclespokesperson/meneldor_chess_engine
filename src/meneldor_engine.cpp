@@ -195,14 +195,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 
   Move best_guess{};
   auto const hash_key = board.get_hash_key();
-  bool found{false};
-  const zhash_t target_key{1675602758};
-  if (hash_key == target_key) // Why the eval of this changing from -30 to -29?
-  {
-    // 3rd time finds the mate
-    unused(3);
-    found = true;
-  }
+
   auto entry = m_transpositions.get(hash_key, depth_remaining);
   if (entry)
   {
@@ -216,9 +209,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       {
         case Transposition_table::Eval_type::alpha:
           // Eval_type::alpha implies we didn't find a move from this position
-          // that was as good as a move that we could have made earlier to lead to
-          // a different position. That means the position has an evaluation that
-          // is at most "entry.evaluation"
+          // that lead to a better state than a state we could have reached with a different earlier move.
+          // That means the position has an evaluation that is at most "entry.evaluation"
           beta = std::min(beta, entry->evaluation);
           break;
         case Transposition_table::Eval_type::beta:
@@ -236,11 +228,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     }
     else if (entry->best_move.type() != Move_type::null)
     {
-      // TODO: Set the best move as the first one in our search; even though we
-      // need to search to a larger depth it still has a good chance of being
-      // the best move
       best_guess = entry->best_move;
-      // std::cout << "Move: " << best_guess << "\n";
     }
   }
   else
@@ -251,7 +239,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   auto moves = Move_generator::generate_pseudo_legal_moves(board);
   m_orderer.sort_moves(moves, board);
 
-  // TODO: Test this
   static const bool skip_guess_move = is_feature_enabled("skip_guess_move");
   if (!skip_guess_move)
   {
@@ -260,14 +247,11 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       auto const guess_location = std::find(moves.begin(), moves.end(), best_guess);
       if (guess_location != moves.end())
       {
-        // std::cout << "Move list (size: " << moves.size() << "): ";
-        // print_vector(std::cout, moves);
-        // MY_ASSERT(guess_location != moves.end(), "Move should always be present");
         std::rotate(moves.begin(), guess_location, guess_location + 1);
       }
       else
       {
-        // Zobrist key collision?
+        // Zobrist key collision
       }
     }
   }
@@ -277,20 +261,17 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   bool has_any_moves{false};
   bool perform_full_search{true};
   auto eval_type = Transposition_table::Eval_type::alpha;
-  Move best{moves.front()};
+  Move best{moves.front()}; //TODO: Could this list ever be empty?
   Board tmp_board{board};
   for (auto const move : moves)
   {
-
-    auto test_move_str = move_to_string(move);
-    unused(test_move_str);
-
     tmp_board = board;
     tmp_board.move_no_verify(move);
     if (tmp_board.is_in_check(opposite_color(tmp_board.get_active_color())))
     {
       continue;
     }
+
     has_any_moves = true;
 
     int score{0};
@@ -304,9 +285,10 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       if (alpha < score && score < beta)
       {
         // If we found a better move than our previous best move, perform a full search to get its accurate value
-        score = -negamax_(tmp_board, -beta, -alpha, depth_remaining - 1);
+        score = -negamax_(tmp_board, -beta, -score, depth_remaining - 1); // -score instead of -alpha?
       }
     }
+
     perform_full_search = false;
 
     if (score >= beta)
@@ -314,11 +296,8 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       // Stop evaluating here since the opposing player won't let us get even this position on their previous move.
       // Our evaluation here is a lower bound
 
-      //TODO: Enable this without breaking mate_in_3_attack test
-#if 1
       eval_type = Transposition_table::Eval_type::beta;
       m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, score, move, eval_type});
-#endif
 
       return beta;
     }
@@ -343,6 +322,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score;
   }
 
+  auto best_move_str = move_to_string(best);
   if (expected_score && eval_type == Transposition_table::Eval_type::exact)
   {
     const int min_checkmate_score{positive_inf - m_depth_for_current_search};
@@ -356,7 +336,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
       MY_ASSERT(std::abs(*expected_score - alpha) <= m_depth_for_current_search, "Score should match, but a position transposing back to itself can change the mate in x calculation value");
     }
 
-    unused(depth_remaining);
+    unused(depth_remaining, best_move_str);
   }
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
@@ -544,6 +524,7 @@ uint64_t Meneldor_engine::perft(const int depth)
   std::chrono::duration<double> const elapsed = end - start;
   auto const elapsed_seconds = elapsed.count();
 
+  //TODO: Change to Output()
   std::cout << "perft(" << std::to_string(depth) << ") = " << std::to_string(result) << "\n"
             << "Elapsed time: " << std::to_string(elapsed_seconds) << " seconds\n"
             << "Nodes/sec: " << format_with_commas(result / elapsed_seconds) << "\n";
@@ -582,6 +563,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     tmp_board.move_no_verify(move);
     move_string = move_to_string(move);
 
+    //TODO: Re-enable this
     if (!is_feature_enabled("use_pvs"))
     {
         perform_full_search = true;
@@ -591,18 +573,10 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     if (perform_full_search)
     {
       score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
-      /*
-      if (!is_feature_enabled("use_pvs"))
-      {
-          std::cout << move_string << ": " << score << std::endl;
-      }
-      */
-
     }
     else
     {
       score = -negamax_(tmp_board, -best.second - 1, -best.second, depth - 1);
-        MY_ASSERT(score == best.second || score == (best.second + 1), "Engine is not performing a fail hard search");
       if (score > best.second)
       {
         score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
@@ -690,8 +664,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
-  //int depth = 4;
+  //for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  int depth = 6;
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
@@ -785,12 +759,6 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
       return result;
     }
     if (!entry)
-    {
-      // TODO: Run Search_end1 test at depth 7 and see why we're getting a beta cutoff here
-      return {};
-    }
-
-    if (entry->type != Transposition_table::Eval_type::exact)
     {
       return {};
     }

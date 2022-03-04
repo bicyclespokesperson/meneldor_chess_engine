@@ -17,14 +17,6 @@ Transposition_table::Transposition_table(size_t table_size_bytes) : m_table_capa
 void Transposition_table::insert(zhash_t key, Entry const& entry)
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-  //MY_ASSERT(entry.type == Transposition_table::Eval_type::exact, "Debugging check");
-
-
-  // We're having trouble finding this for principal variation reporting in Mate_in_3_attack, depth 6
-  if (key == zhash_t{1162523464})
-  {
-    unused(4);
-  }
 
   // This may be obsolete, need to use eval_type_stronger to be able to read PV from TT more reliably
   /*
@@ -62,7 +54,7 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
       return true;
     }
 
-    if (replacement.type == existing.type)
+    if (existing.type != Eval_type::exact)
     {
       if (replacement.depth >= existing.depth)
       {
@@ -75,34 +67,11 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
   
   auto const hash_value = hash_fn_(key);
 
-  #if 0
-  // If first entry depth is lower, replace and return
-  if (m_table[hash_value].depth < entry.depth && !eval_type_weaker(entry.type, m_table[hash_value].type))
-  {
-    if (m_table[hash_value].best_move.type() != Move_type::null && m_table[hash_value].key != entry.key)
-    {
-      std::cout << "Performing overwrite in TT\n";
-      unused(0);
-    }
-    m_table[hash_value] = entry;
-  }
-  else if (!eval_type_weaker(entry.type, m_table[hash_value + 1].type))
-  {
-    if (m_table[hash_value + 1].best_move.type() != Move_type::null && m_table[hash_value + 1].key != entry.key)
-    {
-      std::cout << "Performing overwrite in TT\n";
-      unused(0);
-    }
-    m_table[hash_value + 1] = entry;
-  }
-  #endif
-
-  // If first entry depth is lower, replace and return
   if (should_replace(m_table[hash_value], entry))
   {
     m_table[hash_value] = entry;
   }
-  else if (should_replace(m_table[hash_value + 1], entry))
+  else if (entry.key != m_table[hash_value].key && should_replace(m_table[hash_value + 1], entry))
   {
     m_table[hash_value + 1] = entry;
   }
