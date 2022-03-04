@@ -196,7 +196,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     
      //TODO: == or >=?
      // Remove this without breaking Crash test
-    if (entry->depth == depth_remaining)
+    if (entry->depth >= depth_remaining)
     {
       ++tt_sufficient_depth;
       switch (entry->type)
@@ -647,8 +647,11 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     m_search_mode = Search_mode::time;
   }
 
+  unused(max_depth);
+
   // Iterative deepening loop
   std::pair<Move, int> best_move;
+  //int depth = 8;
   for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
