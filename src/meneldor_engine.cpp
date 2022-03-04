@@ -563,12 +563,6 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     tmp_board.move_no_verify(move);
     move_string = move_to_string(move);
 
-    //TODO: Re-enable this
-    if (!is_feature_enabled("use_pvs"))
-    {
-        perform_full_search = true;
-    }
-      
     int score{0};
     if (perform_full_search)
     {
@@ -579,7 +573,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
       score = -negamax_(tmp_board, -best.second - 1, -best.second, depth - 1);
       if (score > best.second)
       {
-        score = -negamax_(tmp_board, negative_inf, positive_inf, depth - 1);
+        score = -negamax_(tmp_board, negative_inf, -score, depth - 1);
       }
     }
     perform_full_search = false;
@@ -653,9 +647,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   calc_time_for_move_(params);
   auto legal_moves = Move_generator::generate_legal_moves(m_board);
 
-  //int const max_depth = 2;
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
-  unused(max_depth);
   m_search_mode = Search_mode::depth;
   if (params.wtime > 0 || params.btime > 0)
   {
@@ -664,8 +656,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  //for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
-  int depth = 6;
+  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;

@@ -62,6 +62,11 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
       }
     }
 
+    if (replacement.type == Eval_type::exact && replacement.depth >= existing.depth)
+    {
+      return true; 
+    }
+
     return false;
   };
   
