@@ -116,7 +116,7 @@ TEST_CASE("Crash", "[.Meneldor_engine]")
   params.depth = 8;
   
   auto best_move = engine.go(params);
-  std::cout << "Move: " << best_move;
+  std::cout << "Move: " << best_move << "\n";
   
   // Three possible mate in two moves
   bool result = (best_move == "f4e3" || best_move == "h3h2" || best_move == "e4d3");

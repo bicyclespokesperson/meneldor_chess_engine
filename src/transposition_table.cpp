@@ -89,17 +89,19 @@ Transposition_table::Entry const* Transposition_table::get(zhash_t key, int dept
   return walk_(key, depth);
 }
 
-Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int depth) const
+//TODO: Remove depth parameter
+Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int /* depth */) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
+  //TODO: Remove the candidate.depth == depth check
   auto const hash_value = hash_fn_(key);
   auto const& candidate = m_table[hash_value];
-  if (candidate.key == key && candidate.depth == depth)
+  if (candidate.key == key)
   {
     return &m_table[hash_value];
   }
-  if (m_table[hash_value + 1].key == key && m_table[hash_value + 1].depth == depth)
+  if (m_table[hash_value + 1].key == key)
   {
     return &m_table[hash_value + 1];
   }

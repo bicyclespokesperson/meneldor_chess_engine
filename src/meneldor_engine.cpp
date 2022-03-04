@@ -85,11 +85,6 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
   ++m_visited_quiesence_nodes;
   auto score = evaluate(board);
   
-#if 0
-  unused(board, alpha, beta);
-  return score;
-#else
-  
   if (score >= beta)
   {
     return beta;
@@ -118,7 +113,6 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
   }
 
   return alpha;
-#endif
 }
 
 bool Meneldor_engine::has_more_time_() const
@@ -194,15 +188,15 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   std::optional<int> expected_score;
 
   Move best_guess{};
-  auto const hash_key = board.get_hash_key();
-
-  auto entry = m_transpositions.get(hash_key, depth_remaining);
+  auto const entry = m_transpositions.get(board.get_hash_key(), depth_remaining);
   if (entry)
   {
     best_guess = entry->best_move;
     ++tt_hits;
     
-    if (entry->depth == depth_remaining) //TODO: == instead of <=
+     //TODO: == or >=?
+     // Remove this without breaking Crash test
+    if (entry->depth == depth_remaining)
     {
       ++tt_sufficient_depth;
       switch (entry->type)
@@ -225,10 +219,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           expected_score = entry->evaluation;
           break;
       }
-    }
-    else if (entry->best_move.type() != Move_type::null)
-    {
-      best_guess = entry->best_move;
     }
   }
   else
@@ -322,10 +312,12 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score;
   }
 
-  auto best_move_str = move_to_string(best);
+#if 0
   if (expected_score && eval_type == Transposition_table::Eval_type::exact)
   {
     const int min_checkmate_score{positive_inf - m_depth_for_current_search};
+
+    //TODO: Remove this
     // Do the moves match?
     if (std::abs(*expected_score) <= min_checkmate_score)
     {
@@ -335,9 +327,10 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     {
       MY_ASSERT(std::abs(*expected_score - alpha) <= m_depth_for_current_search, "Score should match, but a position transposing back to itself can change the mate in x calculation value");
     }
-
-    unused(depth_remaining, best_move_str);
   }
+#else
+  unused(expected_score);
+#endif
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
   
@@ -751,7 +744,8 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
     }
     if (!entry)
     {
-      return {};
+      return result;
+      //return {};
     }
 
     depth -= 1;
