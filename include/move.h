@@ -15,7 +15,7 @@ struct Move
     set_promotion(Piece::black);
     set_type(Move_type::null);
     set_score(0);
-    
+
     MY_ASSERT(m_val == 0, "Move should be initialized to zero by default");
   }
 

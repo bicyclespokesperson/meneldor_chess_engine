@@ -10,7 +10,8 @@ std::unordered_set<std::string> parse_features(std::string const& filename)
   std::ifstream infile{filename};
   if (!infile.good())
   {
-    std::cerr << "Could not open feature toggle file: " << std::filesystem::current_path() / c_feature_toggle_file_path << "\n";
+    std::cerr << "Could not open feature toggle file: " << std::filesystem::current_path() / c_feature_toggle_file_path
+              << "\n";
     return enabled_features;
   }
 

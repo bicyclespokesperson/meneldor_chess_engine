@@ -50,18 +50,17 @@ int Meneldor_engine::evaluate(Board const& board) const
   // Positions that can attack more squares are better
   auto mobility_result = Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
   auto result = material_result + mobility_result;
-  #if 0
+#if 0
   int const target_score = 2248;
   if (result == target_score)
   {
     //std::cout << m_board.to_fen() << std::endl;
     //std::cout << "Found " << target_score << "\n ";
   }
-  #endif
+#endif
 
   return result;
 }
-
 
 #if 0
 First time hitting quiese
@@ -84,7 +83,7 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
 {
   ++m_visited_quiesence_nodes;
   auto score = evaluate(board);
-  
+
   if (score >= beta)
   {
     return beta;
@@ -193,9 +192,9 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   {
     best_guess = entry->best_move;
     ++tt_hits;
-    
-     //TODO: == or >=?
-     // Remove this without breaking Crash test
+
+    //TODO: == or >=?
+    // Remove this without breaking Crash test
     if (entry->depth >= depth_remaining)
     {
       ++tt_sufficient_depth;
@@ -333,7 +332,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
 #endif
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
-  
+
   return alpha;
 }
 
@@ -589,7 +588,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
       break;
     }
   }
-  
+
   //TODO: Update TT here?
 
   return best;
@@ -652,7 +651,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   // Iterative deepening loop
   std::pair<Move, int> best_move;
   //int depth = 8;
-  for (int depth{std::min(2, max_depth)}; (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  for (int depth{std::min(2, max_depth)};
+       (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
@@ -726,7 +726,7 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
   std::vector<std::string> result;
   result.push_back(move_str);
   bool found_mate{false};
-  
+
   Board tmp_board{m_board};
   auto next_move = tmp_board.move_from_uci(std::move(move_str));
 

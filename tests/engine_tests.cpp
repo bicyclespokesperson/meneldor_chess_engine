@@ -55,7 +55,7 @@ TEST_CASE("Evaluate", "[Meneldor_engine]")
   Meneldor_engine engine;
 
   // The evaluation function will change over time, but black is clearly winning
-  // in this position 
+  // in this position
   // Black to move -> should return a positive value to indicate black is better
   REQUIRE(engine.evaluate(board) > 0);
 }
@@ -111,13 +111,13 @@ TEST_CASE("Crash", "[.Meneldor_engine]")
   Meneldor_engine engine;
   engine.initialize();
   engine.setPosition(fen);
-  
+
   senjo::GoParams params;
   params.depth = 8;
-  
+
   auto best_move = engine.go(params);
   std::cout << "Move: " << best_move << "\n";
-  
+
   // Three possible mate in two moves
   bool result = (best_move == "f4e3" || best_move == "h3h2" || best_move == "e4d3");
   REQUIRE(result);
@@ -129,16 +129,17 @@ TEST_CASE("Mate_in_3_attack", "[.Meneldor_engine]")
   Meneldor_engine engine;
   engine.initialize();
   engine.setPosition(fen);
-  
+
   senjo::GoParams params;
   params.depth = 6;
-  
+
   auto best_move = engine.go(params);
-  
+
   std::vector<std::string> const expected_pv{"e2h5", "g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("e2h5");
-  
-  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
+
+  bool match = actual_pv.has_value() &&
+               std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
   REQUIRE(match);
 }
 
@@ -148,16 +149,17 @@ TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]")
   Meneldor_engine engine;
   engine.initialize();
   engine.setPosition(fen);
-  
+
   senjo::GoParams params;
   params.depth = 5;
-  
+
   auto best_move = engine.go(params);
-  
+
   std::vector<std::string> const expected_pv{"g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("g6g5");
-  
-  bool match = actual_pv.has_value() && std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
+
+  bool match = actual_pv.has_value() &&
+               std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
   REQUIRE(match);
 }
 

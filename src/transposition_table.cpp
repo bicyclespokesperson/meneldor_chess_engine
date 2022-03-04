@@ -64,12 +64,12 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
 
     if (replacement.type == Eval_type::exact && replacement.depth >= existing.depth)
     {
-      return true; 
+      return true;
     }
 
     return false;
   };
-  
+
   auto const hash_value = hash_fn_(key);
 
   if (should_replace(m_table[hash_value], entry))
@@ -81,11 +81,11 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
     m_table[hash_value + 1] = entry;
   }
 }
- 
+
 Transposition_table::Entry const* Transposition_table::get(zhash_t key, int depth) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
-  
+
   return walk_(key, depth);
 }
 
