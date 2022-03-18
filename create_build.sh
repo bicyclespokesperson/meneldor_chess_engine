@@ -13,6 +13,8 @@ case "${UNAME_OUT}" in
   *)          MACHINE="UNKNOWN:${UNAME_OUT}"
 esac
 
+CXX_COMPILER="/usr/local/Cellar/llvm/13.0.1_1/bin/clang++"
+
 if [[ "$MACHINE" == "Windows" ]]; then
   # Need to use the CMake installed here, not the one installed via MinGW, to access the Visual Studio generator
   C:/Program\ Files/CMake/bin/cmake.exe -G "Visual Studio 17 2022" -A x64 CMakeLists.txt
@@ -37,7 +39,7 @@ if [[ "$1" == "-r" ]]; then
 fi
 echo "Build type: ${BUILD_TYPE}"
 
-cmake -D CMAKE_BUILD_TYPE="$BUILD_TYPE" CMakeLists.txt
+cmake -D CMAKE_CXX_COMPILER="$CXX_COMPILER" -D CMAKE_BUILD_TYPE="$BUILD_TYPE" CMakeLists.txt
 
 }
 
