@@ -41,8 +41,6 @@ else()
   target_compile_options(chess_engine_lib PRIVATE -Wall -Wextra -pedantic -Wno-missing-braces)
 endif()
 
-#file(GLOB HEADERS CONFIGURE_DEPENDS "${ModernCMakeExample_SOURCE_DIR}/include/modern/*.hpp")
-
 # IDEs should put the headers in a nice place
 source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
