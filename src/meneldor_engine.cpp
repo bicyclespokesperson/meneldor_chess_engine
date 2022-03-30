@@ -44,36 +44,10 @@ int Meneldor_engine::evaluate(Board const& board) const
   }
 
   // Positions that can attack more squares are better
-  auto mobility_result = Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
-  auto result = material_result + mobility_result;
-#if 0
-  int const target_score = 2248;
-  if (result == target_score)
-  {
-    //std::cout << m_board.to_fen() << std::endl;
-    //std::cout << "Found " << target_score << "\n ";
-  }
-#endif
-
+  auto const mobility_result = Move_generator::get_all_attacked_squares(board, board.get_active_color()).occupancy();
+  auto const result = material_result + mobility_result;
   return result;
 }
-
-#if 0
-First time hitting quiese
-
-alpha=26
-beta=2147...
-
-Second time
-
-alpha=28
-beta=29
-If score >= beta, return score, so we get 29 the second time
-
-So, first time through, we haven't seen anything else, so 30 is the score. 
-Second time through, we know there's another way for opponent to get to 29, so we just call this one 29? 
-Is that the correct behavior?
-#endif
 
 int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
 {
@@ -180,8 +154,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score; // Draw by repetition
   }
 
-  std::optional<int> expected_score;
-
   Move best_guess{};
   auto const entry = m_transpositions.get(board.get_hash_key(), depth_remaining);
   if (entry)
@@ -189,8 +161,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     best_guess = entry->best_move;
     ++tt_hits;
 
-    //TODO: == or >=?
-    // Remove this without breaking Crash test
     if (entry->depth >= depth_remaining)
     {
       ++tt_sufficient_depth;
@@ -211,7 +181,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           break;
         case Transposition_table::Eval_type::exact:
           --m_visited_nodes; // TODO: Is this useful?
-          expected_score = entry->evaluation;
           break;
       }
     }
@@ -306,26 +275,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     }
     return c_contempt_score;
   }
-
-#if 0
-  if (expected_score && eval_type == Transposition_table::Eval_type::exact)
-  {
-    const int min_checkmate_score{positive_inf - m_depth_for_current_search};
-
-    //TODO: Remove this
-    // Do the moves match?
-    if (std::abs(*expected_score) <= min_checkmate_score)
-    {
-      MY_ASSERT(*expected_score == alpha, "Transposition table score should match recalculated score");
-    }
-    else
-    {
-      MY_ASSERT(std::abs(*expected_score - alpha) <= m_depth_for_current_search, "Score should match, but a position transposing back to itself can change the mate in x calculation value");
-    }
-  }
-#else
-  unused(expected_score);
-#endif
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
 
@@ -734,8 +683,7 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
       return {};
     }
 
-    auto hash_code = tmp_board.get_hash_key();
-    auto entry = m_transpositions.get(hash_code, depth);
+    auto const entry = m_transpositions.get(tmp_board.get_hash_key(), depth);
     if (!entry && found_mate)
     {
       // Checkmate, no more moves to find
@@ -744,7 +692,6 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
     if (!entry)
     {
       return result;
-      //return {};
     }
 
     depth -= 1;
