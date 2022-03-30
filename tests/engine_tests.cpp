@@ -105,7 +105,7 @@ TEST_CASE("Search_end3", "[.Meneldor_engine]")
   engine_stats_from_position(fen);
 }
 
-TEST_CASE("Crash", "[.Meneldor_engine]")
+TEST_CASE("Best_of_several_mates", "[.Meneldor_engine]")
 {
   std::string fen{"3k4/8/n7/6p1/1p2bq2/7r/8/4K3 b - - 0 1"};
   Meneldor_engine engine;
@@ -116,7 +116,6 @@ TEST_CASE("Crash", "[.Meneldor_engine]")
   params.depth = 8;
 
   auto best_move = engine.go(params);
-  std::cout << "Move: " << best_move << "\n";
 
   // Three possible mate in two moves
   bool result = (best_move == "f4e3" || best_move == "h3h2" || best_move == "e4d3");
