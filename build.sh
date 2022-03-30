@@ -24,7 +24,7 @@ else
 fi
 
 make -j "$PROCESSOR_COUNT"
+return $?
 }
 
 time build_project
-unset build_project
