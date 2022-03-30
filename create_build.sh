@@ -13,7 +13,7 @@ case "${UNAME_OUT}" in
   *)          MACHINE="UNKNOWN:${UNAME_OUT}"
 esac
 
-CXX_COMPILER="/usr/local/Cellar/llvm/13.0.1_1/bin/clang++"
+CXX_COMPILER="clang++"
 
 if [[ "$MACHINE" == "Windows" ]]; then
   # Need to use the CMake installed here, not the one installed via MinGW, to access the Visual Studio generator
