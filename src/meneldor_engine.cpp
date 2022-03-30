@@ -6,10 +6,6 @@
 
 namespace
 {
-constexpr int positive_inf = std::numeric_limits<int>::max();
-constexpr int negative_inf = -positive_inf;
-static_assert(positive_inf == -negative_inf, "Values should be inverses of each other");
-
 int tt_hits{0};
 int tt_misses{0};
 int tt_sufficient_depth{0};

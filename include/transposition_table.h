@@ -28,7 +28,7 @@ public:
 
   ~Transposition_table() = default;
 
-  void insert(zhash_t h, Entry const& entry);
+  void insert(zhash_t h, Entry entry);
 
   Entry const* get(zhash_t key, int depth) const; // TODO: Remove depth parameter from here and from walk_
 

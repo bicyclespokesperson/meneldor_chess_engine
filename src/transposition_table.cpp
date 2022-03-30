@@ -14,7 +14,7 @@ Transposition_table::Transposition_table(size_t table_size_bytes) : m_table_capa
   m_table.resize(m_table_capacity);
 }
 
-void Transposition_table::insert(zhash_t key, Entry const& entry)
+void Transposition_table::insert(zhash_t key, Entry entry)
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
@@ -72,13 +72,14 @@ void Transposition_table::insert(zhash_t key, Entry const& entry)
 
   auto const hash_value = hash_fn_(key);
 
+  entry.evaluation = std::clamp(entry.evaluation, negative_inf + 100, positive_inf - 100);
   if (should_replace(m_table[hash_value], entry))
   {
-    m_table[hash_value] = entry;
+    m_table[hash_value] = std::move(entry);
   }
   else if (entry.key != m_table[hash_value].key && should_replace(m_table[hash_value + 1], entry))
   {
-    m_table[hash_value + 1] = entry;
+    m_table[hash_value + 1] = std::move(entry);
   }
 }
 

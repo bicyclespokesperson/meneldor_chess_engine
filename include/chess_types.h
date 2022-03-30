@@ -1,6 +1,10 @@
 #ifndef CHESS_TYPES_H
 #define CHESS_TYPES_H
 
+constexpr int positive_inf = 100000;
+constexpr int negative_inf = -positive_inf;
+static_assert(positive_inf == -negative_inf, "Values should be inverses of each other");
+
 static constexpr int32_t c_board_dimension{8};
 static constexpr int32_t c_board_dimension_squared{c_board_dimension * c_board_dimension};
 static const std::string c_start_position_fen{"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
