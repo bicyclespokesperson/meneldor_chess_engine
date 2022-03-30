@@ -1,7 +1,7 @@
 #ifndef CHESS_TYPES_H
 #define CHESS_TYPES_H
 
-constexpr int positive_inf = 100000;
+constexpr int positive_inf = 100'000;
 constexpr int negative_inf = -positive_inf;
 static_assert(positive_inf == -negative_inf, "Values should be inverses of each other");
 
