@@ -18,18 +18,6 @@ void Transposition_table::insert(zhash_t key, Entry entry)
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
-  // This may be obsolete, need to use eval_type_stronger to be able to read PV from TT more reliably
-  /*
-   * Deep + Always replacement scheme
-   *
-   * Here we store two entries at every position, the first entry being 'replace
-   * by depth' and the second 'always replace'. So if the new entry had greater
-   * depth, we put it in the first entry. If it had smaller depth we replace the
-   * second entry without looking at it.
-   * The TwoDeep scheme here:
-   * https://pure.uvt.nl/ws/portalfiles/portal/1216990/Replace_ICCA_newsletter_vol_19_no_3.pdf
-   */
-
   // e1 > e2
   auto eval_type_stronger = [&](Eval_type e1, Eval_type e2)
   {
@@ -83,19 +71,17 @@ void Transposition_table::insert(zhash_t key, Entry entry)
   }
 }
 
-Transposition_table::Entry const* Transposition_table::get(zhash_t key, int depth) const
+Transposition_table::Entry const* Transposition_table::get(zhash_t key) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
-  return walk_(key, depth);
+  return walk_(key);
 }
 
-//TODO: Remove depth parameter
-Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int /* depth */) const
+Transposition_table::Entry const* Transposition_table::walk_(zhash_t key) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
 
-  //TODO: Remove the candidate.depth == depth check
   auto const hash_value = hash_fn_(key);
   auto const& candidate = m_table[hash_value];
   if (candidate.key == key)
@@ -109,11 +95,11 @@ Transposition_table::Entry const* Transposition_table::walk_(zhash_t key, int /*
   return nullptr;
 }
 
-Transposition_table::Entry* Transposition_table::walk_(zhash_t key, int depth)
+Transposition_table::Entry* Transposition_table::walk_(zhash_t key)
 {
   // Idiom for sharing implementation between const and non-const versions of a method
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-const-cast)
-  return const_cast<Entry*>(std::as_const(*this).walk_(key, depth));
+  return const_cast<Entry*>(std::as_const(*this).walk_(key));
 }
 
 size_t Transposition_table::get_capacity() const

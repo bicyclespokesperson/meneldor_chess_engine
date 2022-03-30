@@ -155,7 +155,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   }
 
   Move best_guess{};
-  auto const entry = m_transpositions.get(board.get_hash_key(), depth_remaining);
+  auto const entry = m_transpositions.get(board.get_hash_key());
   if (entry)
   {
     best_guess = entry->best_move;
@@ -683,7 +683,7 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
       return {};
     }
 
-    auto const entry = m_transpositions.get(tmp_board.get_hash_key(), depth);
+    auto const entry = m_transpositions.get(tmp_board.get_hash_key());
     if (!entry && found_mate)
     {
       // Checkmate, no more moves to find

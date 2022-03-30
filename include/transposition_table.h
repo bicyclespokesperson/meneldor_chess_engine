@@ -30,7 +30,7 @@ public:
 
   void insert(zhash_t h, Entry entry);
 
-  Entry const* get(zhash_t key, int depth) const; // TODO: Remove depth parameter from here and from walk_
+  Entry const* get(zhash_t key) const;
 
   size_t get_capacity() const;
 
@@ -59,8 +59,8 @@ private:
   // Store two entries per hash value, largest depth and newest
   static constexpr size_t c_entries_per_key{2};
 
-  Entry* walk_(zhash_t key, int depth);
-  Entry const* walk_(zhash_t key, int depth) const;
+  Entry* walk_(zhash_t key);
+  Entry const* walk_(zhash_t key) const;
 
   size_t hash_fn_(zhash_t key) const;
 
