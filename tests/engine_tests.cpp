@@ -201,8 +201,6 @@ TEST_CASE("Search_ponder_move", "[.Meneldor_engine]")
   REQUIRE(ponder == best_move);
 }
 
-//TODO: Reenable once assert that transposition table score hasn't changed is removed
-#if 0
 TEST_CASE("Search_repetition", "[.Meneldor_engine]")
 {
   std::string fen = "4k3/p6q/8/7N/8/7P/PP3PP1/R5K1 w - - 0 1";
@@ -230,4 +228,3 @@ TEST_CASE("Search_repetition", "[.Meneldor_engine]")
   // else
   REQUIRE(best_move != "h5f6");
 }
-#endif
