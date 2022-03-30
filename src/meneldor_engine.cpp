@@ -155,8 +155,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   }
 
   Move best_guess{};
-  auto const entry = m_transpositions.get(board.get_hash_key());
-  if (entry)
+  if (auto const entry = m_transpositions.get(board.get_hash_key()))
   {
     best_guess = entry->best_move;
     ++tt_hits;
@@ -183,6 +182,10 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           --m_visited_nodes; // TODO: Is this useful?
           break;
       }
+    }
+    else if (entry->best_move.type() != Move_type::null)
+    {
+      best_guess = entry->best_move();
     }
   }
   else
@@ -277,7 +280,6 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   }
 
   m_transpositions.insert(board.get_hash_key(), {board.get_hash_key(), depth_remaining, alpha, best, eval_type});
-
   return alpha;
 }
 
@@ -491,7 +493,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
                      });
   }
 
-  std::string move_string = "";
+  std::string move_string{""};
   bool perform_full_search{true};
   std::pair<Move, int> best{legal_moves.front(), negative_inf};
   for (auto& move : legal_moves)
@@ -591,11 +593,8 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     m_search_mode = Search_mode::time;
   }
 
-  unused(max_depth);
-
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  //int depth = 8;
   for (int depth{std::min(2, max_depth)};
        (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
   {
