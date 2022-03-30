@@ -2,7 +2,7 @@
 
 namespace
 {
-std::string c_feature_toggle_file_path{"./feature_set.txt"};
+std::string c_feature_toggle_file_path{"feature_set.txt"};
 
 std::unordered_set<std::string> parse_features(std::string const& filename)
 {
@@ -10,7 +10,8 @@ std::unordered_set<std::string> parse_features(std::string const& filename)
   std::ifstream infile{filename};
   if (!infile.good())
   {
-    std::cerr << "Could not open feature toggle file: " << c_feature_toggle_file_path << "\n";
+    std::cerr << "Could not open feature toggle file: " << std::filesystem::current_path() / c_feature_toggle_file_path
+              << "\n";
     return enabled_features;
   }
 
@@ -50,7 +51,7 @@ std::unordered_set<std::string> parse_features(std::string const& filename)
 
 bool is_feature_enabled(std::string const& feature_name)
 {
-  static const auto features = parse_features(c_feature_toggle_file_path);
+  static auto const features = parse_features(c_feature_toggle_file_path);
 
   return features.contains(feature_name);
 }

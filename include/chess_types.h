@@ -1,6 +1,12 @@
 #ifndef CHESS_TYPES_H
 #define CHESS_TYPES_H
 
+constexpr int positive_inf = 100'000;
+constexpr int negative_inf = -positive_inf;
+constexpr int c_max_supported_depth{1000};
+
+static_assert(positive_inf == -negative_inf, "Values should be inverses of each other");
+
 static constexpr int32_t c_board_dimension{8};
 static constexpr int32_t c_board_dimension_squared{c_board_dimension * c_board_dimension};
 static const std::string c_start_position_fen{"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
@@ -28,9 +34,9 @@ enum class Piece : uint8_t
 
 enum class Move_type : uint8_t
 {
-  normal = 0,
+  null = 0,
+  normal,
   en_passant,
-  null,
   _count,
 };
 

@@ -624,7 +624,6 @@ TEST_CASE("Transposition table", "[Transposition_table]")
   board2.try_move_algebraic("Nc6");
 
   REQUIRE(board.get_hash_key() == board2.get_hash_key());
-  REQUIRE(tt.contains(board2.get_hash_key()));
   auto e2 = tt.get(board2.get_hash_key());
   REQUIRE(e2 != nullptr);
   REQUIRE(e2->evaluation == 1);

@@ -46,16 +46,7 @@ bool rook_can_move(Coordinates from, Coordinates to, Board const& board)
 
 bool queen_can_move(Coordinates from, Coordinates to, Board const& board)
 {
-  bool result = true;
-
-  // If the square is not horizontally, vertically, or diagonally away from the
-  // Queen's current location, the move is invalid.
-  if (!(board.is_clear_diagonal(from, to) || board.is_clear_horizontal(from, to) || board.is_clear_vertical(from, to)))
-  {
-    result = false;
-  }
-
-  return result;
+  return rook_can_move(from, to, board) || bishop_can_move(from, to, board);
 }
 
 bool king_can_move(Coordinates from, Coordinates to, Board const& board)

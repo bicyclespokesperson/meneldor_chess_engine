@@ -1,5 +1,6 @@
 skip_iterative_deepening = false
 skip_guess_move = false
 piece_attacks_only = false
-use_id_sort = true
+use_id_sort = false
+use_pvs = false
 

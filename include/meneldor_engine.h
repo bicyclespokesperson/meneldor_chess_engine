@@ -102,8 +102,8 @@ private:
 
   bool m_is_debug{false};
   bool m_search_timed_out{false};
-  std::atomic_flag m_stop_requested;
-  std::atomic_flag m_is_searching;
+  std::atomic_flag m_stop_requested{};
+  std::atomic_flag m_is_searching{};
   Board m_board;
   Move_orderer m_orderer{};
   std::vector<zhash_t> m_previous_positions;
