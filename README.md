@@ -12,6 +12,7 @@ Meneldor chess engine is a UCI Compilant chess engine written in C++
   - Alpha beta pruning
   - Iterative deepening
   - Quiescense search
+  - Principal variation search
   - MVV/LVA move ordering
   - Zobrist hashing
   - Transposition table
@@ -47,7 +48,7 @@ There are four executables in the `bin` directory
 
 ## Testing
 
-Meneldor uses [Catch2](https://github.com/catchorg/Catch2) for testing using the `bin/tests` executable
+Meneldor uses [Catch2](https://github.com/catchorg/Catch2) for testing via the `bin/tests` executable
 
 ```
 ./tests # Run all tests except for perft tests and engine performance tests (these take longer to run)
