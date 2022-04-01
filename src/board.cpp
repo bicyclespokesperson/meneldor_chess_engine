@@ -1,6 +1,7 @@
 #include "board.h"
 #include "move_generator.h"
 #include "my_assert.h"
+#include "utils.h"
 
 namespace
 {
@@ -925,8 +926,10 @@ std::optional<Move> Board::move_from_uci(std::string move_str) const
   if (from && to)
   {
     auto moving_piece = get_piece(*from);
-    auto const victim_piece = is_en_passant(moving_piece, *from, *to, *this) ? Piece::pawn : get_piece(*to);
-    return Move{*from, *to, moving_piece, victim_piece, promotion_result};
+    auto const is_ep = is_en_passant(moving_piece, *from, *to, *this);
+    auto const victim_piece = is_ep ? Piece::pawn : get_piece(*to);
+    auto const move_type = is_ep ? Move_type::en_passant : Move_type::normal;
+    return Move{*from, *to, moving_piece, victim_piece, promotion_result, move_type};
   }
 
   return {};
