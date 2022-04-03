@@ -518,7 +518,6 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
   }
 }
 
-// TODO: Refactor this to be more like get_all_attacked_squares
 template <Color color>
 constexpr void generate_piece_moves(Board const& board, std::vector<Move>& moves)
 {
@@ -744,7 +743,6 @@ std::vector<Move> Move_generator::generate_legal_moves(Board const& board)
   legal_moves.reserve(pseudo_legal_moves.size());
   Board tmp_board(board);
 
-  // TODO: Erase/remove to skip second call to new?
   std::copy_if(pseudo_legal_moves.cbegin(), pseudo_legal_moves.cend(), std::back_inserter(legal_moves),
                [&](auto m)
                {
