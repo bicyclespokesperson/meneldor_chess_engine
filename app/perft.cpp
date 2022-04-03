@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   }
 
   auto const start = std::chrono::system_clock::now();
-  std::atomic_flag is_cancelled;
+  std::atomic_flag is_cancelled{};
   auto result = Move_generator::perft(depth, *board, is_cancelled);
   auto const end = std::chrono::system_clock::now();
   std::chrono::duration<double> const elapsed = end - start;

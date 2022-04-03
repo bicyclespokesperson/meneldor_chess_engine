@@ -10,7 +10,7 @@ void test_perft(std::string_view fen, int depth, uint64_t expected)
 {
   auto board = *Board::from_fen(fen);
 
-  std::atomic_flag is_cancelled;
+  std::atomic_flag is_cancelled{};
   uint64_t actual = Move_generator::perft(depth, board, is_cancelled);
 
   REQUIRE(actual == expected);
@@ -23,7 +23,7 @@ void test_perft(std::string_view fen, int depth, uint64_t expected)
 TEST_CASE("Perft position 1", "[Move_generator]")
 {
   Board board;
-  std::atomic_flag is_cancelled;
+  std::atomic_flag is_cancelled{};
   uint64_t actual = Move_generator::perft(4, board, is_cancelled);
 
   uint64_t expected{197'281};

@@ -457,7 +457,7 @@ uint64_t Meneldor_engine::perft(const int depth)
   m_stop_requested.clear();
 
   auto const start = std::chrono::system_clock::now();
-  std::atomic_flag is_cancelled;
+  std::atomic_flag is_cancelled{};
   auto const result = Move_generator::perft(depth, m_board, is_cancelled);
   auto const end = std::chrono::system_clock::now();
   std::chrono::duration<double> const elapsed = end - start;

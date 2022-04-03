@@ -8,7 +8,7 @@
 namespace
 {
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables) Can't be a member variable because we want to use it in a handler
-std::atomic_flag is_cancelled;
+std::atomic_flag is_cancelled{};
 } // namespace
 
 void my_handler(int /* s */)
