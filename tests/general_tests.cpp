@@ -397,8 +397,6 @@ TEST_CASE("Piece moves", "[Move_generator]")
     occupancy.set_square({i, 7});
   }
 
-  //std::cout << "Occupancy: " << occupancy << "\n";
-
   Bitboard expected_rook_moves{0x001010ef10100000};
   REQUIRE(Move_generator::rook_attacks({4, 4}, occupancy) == expected_rook_moves);
 

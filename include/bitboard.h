@@ -89,6 +89,11 @@ struct Bitboard
     return val == other.val;
   }
 
+  constexpr bool operator!=(Bitboard const& other) const
+  {
+    return !(*this == other);
+  }
+
   constexpr Bitboard& operator<<=(int32_t value)
   {
     this->val <<= value;
