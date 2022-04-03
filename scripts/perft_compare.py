@@ -68,10 +68,6 @@ def compare(fen, depth):
     executable_path = os.path.join(base_dir, 'bin/chess_game')
     os.system(f'{executable_path} {depth} "{fen}" > {actual_output_filename}')
 
-    # Current state: Files are identical for starting position at depth 1. 
-    #TODO: Compare results at larger depths and print out summary
-
-
 def main():
 
     fen_position_1 = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
