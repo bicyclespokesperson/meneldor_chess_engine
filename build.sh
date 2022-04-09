@@ -30,7 +30,7 @@ else
   PROCESSOR_COUNT=1
 fi
 
-make -j "$PROCESSOR_COUNT"
+make -j "$PROCESSOR_COUNT" && cp ./compile_commands.json ../
 return $?
 }
 
