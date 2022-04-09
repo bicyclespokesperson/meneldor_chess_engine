@@ -463,10 +463,10 @@ uint64_t Meneldor_engine::perft(const int depth)
   std::chrono::duration<double> const elapsed = end - start;
   auto const elapsed_seconds = elapsed.count();
 
-  //TODO: Change to Output()
-  std::cout << "perft(" << std::to_string(depth) << ") = " << std::to_string(result) << "\n"
-            << "Elapsed time: " << std::to_string(elapsed_seconds) << " seconds\n"
-            << "Nodes/sec: " << format_with_commas(result / elapsed_seconds) << "\n";
+  senjo::Output(senjo::Output::OutputPrefix::NoPrefix)
+    << "perft(" << std::to_string(depth) << ") = " << std::to_string(result) << "\n"
+    << "Elapsed time: " << std::to_string(elapsed_seconds) << " seconds\n"
+    << "Nodes/sec: " << format_with_commas(result / elapsed_seconds) << "\n";
 
   return result;
 }

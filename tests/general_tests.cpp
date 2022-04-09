@@ -300,12 +300,12 @@ TEST_CASE("Castling rights", "[board]")
 
 TEST_CASE("En passant move type", "[board]")
 {
-    auto board = *Board::from_fen("r2k1b2/p4Bp1/bp3p1r/4q3/1n1Pp3/1Q2P1Pp/P1P2P1P/R1B1NRK1 b - d3 0 21");
-    auto m = board.move_from_uci("e4d3");
-    REQUIRE(m->type() == Move_type::en_passant);
-    
-    m = board.move_from_uci("b6b5");
-    REQUIRE(m->type() == Move_type::normal);
+  auto board = *Board::from_fen("r2k1b2/p4Bp1/bp3p1r/4q3/1n1Pp3/1Q2P1Pp/P1P2P1P/R1B1NRK1 b - d3 0 21");
+  auto m = board.move_from_uci("e4d3");
+  REQUIRE(m->type() == Move_type::en_passant);
+
+  m = board.move_from_uci("b6b5");
+  REQUIRE(m->type() == Move_type::normal);
 }
 
 TEST_CASE("A board make moves in uci format", "[board]")
