@@ -13,13 +13,20 @@ case "${UNAME_OUT}" in
   *)          MACHINE="UNKNOWN:${UNAME_OUT}"
 esac
 
+local readonly GIT_REPO_DIR=$(git rev-parse --show-toplevel)
+local readonly BUILD_DIR="$GIT_REPO_DIR/_build"
+if [ ! -d "$BUILD_DIR" ]; then
+  >&2 echo "Build directory does not exist. Run create_build.sh first to generate build files."
+  exit 1
+fi
+cd "$BUILD_DIR"
 
 if [ "$MACHINE" == "Mac" ]; then 
   PROCESSOR_COUNT=$(sysctl -n hw.ncpu)
 elif [ "$MACHINE" == "Linux" ]; then 
   PROCESSOR_COUNT=$(nproc --all)
 else
-  #TODO: Windows support (though on windows this will usually be built through Visual Studio)
+  # Could add windows support eventually, though the project will usually be built via visual studio
   PROCESSOR_COUNT=1
 fi
 

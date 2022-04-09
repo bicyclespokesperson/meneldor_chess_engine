@@ -150,6 +150,7 @@ CTestTestfile.cmake
 _deps
 SharedPrecompiledHeaders
 *.build
+_build
 *.xcodeproj
 build/
 .cmake/

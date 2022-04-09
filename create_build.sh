@@ -4,7 +4,7 @@ create_build()
 {
 
 # Get platform
-UNAME_OUT="$(uname -s)"
+local readonly UNAME_OUT="$(uname -s)"
 case "${UNAME_OUT}" in
   Linux*)     MACHINE=Linux;;
   Darwin*)    MACHINE=Mac;;
@@ -15,23 +15,30 @@ esac
 
 CXX_COMPILER="clang++"
 
+if [[ "$#" -ge 3 ]]; then
+  >&2 echo "Usage: $(basename $0) [-d | -r] [-x for XCode build]"
+  exit 1
+fi
+
+local readonly GIT_REPO_DIR=$(git rev-parse --show-toplevel)
+local readonly BUILD_DIR="$GIT_REPO_DIR/_build"
+
+rm -rf "$BUILD_DIR"
+mkdir "$BUILD_DIR"
+cd "$BUILD_DIR"
+
 if [[ "$MACHINE" == "Windows" ]]; then
   # Need to use the CMake installed here, not the one installed via MinGW, to access the Visual Studio generator
   C:/Program\ Files/CMake/bin/cmake.exe -G "Visual Studio 17 2022" -A x64 CMakeLists.txt
   exit
 fi
 
-if [[ "$#" -ge 3 ]]; then
-  >&2 echo "Usage: $(basename $0) [-d | -r] [-x for XCode build] [-v for Visual Studio build]"
-  exit 2
-fi
+CMAKE_ARGS="-D CMAKE_CXX_COMPILER=$CXX_COMPILER -D CMAKE_BUILD_TYPE=$BUILD_TYPE"
 
 if [[ "$1" == "-x" ]]; then
-  ./clean.sh
   cmake -GXcode CMakeLists.txt
-  exit
+  CMAKE_ARGS="$CMAKE_ARGS -GXcode"
 fi
-
 
 BUILD_TYPE="DEBUG"
 if [[ "$1" == "-r" ]]; then
@@ -39,8 +46,8 @@ if [[ "$1" == "-r" ]]; then
 fi
 echo "Build type: ${BUILD_TYPE}"
 
-cmake -D CMAKE_CXX_COMPILER="$CXX_COMPILER" -D CMAKE_BUILD_TYPE="$BUILD_TYPE" CMakeLists.txt
-
+cmake $CMAKE_ARGS ..
+return $?
 }
 
 create_build "$@"
