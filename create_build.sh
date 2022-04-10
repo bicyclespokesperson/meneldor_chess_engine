@@ -29,14 +29,13 @@ cd "$BUILD_DIR"
 
 if [[ "$MACHINE" == "Windows" ]]; then
   # Need to use the CMake installed here, not the one installed via MinGW, to access the Visual Studio generator
-  C:/Program\ Files/CMake/bin/cmake.exe -G "Visual Studio 17 2022" -A x64 CMakeLists.txt
+  C:/Program\ Files/CMake/bin/cmake.exe -G "Visual Studio 17 2022" -A x64 ..
   exit
 fi
 
 CMAKE_ARGS="-D CMAKE_CXX_COMPILER=$CXX_COMPILER -D CMAKE_BUILD_TYPE=$BUILD_TYPE"
 
 if [[ "$1" == "-x" ]]; then
-  cmake -GXcode CMakeLists.txt
   CMAKE_ARGS="$CMAKE_ARGS -GXcode"
 fi
 
