@@ -925,7 +925,7 @@ std::optional<Move> Board::move_from_uci(std::string move_str) const
 
   if (from && to)
   {
-    auto moving_piece = get_piece(*from);
+    auto const moving_piece = get_piece(*from);
     auto const is_ep = is_en_passant(moving_piece, *from, *to, *this);
     auto const victim_piece = is_ep ? Piece::pawn : get_piece(*to);
     auto const move_type = is_ep ? Move_type::en_passant : Move_type::normal;
