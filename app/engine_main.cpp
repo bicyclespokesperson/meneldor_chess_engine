@@ -2,7 +2,6 @@
 #include "senjo/Output.h"
 #include "senjo/UCIAdapter.h"
 
-
 constexpr bool c_log_uci_commands{true};
 
 void log_uci_command(std::string const& cmd)
@@ -15,15 +14,15 @@ void log_uci_command(std::string const& cmd)
   std::ofstream command_log{command_log_path, first_call ? std::ofstream::out : std::ofstream::app};
   if (!command_log.good())
   {
-      std::cerr << "Failed to open " << command_log_path << " for writing\n";
-      exit(1);
+    std::cerr << "Failed to open " << command_log_path << " for writing\n";
+    exit(1);
   }
 
   if (first_call)
   {
     auto const t = std::time(nullptr);
     auto const tm = *std::localtime(&t);
-    command_log << "Meneldor command log (" << std::put_time(&tm, "%m/%d/%Y %H:%M") << ")\n";
+    command_log << "# Meneldor command log (" << std::put_time(&tm, "%m/%d/%Y %H:%M") << ")\n";
   }
   first_call = false;
 
@@ -33,6 +32,28 @@ void log_uci_command(std::string const& cmd)
 
 int main(int argc, char* argv[])
 {
+  std::ifstream infile;
+
+  if (argc == 2)
+  {
+    if (!strcmp(argv[1], "-h"))
+    {
+      std::cerr << "Usage: " << argv[0] << " [opt: uci command file]\n";
+      return 2;
+    }
+    else
+    {
+      infile.open(argv[1]);
+      if (!infile.good())
+      {
+        std::cerr << "Failed to open file: " << argv[1] << "\n";
+        return 1;
+      }
+    }
+  }
+
+  std::istream* stream = infile.is_open() ? &infile : &std::cin;
+
   try
   {
     Meneldor_engine engine;
@@ -44,16 +65,20 @@ int main(int argc, char* argv[])
     std::string line;
     line.reserve(16384);
 
-    while (std::getline(std::cin, line))
+    while (std::getline(*stream, line))
     {
       if constexpr (c_log_uci_commands)
       {
         log_uci_command(line);
       }
 
-      if (!adapter.doCommand(line))
+      // Ignore lines beginning with '#'
+      if (auto index = line.find_first_not_of(" \t"); index != std::string::npos && line[index] != '#')
       {
-        break;
+        if (!adapter.doCommand(line))
+        {
+          break;
+        }
       }
     }
 
