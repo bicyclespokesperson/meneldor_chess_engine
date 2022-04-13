@@ -588,6 +588,11 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
   }
 
   auto legal_moves = Move_generator::generate_legal_moves(m_board);
+  if (legal_moves.empty())
+  {
+    senjo::Output(senjo::Output::OutputPrefix::NoPrefix) << "info string no legal moves";
+    return {};
+  }
 
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
   m_search_mode = Search_mode::depth;
