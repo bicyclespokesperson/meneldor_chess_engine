@@ -588,7 +588,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
   m_search_mode = Search_mode::depth;
-  if (params.wtime > 0 || params.btime > 0)
+  if (params.wtime > 0 || params.btime > 0 || params.movetime > 0)
   {
     m_search_mode = Search_mode::time;
   }
