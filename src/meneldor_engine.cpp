@@ -101,7 +101,11 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
   constexpr double c_percent_time_to_use{0.95};
 
   std::chrono::milliseconds time_for_move{0};
-  if (params.movetime > 0)
+  if (params.infinite)
+  {
+    time_for_move = std::chrono::years{1};
+  }
+  else if (params.movetime > 0)
   {
     time_for_move = std::chrono::milliseconds{static_cast<int>(c_percent_time_to_use * params.movetime)};
   }
@@ -583,13 +587,13 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     std::cout << "Eval of current position (for " << color << "): " << std::to_string(evaluate(m_board)) << "\n";
   }
 
-  calc_time_for_move_(params);
   auto legal_moves = Move_generator::generate_legal_moves(m_board);
 
   int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
   m_search_mode = Search_mode::depth;
-  if (params.wtime > 0 || params.btime > 0 || params.movetime > 0)
+  if (params.wtime > 0 || params.btime > 0 || params.movetime > 0 || params.infinite)
   {
+    calc_time_for_move_(params);
     m_search_mode = Search_mode::time;
   }
 
