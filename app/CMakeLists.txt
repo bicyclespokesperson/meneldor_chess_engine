@@ -57,16 +57,18 @@ target_precompile_headers(meneldor
     <array>
     <compare>
     <cstdint>
+    <ctime>
     <filesystem>
     <fstream>
+    <iomanip>
     <iostream>
     <map>
     <numeric>
     <random>
     <set>
     <span>
-    <string>
     <sstream>
+    <string>
     <unordered_map>
     <vector>
 )
