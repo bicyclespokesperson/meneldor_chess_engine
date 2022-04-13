@@ -1,0 +1,182 @@
+[
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -c /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.cxx",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/bitboard.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/bitboard.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/bitboard.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/board.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/board.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/board.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/chess_types.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/chess_types.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/chess_types.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/coordinates.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/coordinates.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/coordinates.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/engine_player.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/engine_player.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/engine_player.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/feature_toggle.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/feature_toggle.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/feature_toggle.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/game.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/game.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/game.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/meneldor_engine.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/meneldor_engine.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/meneldor_engine.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/move.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/move.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/move.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/move_generator.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/move_generator.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/move_generator.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/move_orderer.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/move_orderer.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/move_orderer.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/player.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/player.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/player.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/transposition_table.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/transposition_table.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/transposition_table.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/uci_engine_player.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/uci_engine_player.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/uci_engine_player.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/user_player.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/user_player.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/user_player.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/utils.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/utils.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/utils.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/src",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -Wall -Wextra -pedantic -Wno-missing-braces -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/src/CMakeFiles/chess_engine_lib.dir/cmake_pch.hxx -o CMakeFiles/chess_engine_lib.dir/zobrist_hash.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/src/zobrist_hash.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/src/zobrist_hash.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/chess_game.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/chess_game.dir/cmake_pch.hxx.pch -c /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/chess_game.dir/cmake_pch.hxx.cxx",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/chess_game.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/chess_game.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/chess_game.dir/cmake_pch.hxx -o CMakeFiles/chess_game.dir/chess_game.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/app/chess_game.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/app/chess_game.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/perft.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/perft.dir/cmake_pch.hxx.pch -c /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/perft.dir/cmake_pch.hxx.cxx",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/perft.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/perft.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/perft.dir/cmake_pch.hxx -o CMakeFiles/perft.dir/perft.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/app/perft.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/app/perft.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/meneldor.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/meneldor.dir/cmake_pch.hxx.pch -c /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/meneldor.dir/cmake_pch.hxx.cxx",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/meneldor.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/app",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/app/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/meneldor.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/app/CMakeFiles/meneldor.dir/cmake_pch.hxx -o CMakeFiles/meneldor.dir/engine_main.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/app/engine_main.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/app/engine_main.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/BackgroundCommand.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/BackgroundCommand.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/BackgroundCommand.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/ChessEngine.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/ChessEngine.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/ChessEngine.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/EngineOption.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/EngineOption.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/EngineOption.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/MoveFinder.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/MoveFinder.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/MoveFinder.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/Output.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Output.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Output.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/Parameters.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Parameters.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Parameters.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/Thread.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Thread.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/Thread.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/senjo/senjo",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/.  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -o CMakeFiles/senjo.dir/UCIAdapter.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/UCIAdapter.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/senjo/senjo/UCIAdapter.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/tests/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo -I/Users/jeremysigrist/Development/meneldor_chess_engine/_build/_deps/catch-src/single_include  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/tests.dir/cmake_pch.hxx.pch -c /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx.cxx",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx.cxx"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/tests/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo -I/Users/jeremysigrist/Development/meneldor_chess_engine/_build/_deps/catch-src/single_include  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx -o CMakeFiles/tests.dir/general_tests.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/tests/general_tests.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/tests/general_tests.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/tests/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo -I/Users/jeremysigrist/Development/meneldor_chess_engine/_build/_deps/catch-src/single_include  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx -o CMakeFiles/tests.dir/engine_tests.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/tests/engine_tests.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/tests/engine_tests.cpp"
+},
+{
+  "directory": "/Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests",
+  "command": "/usr/bin/clang++  -I/Users/jeremysigrist/Development/meneldor_chess_engine/tests/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../include -I/Users/jeremysigrist/Development/meneldor_chess_engine/src/../senjo -I/Users/jeremysigrist/Development/meneldor_chess_engine/_build/_deps/catch-src/single_include  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -std=c++2a -Winvalid-pch -Xclang -include-pch -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/jeremysigrist/Development/meneldor_chess_engine/_build/tests/CMakeFiles/tests.dir/cmake_pch.hxx -o CMakeFiles/tests.dir/perft_tests.cpp.o -c /Users/jeremysigrist/Development/meneldor_chess_engine/tests/perft_tests.cpp",
+  "file": "/Users/jeremysigrist/Development/meneldor_chess_engine/tests/perft_tests.cpp"
+}
+]
