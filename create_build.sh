@@ -33,17 +33,17 @@ if [[ "$MACHINE" == "Windows" ]]; then
   exit
 fi
 
-CMAKE_ARGS="-D CMAKE_CXX_COMPILER=$CXX_COMPILER -D CMAKE_BUILD_TYPE=$BUILD_TYPE"
-
-if [[ "$1" == "-x" ]]; then
-  CMAKE_ARGS="$CMAKE_ARGS -GXcode"
-fi
-
 BUILD_TYPE="DEBUG"
 if [[ "$1" == "-r" ]]; then
   BUILD_TYPE="RELEASE"
 fi
 echo "Build type: ${BUILD_TYPE}"
+
+CMAKE_ARGS="-D CMAKE_CXX_COMPILER=$CXX_COMPILER -D CMAKE_BUILD_TYPE=$BUILD_TYPE"
+
+if [[ "$1" == "-x" ]]; then
+  CMAKE_ARGS="$CMAKE_ARGS -GXcode"
+fi
 
 cmake $CMAKE_ARGS ..
 return $?
