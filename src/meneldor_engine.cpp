@@ -86,12 +86,11 @@ int Meneldor_engine::quiesce_(Board const& board, int alpha, int beta) const
 
 bool Meneldor_engine::has_more_time_() const
 {
-  if (m_search_mode != Search_mode::time)
+  if (stopRequested())
   {
-    return true;
+    return false;
   }
-
-  return std::chrono::system_clock::now() < m_search_desired_end_time;
+  return (m_search_mode != Search_mode::time) || std::chrono::system_clock::now() < m_search_desired_end_time;
 }
 
 void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
@@ -533,11 +532,6 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     {
       best = {move, score};
     }
-
-    if (m_stop_requested.test())
-    {
-      break;
-    }
   }
 
   //TODO: Update TT here?
@@ -607,18 +601,18 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     return {};
   }
 
-  int const max_depth = (params.depth > 0) ? params.depth : c_default_depth;
+  int max_depth = (params.depth > 0) ? params.depth : c_default_depth;
   m_search_mode = Search_mode::depth;
   if (params.wtime > 0 || params.btime > 0 || params.movetime > 0 || params.infinite)
   {
     calc_time_for_move_(params);
     m_search_mode = Search_mode::time;
+    max_depth = c_max_supported_depth;
   }
 
   // Iterative deepening loop
   std::pair<Move, int> best_move;
-  for (int depth{std::min(2, max_depth)};
-       (m_search_mode == Search_mode::time && has_more_time_()) || (depth <= max_depth); ++depth)
+  for (int depth{std::min(2, max_depth)}; has_more_time_() && (depth <= max_depth); ++depth)
   {
     m_search_timed_out = false;
     m_depth_for_current_search = depth;
