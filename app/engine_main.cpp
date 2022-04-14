@@ -6,7 +6,7 @@ constexpr bool c_log_uci_commands{true};
 
 void log_uci_command(std::string const& cmd)
 {
-  constexpr auto command_log_path = "./command_log.uci";
+  std::filesystem::path const command_log_path{"./command_log.uci"};
 
   static bool first_call{true};
 
@@ -14,7 +14,7 @@ void log_uci_command(std::string const& cmd)
   std::ofstream command_log{command_log_path, first_call ? std::ofstream::out : std::ofstream::app};
   if (!command_log.good())
   {
-    std::cerr << "Failed to open " << command_log_path << " for writing\n";
+    std::cerr << "Failed to open " << std::filesystem::absolute(command_log_path) << " for writing\n";
     exit(1);
   }
 
@@ -43,10 +43,11 @@ int main(int argc, char* argv[])
     }
     else
     {
-      infile.open(argv[1]);
+      std::filesystem::path commands_path{argv[1]};
+      infile.open(commands_path);
       if (!infile.good())
       {
-        std::cerr << "Failed to open file: " << argv[1] << "\n";
+        std::cerr << "Failed to open file: " << std::filesystem::absolute(commands_path) << "\n";
         return 1;
       }
     }
