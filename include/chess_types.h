@@ -4,6 +4,8 @@
 constexpr int positive_inf = 100'000;
 constexpr int negative_inf = -positive_inf;
 constexpr int c_max_supported_depth{1000};
+constexpr int c_max_non_mate_score{positive_inf - c_max_supported_depth};
+constexpr int c_min_non_mate_score{negative_inf + c_max_supported_depth};
 
 static_assert(positive_inf == -negative_inf, "Values should be inverses of each other");
 

@@ -553,11 +553,24 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move, std::optional<
      info depth 2 seldepth 2 multipv 1 score cp 3 nodes 43 nps 14333 tbhits 0 time 3 pv e7e5 a2a3
      */
 
+  auto format_score = [](int score)
+  {
+      if (score > c_max_non_mate_score)
+      {
+          return std::string{"mate "} + std::to_string(static_cast<int>(std::ceil((positive_inf - score) / 2.0)));
+      }
+      if (score < c_min_non_mate_score)
+      {
+          return std::string{"mate "} + std::to_string(static_cast<int>(std::ceil((negative_inf - score) / 2.0)));
+      }
+      return std::string{"cp "} + std::to_string(score);
+  };
+
   auto const stats = getSearchStats();
   auto const nodes_per_second =
     (stats.msecs == 0) ? 0 : static_cast<int32_t>(1000.0 * static_cast<double>(stats.nodes) / stats.msecs);
   std::stringstream out;
-  out << "info depth " << stats.depth << " seldepth " << stats.seldepth << " score cp " << best_move.second << " nodes "
+  out << "info depth " << stats.depth << " seldepth " << stats.seldepth << " score " << format_score(best_move.second) << " nodes "
       << stats.nodes << " nps " << nodes_per_second << " time " << stats.msecs;
 
   if (pv)
