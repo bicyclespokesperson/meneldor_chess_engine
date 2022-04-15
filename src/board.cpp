@@ -276,14 +276,18 @@ void Board::unperform_move_(Color color, Move m)
 {
   MY_ASSERT(is_occupied(m.to()) && !is_occupied(m.from()),
             "This function can only be called after a move has been performed");
-  MY_ASSERT(m.type() != Move_type::en_passant || !get_en_passant_square().is_empty(), "Must have an en passant square for en passant move");
+  MY_ASSERT(m.type() != Move_type::en_passant || !get_en_passant_square().is_empty(),
+            "Must have an en passant square for en passant move");
 
   remove_piece_(color, m.piece(), m.to());
   add_piece_(color, m.piece(), m.from());
 
   if (m.victim() != Piece::empty)
   {
-    auto const capture_location{(m.type() == Move_type::en_passant) ? en_passant_capture_location(color, Coordinates{get_en_passant_square().bitscan_forward()}) : m.to()};
+    auto const capture_location{
+      (m.type() == Move_type::en_passant) ?
+        en_passant_capture_location(color, Coordinates{get_en_passant_square().bitscan_forward()}) :
+        m.to()};
     add_piece_(opposite_color(color), m.victim(), capture_location);
   }
 }
@@ -788,7 +792,7 @@ bool Board::is_in_check(Color color) const
 
 Game_state Board::calc_game_state() const
 {
-  // Doesn't check repetition, 50 move rule, or insufficient material for performance reasons. 
+  // Doesn't check repetition, 50 move rule, or insufficient material for performance reasons.
   // These can be handled more efficienly by the engine.
 
   auto const color = get_active_color();

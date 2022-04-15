@@ -31,7 +31,8 @@ void Transposition_table::insert(zhash_t key, Entry entry)
 
   // If first entry depth is lower, replace and return
   auto hash_value = hash_fn_(key);
-  entry.evaluation = std::clamp(entry.evaluation, negative_inf + c_max_supported_depth, positive_inf - c_max_supported_depth);
+  entry.evaluation =
+    std::clamp(entry.evaluation, negative_inf + c_max_supported_depth, positive_inf - c_max_supported_depth);
   if (m_table[hash_value].depth < entry.depth)
   {
     m_table[hash_value] = entry;
