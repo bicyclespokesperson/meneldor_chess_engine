@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include "meneldor_engine.h"
+#include "senjo/UCIAdapter.h"
 #include "utils.h"
 
 namespace
@@ -213,7 +214,7 @@ TEST_CASE("Search_repetition", "[.Meneldor_engine]")
   params.depth = 5;
   auto best_move = engine.go(params);
 
-  // The best move is f6 to fork the king and queen
+  // The best move is Nf6 to fork the king and queen
   REQUIRE(best_move == "h5f6");
 
   engine.makeMove("h5f6");
@@ -226,4 +227,26 @@ TEST_CASE("Search_repetition", "[.Meneldor_engine]")
   // Now f6 would be a draw by repetition, so the engine should find something
   // else
   REQUIRE(best_move != "h5f6");
+}
+
+TEST_CASE("Search_repetition_uci", "[.Meneldor_engine]")
+{
+  Meneldor_engine engine;
+  senjo::UCIAdapter adapter{engine};
+
+  std::vector<std::string> commands{
+    "position fen 4Q3/p3B1pk/1p2p2p/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 0 31", "go depth 8",
+    "position fen 7k/p3B1p1/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 2 32", "go depth 8",
+    "position fen 4Q3/p3B1pk/1p2p2p/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 4 33",
+  };
+
+  for (auto const& cmd : commands)
+  {
+    adapter.doCommand(cmd);
+  }
+
+  senjo::GoParams params;
+  params.depth = 8;
+  auto best_move = engine.go(params);
+  REQUIRE(best_move != "e8g6");
 }
