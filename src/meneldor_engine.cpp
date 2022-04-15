@@ -182,8 +182,7 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
           alpha = std::max(alpha, entry->evaluation);
           break;
         case Transposition_table::Eval_type::exact:
-          --m_visited_nodes; // TODO: Is this useful?
-          break;
+          return entry->evaluation;
       }
     }
     else if (entry->best_move.type() != Move_type::null)
@@ -479,7 +478,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   MY_ASSERT(!legal_moves.empty(), "Already in checkmate or stalemate");
   constexpr static int c_depth_to_use_id_score{3};
 
-  // TODO: Is this useful?
+  // TODO: Is this useful? Revisit after null move pruning is implemented
   // Currently use_id_sort appears to slightly slow down the engine, and shows
   // no benefit over the MVV/LVA tables
   static const bool use_id_sort = is_feature_enabled("use_id_sort");
@@ -490,7 +489,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   else
   {
     std::stable_sort(legal_moves.begin(), legal_moves.end(),
-                     [](auto m1, auto m2)
+                     [](Move m1, Move m2)
                      {
                        return m1.score() > m2.score();
                      });
