@@ -803,10 +803,10 @@ bool Board::is_in_check(Color color) const
 
 Game_state Board::calc_game_state() const
 {
-  auto const color = get_active_color();
+  // Doesn't check repetition, 50 move rule, or insufficient material for performance reasons. 
+  // These can be handled more efficienly by the engine.
 
-  // TODO: Should insufficient material, repetition, and 50 move rule be here as
-  // well?
+  auto const color = get_active_color();
 
   if (Move_generator::has_any_legal_moves(*this))
   {
