@@ -533,8 +533,6 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
     }
   }
 
-  //TODO: Update TT here?
-
   return best;
 }
 
@@ -636,7 +634,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
 
     std::cout << "TT Hits: " << tt_hits << ", total: " << (tt_hits + tt_misses)
               << ", sufficient_depth: " << tt_sufficient_depth
-              << ", hit%: " << (static_cast<float>(tt_hits) / (tt_hits + tt_misses)) << "\n";
+              << ", hit%: " << (static_cast<float>(100.0 * tt_hits) / (tt_hits + tt_misses)) << "\n";
 
     tt_hits = 0;
     tt_misses = 0;
