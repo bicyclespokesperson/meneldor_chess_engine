@@ -177,9 +177,9 @@ bool piece_can_move(Coordinates from, Coordinates to, Board const& board)
 
 // This array can be indexed by color
 static constexpr std::array en_passant_y_offsets{1, -1};
-constexpr Coordinates en_passant_capture_location(Color color, Coordinates end_square)
+constexpr Coordinates en_passant_capture_location(Color capturing_color, Coordinates end_square)
 {
-  return Coordinates{end_square.x(), end_square.y() + en_passant_y_offsets[static_cast<uint8_t>(color)]};
+  return Coordinates{end_square.x(), end_square.y() + en_passant_y_offsets[static_cast<uint8_t>(capturing_color)]};
 }
 
 bool is_en_passant(Piece piece, Coordinates from, Coordinates to, Board const& board)
@@ -257,38 +257,34 @@ Castling_rights Board::get_castling_rights() const
   return m_rights;
 }
 
-// TODO: Can the return value here be removed? Might need to make sure
-// Move::type_en_passant is always correctly set
-std::optional<std::pair<Coordinates, Piece>> Board::perform_move_(Move m, Coordinates capture_location)
+void Board::perform_move_(Move m, Coordinates capture_location)
 {
   MY_ASSERT(get_piece(capture_location) == m.victim(), "Move is in an invalid state");
 
-  std::optional<std::pair<Coordinates, Piece>> captured_piece;
   auto const color = get_active_color();
 
   if (is_occupied(m.to()) || capture_location != m.to())
   {
-    captured_piece.emplace(capture_location, Piece{m.victim()});
-    remove_piece_(opposite_color(color), captured_piece->second, capture_location);
+    remove_piece_(opposite_color(color), m.victim(), capture_location);
   }
 
   add_piece_(color, m.piece(), m.to());
   remove_piece_(color, m.piece(), m.from());
-
-  return captured_piece;
 }
 
-void Board::unperform_move_(Color color, Move m, std::optional<std::pair<Coordinates, Piece>> captured_piece)
+void Board::unperform_move_(Color color, Move m)
 {
   MY_ASSERT(is_occupied(m.to()) && !is_occupied(m.from()),
             "This function can only be called after a move has been performed");
+  MY_ASSERT(m.type() != Move_type::en_passant || !get_en_passant_square().is_empty(), "Must have an en passant square for en passant move");
 
   remove_piece_(color, m.piece(), m.to());
   add_piece_(color, m.piece(), m.from());
 
-  if (captured_piece)
+  if (m.victim() != Piece::empty)
   {
-    add_piece_(opposite_color(color), captured_piece->second, captured_piece->first);
+    auto const capture_location{(m.type() == Move_type::en_passant) ? en_passant_capture_location(color, Coordinates{get_en_passant_square().bitscan_forward()}) : m.to()};
+    add_piece_(opposite_color(color), m.victim(), capture_location);
   }
 }
 
@@ -302,24 +298,17 @@ bool Board::undo_move(Move m, Bitboard en_passant_square, Castling_rights rights
 
   MY_ASSERT((m.promotion() == Piece::empty) || (m.to().y() == 0 || m.to().y() == 7),
             "Promotion move must end on back rank");
-  std::optional<std::pair<Coordinates, Piece>> captured;
-  if (m.victim() != Piece::empty)
-  {
-    if (en_passant_square.is_set(m.to()))
-    {
-      captured = {en_passant_capture_location(color, m.to()), Piece{m.victim()}};
-    }
-    else
-    {
-      captured = {m.to(), Piece{m.victim()}};
-    }
-  }
 
-  unperform_move_(color, m, captured);
+  m_zhash.update_en_passant_square(m_en_passant_square);
+  m_en_passant_square = en_passant_square;
+  m_zhash.update_en_passant_square(m_en_passant_square);
+
+  unperform_move_(color, m);
+
   if (m.piece() == Piece::king && distance_between(m.to(), m.from()) == 2)
   {
     auto const rook_move = find_castling_rook_move_(m.to());
-    unperform_move_(color, rook_move, {});
+    unperform_move_(color, rook_move);
   }
 
   if (m.promotion() != Piece::empty)
@@ -331,10 +320,6 @@ bool Board::undo_move(Move m, Bitboard en_passant_square, Castling_rights rights
   m_zhash.update_castling_rights(m_rights);
   m_rights = rights;
   m_zhash.update_castling_rights(m_rights);
-
-  m_zhash.update_en_passant_square(m_en_passant_square);
-  m_en_passant_square = en_passant_square;
-  m_zhash.update_en_passant_square(m_en_passant_square);
 
   if (color == Color::black)
   {
@@ -427,10 +412,10 @@ bool Board::move_no_verify(Move m, bool skip_check_detection)
       capture_location = en_passant_capture_location(color, m.to());
     }
 
-    auto const captured_piece = perform_move_(m, capture_location);
+    perform_move_(m, capture_location);
     if (!skip_check_detection && is_in_check(color))
     {
-      unperform_move_(color, m, captured_piece);
+      unperform_move_(color, m);
       return false;
     }
 
@@ -466,7 +451,7 @@ bool Board::move_no_verify(Move m, bool skip_check_detection)
     {
       ++m_fullmove_count;
     }
-    if (m.piece() == Piece::pawn || captured_piece)
+    if (m.piece() == Piece::pawn || m.victim() != Piece::empty)
     {
       m_halfmove_clock = 0;
     }
@@ -1390,7 +1375,7 @@ std::string Board::to_fen() const
 
   if (!get_en_passant_square().is_empty())
   {
-    Coordinates en_passant_square{*get_en_passant_square().begin()};
+    Coordinates en_passant_square{get_en_passant_square().bitscan_forward()};
     result << en_passant_square;
   }
   else

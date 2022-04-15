@@ -19,6 +19,7 @@ struct Move
     MY_ASSERT(m_val == 0, "Move should be initialized to zero by default");
   }
 
+  // Victim should be Piece::empty if nothing was captured
   constexpr Move(Coordinates from_coord,
                  Coordinates to_coord,
                  Piece moving_piece,

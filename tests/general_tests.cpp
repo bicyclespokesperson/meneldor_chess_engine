@@ -463,6 +463,7 @@ TEST_CASE("Undo move", "[board]")
   auto halfmove_clock = board->get_halfmove_clock();
   auto m = board->move_from_algebraic("axb3", color);
   REQUIRE(board->try_move(*m));
+  REQUIRE(m->type() == Move_type::en_passant);
 
   board->undo_move(*m, en_passant_square, castling_rights, halfmove_clock);
 
@@ -480,6 +481,7 @@ TEST_CASE("Undo move 2", "[board]")
   auto halfmove_clock = board->get_halfmove_clock();
 
   auto m = board->move_from_uci("e1c1");
+  REQUIRE(m->type() == Move_type::normal);
   REQUIRE(board->move_no_verify(*m));
 
   board->undo_move(*m, en_passant_square, castling_rights, halfmove_clock);

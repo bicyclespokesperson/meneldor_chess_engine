@@ -176,8 +176,8 @@ private:
   bool update_castling_rights_fen_(char c);
   std::string castling_rights_to_fen_() const;
 
-  std::optional<std::pair<Coordinates, Piece>> perform_move_(Move m, Coordinates capture_location);
-  void unperform_move_(Color color, Move m, std::optional<std::pair<Coordinates, Piece>> captured_piece);
+  void perform_move_(Move m, Coordinates capture_location);
+  void unperform_move_(Color color, Move m);
   Move find_castling_rook_move_(Coordinates king_destination) const;
 
   void add_piece_(Color color, Piece piece, Coordinates to_add);
