@@ -38,7 +38,7 @@ public:
   size_t count() const
   {
     return std::count_if(m_table.cbegin(), m_table.cend(),
-                         [](const auto& entry)
+                         [](auto const& entry)
                          {
                            return entry.best_move.type() != Move_type::null;
                          });

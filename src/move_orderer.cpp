@@ -10,7 +10,7 @@ int Move_orderer::score_move_(Move m, Board const& /* board */)
   return score;
 }
 
-const std::array<std::array<int, Move_orderer::c_piece_count>, Move_orderer::c_piece_count>
+std::array<std::array<int, Move_orderer::c_piece_count>, Move_orderer::c_piece_count> const
   Move_orderer::mvv_lva_table = []
 {
   static constexpr std::array pieces{Piece::king,   Piece::queen, Piece::rook, Piece::bishop,

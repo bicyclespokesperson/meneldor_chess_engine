@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
     std::cout << engine.getEngineName() << " v" << engine.getEngineVersion() << " by " << engine.getAuthorName()
               << "\n";
     engine.setDebug(false);
-    senjo::UCIAdapter adapter(engine);
+    senjo::UCIAdapter adapter{engine};
 
     std::string line;
     line.reserve(16384);
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 
     return 0;
   }
-  catch (const std::exception& e)
+  catch (std::exception const& e)
   {
     senjo::Output() << "ERROR: " << e.what();
     return 1;
