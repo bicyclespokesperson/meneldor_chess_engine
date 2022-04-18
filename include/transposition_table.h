@@ -34,26 +34,10 @@ public:
 
   size_t get_capacity() const;
 
-  // Debugging
-  size_t count() const
-  {
-    return std::count_if(m_table.cbegin(), m_table.cend(),
-                         [](auto const& entry)
-                         {
-                           return entry.best_move.type() != Move_type::null;
-                         });
-  }
+  // Returns the number of non-null entries in the table
+  size_t count() const;
 
-  void display(std::ostream& out)
-  {
-    for (auto const& entry : m_table)
-    {
-      if (entry.best_move.type() != Move_type::null)
-      {
-        out << "depth: " << entry.depth << ", eval: " << entry.evaluation << ", move: " << entry.best_move << "\n";
-      }
-    }
-  }
+  void clear();
 
 private:
   // Store two entries per hash value, largest depth and newest

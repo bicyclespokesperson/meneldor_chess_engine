@@ -377,7 +377,7 @@ std::string Meneldor_engine::getFEN() const
 
 void Meneldor_engine::printBoard() const
 {
-  std::cout << m_board;
+  senjo::Output(senjo::Output::OutputPrefix::NoPrefix) << m_board;
 }
 
 bool Meneldor_engine::whiteToMove() const
@@ -388,6 +388,7 @@ bool Meneldor_engine::whiteToMove() const
 void Meneldor_engine::clearSearchData()
 {
   // No data persists between searches currently
+  m_transpositions.clear();
 }
 
 void Meneldor_engine::ponderHit()

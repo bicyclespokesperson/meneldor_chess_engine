@@ -50,6 +50,11 @@ Transposition_table::Entry const* Transposition_table::get(zhash_t key) const
   return walk_(key);
 }
 
+void Transposition_table::clear()
+{
+  std::fill(m_table.begin(), m_table.end(), Transposition_table::Entry{});
+}
+
 Transposition_table::Entry const* Transposition_table::walk_(zhash_t key) const
 {
   MY_ASSERT(hash_fn_(key) < m_table.size(), "Index out of bounds");
@@ -77,4 +82,13 @@ Transposition_table::Entry* Transposition_table::walk_(zhash_t key)
 size_t Transposition_table::get_capacity() const
 {
   return m_table_capacity;
+}
+
+size_t Transposition_table::count() const
+{
+  return std::count_if(m_table.cbegin(), m_table.cend(),
+                       [](auto const& entry)
+                       {
+                         return entry.best_move.type() != Move_type::null;
+                       });
 }
