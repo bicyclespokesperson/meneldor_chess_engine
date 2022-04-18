@@ -26,15 +26,15 @@ public:
 
   std::list<senjo::EngineOption> getOptions() const override;
 
-  bool setEngineOption(const std::string& optionName, const std::string& optionValue) override;
+  bool setEngineOption(std::string const& optionName, std::string const& optionValue) override;
 
   void initialize() override;
 
   bool isInitialized() const override;
 
-  bool setPosition(const std::string& fen, std::string* remain = nullptr) override;
+  bool setPosition(std::string const& fen, std::string* remain = nullptr) override;
 
-  bool makeMove(const std::string& move) override;
+  bool makeMove(std::string const& move) override;
 
   std::string getFEN() const override;
 
@@ -50,13 +50,13 @@ public:
 
   void registerLater() override;
 
-  bool doRegistration(const std::string& name, const std::string& code) override;
+  bool doRegistration(std::string const& name, std::string const& code) override;
 
   bool isCopyProtected() const override;
 
   bool copyIsOK() override;
 
-  void setDebug(const bool flag) override;
+  void setDebug(bool const flag) override;
 
   bool isDebugOn() const override;
 
@@ -68,11 +68,11 @@ public:
 
   void waitForSearchFinish() override;
 
-  uint64_t perft(const int depth) override;
+  uint64_t perft(int const depth) override;
 
   std::pair<Move, int> search(int depth, std::vector<Move>& legal_moves);
 
-  std::string go(const senjo::GoParams& params, std::string* ponder = nullptr) override;
+  std::string go(senjo::GoParams const& params, std::string* ponder = nullptr) override;
 
   senjo::SearchStats getSearchStats() const override;
 

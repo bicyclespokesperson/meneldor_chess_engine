@@ -321,7 +321,7 @@ std::list<senjo::EngineOption> Meneldor_engine::getOptions() const
   return {};
 }
 
-bool Meneldor_engine::setEngineOption(const std::string& /* optionName */, const std::string& /* optionValue */)
+bool Meneldor_engine::setEngineOption(std::string const& /* optionName */, std::string const& /* optionValue */)
 {
   return false;
 }
@@ -337,7 +337,7 @@ bool Meneldor_engine::isInitialized() const
   return true;
 }
 
-bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain = nullptr */)
+bool Meneldor_engine::setPosition(std::string const& fen, std::string* /* remain = nullptr */)
 {
   // TODO: Use Output() to report errors in fen string
   if (auto board = Board::from_fen(fen))
@@ -350,7 +350,7 @@ bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain
   return false;
 }
 
-bool Meneldor_engine::makeMove(const std::string& move)
+bool Meneldor_engine::makeMove(std::string const& move)
 {
   if (m_board.try_move_uci(move))
   {
@@ -406,7 +406,7 @@ void Meneldor_engine::registerLater()
   // This engine does not need to be registered to function
 }
 
-bool Meneldor_engine::doRegistration(const std::string& /* name */, const std::string& /* code */)
+bool Meneldor_engine::doRegistration(std::string const& /* name */, std::string const& /* code */)
 {
   // This engine does not need to be registered to function
   return true;
@@ -422,7 +422,7 @@ bool Meneldor_engine::copyIsOK()
   return true;
 }
 
-void Meneldor_engine::setDebug(const bool flag)
+void Meneldor_engine::setDebug(bool const flag)
 {
   m_is_debug = flag;
 }
@@ -455,7 +455,7 @@ void Meneldor_engine::waitForSearchFinish()
   }
 }
 
-uint64_t Meneldor_engine::perft(const int depth)
+uint64_t Meneldor_engine::perft(int const depth)
 {
   m_stop_requested.clear();
 
@@ -482,8 +482,8 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   // TODO: Is this useful? Revisit after null move pruning is implemented
   // Currently use_id_sort appears to slightly slow down the engine, and shows
   // no benefit over the MVV/LVA tables
-  static const bool use_id_sort = is_feature_enabled("use_id_sort");
-  if (use_id_sort && depth < c_depth_to_use_id_score)
+  static const bool skip_id_sort = is_feature_enabled("skip_id_sort");
+  if (skip_id_sort || depth < c_depth_to_use_id_score)
   {
     m_orderer.sort_moves(legal_moves, m_board);
   }
@@ -577,7 +577,7 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move, std::optional<
   senjo::Output(senjo::Output::OutputPrefix::NoPrefix) << out.str();
 }
 
-std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* ponder)
+std::string Meneldor_engine::go(senjo::GoParams const& params, std::string* ponder)
 {
   m_search_start_time = std::chrono::system_clock::now();
 
@@ -616,6 +616,7 @@ std::string Meneldor_engine::go(const senjo::GoParams& params, std::string* pond
     m_depth_for_current_search = depth;
 
     auto const move_candidate = search(m_depth_for_current_search, legal_moves);
+    MY_ASSERT(move_candidate.first.type() != Move_type::null, "Best move cannot be null");
     if (!m_search_timed_out)
     {
       best_move = move_candidate;

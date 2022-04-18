@@ -241,12 +241,12 @@ struct Bitboard_iterator
     return tmp;
   }
 
-  constexpr bool operator==(const Bitboard_iterator& other) const
+  constexpr bool operator==(Bitboard_iterator const& other) const
   {
     return m_bitboard == other.m_bitboard && m_val == other.m_val;
   }
 
-  constexpr bool operator!=(const Bitboard_iterator& other) const
+  constexpr bool operator!=(Bitboard_iterator const& other) const
   {
     return !(*this == other);
   }

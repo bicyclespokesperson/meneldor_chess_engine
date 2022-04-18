@@ -236,9 +236,9 @@ TEST_CASE("Search_repetition_uci", "[.Meneldor_engine]")
 
   std::vector<std::string> commands{
     "position fen 4Q3/p3B1pk/1p2p2p/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 0 31", "go depth 8",
-    "position fen 8/p3B1pk/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR b - - 1 31", "go depth 3",
+    "position fen 8/p3B1pk/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR b - - 1 31",  "go depth 3",
     "position fen 7k/p3B1p1/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 2 32", "go depth 8",
-    "position fen 8/p3B1pk/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR b - - 3 32", "go depth 3",
+    "position fen 8/p3B1pk/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR b - - 3 32",  "go depth 3",
     "position fen 4Q3/p3B1pk/1p2p2p/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 4 33",
   };
 
@@ -252,5 +252,3 @@ TEST_CASE("Search_repetition_uci", "[.Meneldor_engine]")
   auto best_move = engine.go(params);
   REQUIRE(best_move != "e8g6");
 }
-
-
