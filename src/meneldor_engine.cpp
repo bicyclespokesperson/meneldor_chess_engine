@@ -329,6 +329,7 @@ bool Meneldor_engine::setEngineOption(const std::string& /* optionName */, const
 void Meneldor_engine::initialize()
 {
   m_board = {};
+  m_previous_positions.clear();
 }
 
 bool Meneldor_engine::isInitialized() const
@@ -342,7 +343,7 @@ bool Meneldor_engine::setPosition(const std::string& fen, std::string* /* remain
   if (auto board = Board::from_fen(fen))
   {
     m_board = *board;
-    m_previous_positions.clear();
+    m_previous_positions.push_back(m_board.get_hash_key());
     return true;
   }
 
