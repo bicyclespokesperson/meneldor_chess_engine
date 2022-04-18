@@ -605,6 +605,19 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
   }
 }
 
+TEST_CASE("Zobrist hash from fen should match hash from playing moves", "[Zobrist_hash]")
+{
+    std::string fen1 = "4Q3/p3B1pk/1p2p2p/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 0 31";
+    std::string fen2 = "7k/p3B1p1/1p2p1Qp/2p4P/P1b1pP2/4n1K1/3r2P1/6NR w - - 2 32";
+    
+    auto board = *Board::from_fen(fen1);
+    board.try_move_uci("e8g6");
+    board.try_move_uci("h7h8");
+    
+    auto board2 = *Board::from_fen(fen2);
+    REQUIRE(board.get_hash_key() == board2.get_hash_key());
+}
+
 TEST_CASE("Transposition table", "[Transposition_table]")
 {
   Transposition_table tt{1024 * sizeof(Transposition_table::Entry)};
