@@ -586,7 +586,7 @@ void UCIAdapter::doPositionCommand(const std::string& fenstring,
       lastPosition == fenstring.substr(0, lastPosition.size())) {
       if (fenstring.size() > lastPosition.size()) {
           // continue from current position
-          params.parse(fenstring.substr(lastPosition.size() + 1));
+          params.parse(fenstring.substr(lastPosition.size()));
       }
   }
   else {
