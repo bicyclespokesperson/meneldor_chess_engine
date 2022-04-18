@@ -337,13 +337,23 @@ bool Meneldor_engine::isInitialized() const
   return true;
 }
 
-bool Meneldor_engine::setPosition(std::string const& fen, std::string* /* remain = nullptr */)
+bool Meneldor_engine::setPosition(std::string const& fen, std::string* remain /* = nullptr */)
 {
   // TODO: Use Output() to report errors in fen string
   if (auto board = Board::from_fen(fen))
   {
     m_board = *board;
     m_previous_positions.push_back(m_board.get_hash_key());
+
+    if (remain)
+    {
+      auto const move_index = fen.find("moves");
+      if (move_index < std::string::npos)
+      {
+        *remain = fen.substr(move_index);
+      }
+    }
+
     return true;
   }
 
