@@ -12,7 +12,7 @@ class Board
 public:
   static std::optional<Board> from_pgn(std::string_view pgn);
 
-  static std::optional<Board> from_fen(std::string_view fen);
+  static tl::expected<Board, std::string> from_fen(std::string_view fen);
 
   static void set_use_unicode_output(bool value);
 

@@ -1202,9 +1202,9 @@ std::string Board::castling_rights_to_fen_() const
   return result;
 }
 
-std::optional<Board> Board::from_fen(std::string_view fen)
+tl::expected<Board, std::string> Board::from_fen(std::string_view fen)
 {
-  std::optional<Board> board = Board{0};
+  tl::expected<Board, std::string> board{Board{0}};
 
   std::string fen_str{fen.substr(fen.find_first_not_of(" \n\t"))};
 
@@ -1233,8 +1233,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
     {
       if (x != 0)
       {
-        std::cerr << "Badly formed fen string - not enough squares on row" << std::endl;
-        return {};
+        return tl::unexpected(std::string{"Badly formed fen string - each row must have exactly eight squares"});
       }
       --y;
     }
@@ -1244,8 +1243,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
 
   if (fen_str[index] != ' ')
   {
-    std::cerr << "Badly formed fen string - Too many piece locations" << std::endl;
-    return {};
+    return tl::unexpected(std::string{"Badly formed fen string - Too many piece locations"});
   }
   ++index;
 
@@ -1259,15 +1257,13 @@ std::optional<Board> Board::from_fen(std::string_view fen)
   }
   else
   {
-    std::cerr << "Badly formed fen string - expected current move color" << std::endl;
-    return {};
+    return tl::unexpected(std::string{"Badly formed fen string - expected current move color"});
   }
 
   ++index;
   if (fen_str[index] != ' ')
   {
-    std::cerr << "Badly formed fen string - expected space after current move" << std::endl;
-    return {};
+    return tl::unexpected(std::string{"Badly formed fen string - expected space after current move"});
   }
 
   ++index;
@@ -1286,8 +1282,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
     auto capture_square = Coordinates::from_str(std::string_view{fen_str.c_str() + index, 2});
     if (!capture_square)
     {
-      std::cerr << "Badly formed fen string - invalid en passant capture square" << std::endl;
-      return {};
+      return tl::unexpected(std::string{"Badly formed fen string - invalid en passant capture square"});
     }
 
     board->m_en_passant_square.set_square(*capture_square);
@@ -1297,8 +1292,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
   ++index;
   if (index < fen_str.size() && fen_str[index] != ' ')
   {
-    std::cerr << "Badly formed fen string - expected space after en passant square" << std::endl;
-    return {};
+    return tl::unexpected(std::string{"Badly formed fen string - expected space after en passant square"});
   }
 
   while (index < fen_str.size() && fen_str[index] == ' ')
@@ -1315,8 +1309,7 @@ std::optional<Board> Board::from_fen(std::string_view fen)
     index += last_char;
     if (index >= fen_str.size())
     {
-      std::cerr << "Badly formed fen string - expected full move count" << std::endl;
-      return {};
+      return tl::unexpected(std::string{"Badly formed fen string - expected full move count"});
     }
     board->m_fullmove_count = static_cast<uint8_t>(std::stoi(fen_str.substr(index), &last_char));
   }

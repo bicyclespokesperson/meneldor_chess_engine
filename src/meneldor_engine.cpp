@@ -341,10 +341,10 @@ bool Meneldor_engine::isInitialized() const
 
 bool Meneldor_engine::setPosition(std::string const& fen, std::string* remain /* = nullptr */)
 {
-  // TODO: Use Output() to report errors in fen string
-  if (auto board = Board::from_fen(fen))
+  auto board = Board::from_fen(fen);
+  if (board)
   {
-    m_board = *board;
+    m_board = std::move(*board);
     m_previous_positions.push_back(m_board.get_hash_key());
 
     if (remain)
@@ -359,6 +359,7 @@ bool Meneldor_engine::setPosition(std::string const& fen, std::string* remain /*
     return true;
   }
 
+  senjo::Output() << board.error() << "\n";
   return false;
 }
 
