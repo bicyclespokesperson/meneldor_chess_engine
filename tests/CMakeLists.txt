@@ -1,9 +1,3 @@
-# Download catch2 (Need to include FetchContent in the parent CMakeLists.txt file)
-FetchContent_Declare(
-  catch
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v2.13.6)
-FetchContent_MakeAvailable(catch)
 
 # Tests need to be added as executables first
 add_executable(tests general_tests.cpp engine_tests.cpp perft_tests.cpp)
@@ -34,6 +28,7 @@ target_precompile_headers(tests
     <span>
     <string>
     <sstream>
+    <tl/expected.hpp>
     <unordered_map>
     <vector>
 )

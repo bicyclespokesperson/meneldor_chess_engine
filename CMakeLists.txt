@@ -38,6 +38,28 @@ endif()
 
 include(FetchContent)
 
+# Download catch2 (Need to include FetchContent in the parent CMakeLists.txt file)
+FetchContent_Declare(
+    catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2
+    GIT_TAG v2.13.7
+)
+
+set(EXPECTED_BUILD_TESTS OFF)
+FetchContent_Declare(
+    tl_expected
+    GIT_REPOSITORY https://github.com/TartanLlama/expected
+    GIT_TAG master
+)
+
+FetchContent_MakeAvailable(
+  catch2
+  tl_expected
+)
+
+include_directories(${tl_expected_SOURCE_DIR}/include)
+
+
 # Add the CMakeLists.txt files in the following directories
 add_subdirectory(src)
 add_subdirectory(app)

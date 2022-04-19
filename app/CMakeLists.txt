@@ -17,6 +17,7 @@ target_precompile_headers(chess_game
     <span>
     <string>
     <sstream>
+    <tl/expected.hpp>
     <unordered_map>
     <vector>
 )
@@ -42,6 +43,7 @@ target_precompile_headers(perft
     <span>
     <string>
     <sstream>
+    <tl/expected.hpp>
     <unordered_map>
     <vector>
 )
@@ -69,6 +71,7 @@ target_precompile_headers(meneldor
     <span>
     <sstream>
     <string>
+    <tl/expected.hpp>
     <unordered_map>
     <vector>
 )

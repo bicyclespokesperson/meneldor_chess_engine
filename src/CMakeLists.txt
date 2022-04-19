@@ -27,6 +27,7 @@ target_precompile_headers(chess_engine_lib
     <random>
     <set>
     <span>
+    <tl/expected.hpp>
     <csignal>
     <string>
     <sstream>
