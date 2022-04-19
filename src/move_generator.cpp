@@ -133,7 +133,7 @@ uint64_t blocker_permutation_from_index(int index, int bits, uint64_t m)
 // Outer squares are not possible blockers, unless the rook is on an outer
 // square. In that case, other pieces on the same row or column are potential
 // blockers.
-Bitboard rook_potential_blockers(int sq)
+constexpr Bitboard rook_potential_blockers(int sq)
 {
   Bitboard result{0ULL};
   int rank = sq / 8;
@@ -159,7 +159,7 @@ Bitboard rook_potential_blockers(int sq)
 
 // Returns the possible blockers mask for a bishop on the given square
 // Outer squares are not possible blockers for a bishop
-Bitboard bishop_potential_blockers(int sq)
+constexpr Bitboard bishop_potential_blockers(int sq)
 {
   Bitboard result{0ULL};
   int rank = sq / 8;
@@ -183,7 +183,7 @@ Bitboard bishop_potential_blockers(int sq)
   return result;
 }
 
-Bitboard rook_attacked_squares(int sq, uint64_t block)
+constexpr Bitboard rook_attacked_squares(int sq, uint64_t block)
 {
   Bitboard result{0ULL};
   int rk = sq / 8, fl = sq % 8;
@@ -222,7 +222,7 @@ Bitboard rook_attacked_squares(int sq, uint64_t block)
   return result;
 }
 
-Bitboard bishop_attacked_squares(int sq, uint64_t block)
+constexpr Bitboard bishop_attacked_squares(int sq, uint64_t block)
 {
   Bitboard result{0ULL};
   int rk = sq / 8, fl = sq % 8;

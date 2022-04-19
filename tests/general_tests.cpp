@@ -392,62 +392,6 @@ TEST_CASE("bitboard", "[bitboard]")
   REQUIRE((~b3).val == ~(b3.val));
 }
 
-// TODO: Bring these back using the updated move generator API? The functions
-// have been inlined for performance
-//       and so are no longer accessible
-#if 0
-TEST_CASE("Piece moves", "[Move_generator]")
-{
-  Bitboard occupancy{0};
-  for (int i{0}; i < 8; ++i)
-  {
-    occupancy.set_square({i, 1});
-    occupancy.set_square({i, 2});
-    occupancy.set_square({i, 6});
-    occupancy.set_square({i, 7});
-  }
-
-  Bitboard expected_rook_moves{0x001010ef10100000};
-  REQUIRE(Move_generator::rook_attacks({4, 4}, occupancy) == expected_rook_moves);
-
-  Bitboard expected_knight_moves{0x0000142200221400};
-  REQUIRE(Move_generator::knight_attacks({3, 3}, occupancy) == expected_knight_moves);
-
-  Bitboard expected_king_moves{0x0000001c141c0000};
-  REQUIRE(Move_generator::king_attacks({3, 3}, occupancy) == expected_king_moves);
-
-  Bitboard expected_bishop_moves{0x0020110a000a0000};
-  REQUIRE(Move_generator::bishop_attacks({2, 3}, occupancy) == expected_bishop_moves);
-}
-
-TEST_CASE("Pawn attacks", "[Move_generator}")
-{
-  Move_generator mg;
-  Bitboard pawns{0};
-  pawns.set_square(*Coordinates::from_str("a2"));
-  pawns.set_square(*Coordinates::from_str("b3"));
-  pawns.set_square(*Coordinates::from_str("c2"));
-  pawns.set_square(*Coordinates::from_str("g7"));
-  pawns.set_square(*Coordinates::from_str("h4"));
-
-  Bitboard occupancy{0};
-  occupancy.set_square(*Coordinates::from_str("c3"));
-  occupancy.set_square(*Coordinates::from_str("h5"));
-
-  auto white_pawn_pushes = mg.pawn_short_advances(Color::white, pawns, occupancy);
-  Bitboard expected_white_pawn_pushes{0x4000000002010000};
-  REQUIRE(expected_white_pawn_pushes == white_pawn_pushes);
-
-  auto black_pawn_pushes = mg.pawn_short_advances(Color::black, pawns, occupancy);
-  Bitboard expected_black_pawn_pushes{0x0000400000800205};
-  REQUIRE(expected_black_pawn_pushes == black_pawn_pushes);
-
-  auto white_pawn_attacks = mg.pawn_potential_attacks(Color::white, pawns);
-  Bitboard expected_white_pawn_attacks(0xa0000040050a0000);
-  REQUIRE(expected_white_pawn_attacks == white_pawn_attacks);
-}
-#endif
-
 TEST_CASE("Bitboard iterator", "[bitboard]")
 {
   Bitboard b;
@@ -504,6 +448,28 @@ TEST_CASE("Starting moves", "[Move_generator]")
   Board board;
   auto moves = Move_generator::generate_legal_moves(board);
   REQUIRE(moves.size() == 20);
+}
+
+TEST_CASE("Test is_square_attacked", "[Move_generator]")
+{
+  Board board;
+  Move_generator::generate_legal_moves(board);
+
+  Bitboard bb;
+  bb.set_square(*Coordinates::from_str("a3"));
+  REQUIRE(!Move_generator::is_square_attacked(board, Color::black, bb));
+
+  bb.unset_all();
+  bb.set_square(*Coordinates::from_str("a3"));
+  REQUIRE(Move_generator::is_square_attacked(board, Color::white, bb));
+
+  bb.unset_all();
+  bb.set_square(*Coordinates::from_str("e6"));
+  REQUIRE(Move_generator::is_square_attacked(board, Color::black, bb));
+
+  bb.unset_all();
+  bb.set_square(*Coordinates::from_str("e6"));
+  REQUIRE(!Move_generator::is_square_attacked(board, Color::white, bb));
 }
 
 TEST_CASE("Move counts", "[board]")
