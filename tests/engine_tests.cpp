@@ -253,7 +253,7 @@ TEST_CASE("Search_repetition_uci", "[.Meneldor_engine]")
   REQUIRE(best_move != "e8g6");
 }
 
-TEST_CASE("No pseudo legal moves", "[Meneldor_engine]")
+TEST_CASE("No pseudo legal moves", "[.Meneldor_engine]")
 {
   Meneldor_engine engine;
   engine.initialize();

@@ -360,48 +360,42 @@ bool Board::move_results_in_check_destructive(Move m)
   return is_in_check(color);
 }
 
-bool Board::try_move(Move m)
+tl::expected<void, std::string> Board::try_move(Move m)
 {
   MY_ASSERT(m.piece() == get_piece(m.from()), "Move has incorrect moving piece");
 
   if (m.piece() == Piece::empty)
   {
-    std::cerr << "Empty start square " << m.from() << "\n";
-    return false;
+    return tl::unexpected(std::string{"Empty start square"});
   }
 
   auto const color = get_active_color();
 
   if (get_piece_color(m.from()) != color)
   {
-    std::cerr << "Wrong color " << color << "\n";
-    // Make sure the correct color is moving
-    return false;
+    return tl::unexpected(std::string{"Incorrect moving color"});
   }
 
   if (!piece_can_move(m.from(), m.to(), *this))
   {
-    std::cerr << "Piece doesn't move like that: " << m.piece() << "\n";
-    return false;
+    return tl::unexpected(std::string{"Piece doesn't move like that"});
   }
 
   // Ensure that a promotion square is present iff we have a pawn move to the
   // back rank
   if ((m.piece() == Piece::pawn && (m.to().y() == 0 || m.to().y() == 7)) != (m.promotion() != Piece::empty))
   {
-    std::cerr << "Invalid promotion target: " << m.promotion() << "\n";
-    return false;
+    return tl::unexpected(std::string{"Invalid promotion"});
   }
 
   if (m.promotion() == Piece::king || m.promotion() == Piece::pawn)
   {
-    // Cannot promote to king or pawn
-    std::cerr << "Can't promote to: " << m.promotion() << "\n";
-    return false;
+    return tl::unexpected(std::string{"Cannot promote to that piece"});
   }
 
   constexpr static bool skip_check_detection{false};
-  return move_no_verify(m, skip_check_detection);
+  return move_no_verify(m, skip_check_detection) ? tl::expected<void, std::string>{} :
+                                                   tl::unexpected(std::string{"Move leaves king in check"});
 }
 
 bool Board::move_no_verify(Move m, bool skip_check_detection)
@@ -472,22 +466,24 @@ bool Board::move_no_verify(Move m, bool skip_check_detection)
   return true;
 }
 
-bool Board::try_move_algebraic(std::string_view move_str)
+tl::expected<void, std::string> Board::try_move_algebraic(std::string_view move_str)
 {
-  if (auto m = move_from_algebraic(move_str, get_active_color()))
-  {
-    return try_move(*m);
-  }
-  return false;
+  return move_from_algebraic(move_str, get_active_color())
+    .and_then(
+      [&](const auto m)
+      {
+        return try_move(m);
+      });
 }
 
-bool Board::try_move_uci(std::string_view move_str)
+tl::expected<void, std::string> Board::try_move_uci(std::string_view move_str)
 {
-  if (auto m = move_from_uci(std::string{move_str}))
-  {
-    return try_move(*m);
-  }
-  return false;
+  return move_from_uci(std::string{move_str})
+    .and_then(
+      [&](const auto m)
+      {
+        return try_move(m);
+      });
 }
 
 Color Board::get_active_color() const
@@ -888,7 +884,7 @@ std::vector<Coordinates> Board::find_pieces_that_can_move_to(Piece piece, Color 
   return candidates;
 }
 
-std::optional<Move> Board::move_from_uci(std::string move_str) const
+tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 {
   move_str.erase(std::remove_if(move_str.begin(), move_str.end(), isspace), move_str.end());
   std::transform(move_str.begin(), move_str.end(), move_str.begin(),
@@ -906,7 +902,7 @@ std::optional<Move> Board::move_from_uci(std::string move_str) const
 
   if (move_str.size() < 4)
   {
-    return {};
+    return tl::unexpected(std::string{"Incorrect move string length"});
   }
 
   auto from = Coordinates::from_str(move_str);
@@ -921,10 +917,10 @@ std::optional<Move> Board::move_from_uci(std::string move_str) const
     return Move{*from, *to, moving_piece, victim_piece, promotion_result, move_type};
   }
 
-  return {};
+  return tl::unexpected(std::string{"Invalid move"});
 }
 
-std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Color color) const
+tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move_param, Color color) const
 {
   std::string move_str{move_param};
   move_str.erase(std::remove_if(move_str.begin(), move_str.end(),
@@ -944,8 +940,7 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
   {
     if (index + 1 >= move_str.size())
     {
-      std::cerr << "Invalid promotion target" << std::endl;
-      return {};
+      return tl::unexpected(std::string{"Invalid promotion target"});
     }
     promotion_result = from_char(std::toupper(move_str[index + 1], std::locale()));
     move_str.resize(move_str.size() - 2);
@@ -996,15 +991,13 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
 
   if (piece == Piece::empty)
   {
-    std::cerr << "Invalid move: " << move_param << "\n";
-    return {};
+    return tl::unexpected(std::string{"Invalid piece for move"});
   }
 
   auto candidates = find_pieces_that_can_move_to(piece, color, *target_square);
   if (candidates.empty())
   {
-    std::cerr << "No piece can perform move " << move_param << "\n";
-    return {};
+    return tl::unexpected(std::string{"No piece can perform move"});
   }
 
   if (candidates.size() == 1)
@@ -1018,8 +1011,7 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
 
   if (move_str.empty())
   {
-    std::cerr << "Too many pieces can perform move " << move_param << "\n";
-    return {};
+    return tl::unexpected(std::string{"Too many pieces can perform move"});
   }
 
   if (isalpha(move_str[0]))
@@ -1047,8 +1039,7 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
 
   if (move_str.empty())
   {
-    std::cerr << "Too many pieces can perform move " << move_param << "\n";
-    return {};
+    return tl::unexpected(std::string{"Too many pieces can perform move"});
   }
 
   if (isdigit(move_str[0]))
@@ -1075,16 +1066,12 @@ std::optional<Move> Board::move_from_algebraic(std::string_view move_param, Colo
 
   if (candidates.size() > 1)
   {
-    std::cerr << "Too many pieces can perform move " << move_param << "\n";
+    return tl::unexpected(std::string{"Too many pieces can perform move"});
   }
-  else
-  {
-    std::cerr << "No piece can perform move " << move_param << "\n";
-  }
-  return {};
+  return tl::unexpected(std::string{"No piece can perform move"});
 }
 
-std::optional<Board> Board::from_pgn(std::string_view pgn)
+tl::expected<Board, std::string> Board::from_pgn(std::string_view pgn)
 {
   std::vector<std::string> tag_pairs;
   std::vector<std::string> moves;
@@ -1133,23 +1120,25 @@ std::optional<Board> Board::from_pgn(std::string_view pgn)
     }
     else
     {
-      std::cerr << "Unexpected char at index " << std::to_string(index) << " while parsing pgn file: " << pgn[index]
+      std::stringstream err_ss;
+      err_ss << "Unexpected char at index " << std::to_string(index) << " while parsing pgn file: " << pgn[index]
                 << "Ascii code: " << std::to_string(static_cast<int32_t>(pgn[index])) << std::endl;
-      return {};
+      return tl::unexpected(err_ss.str());
     }
   }
 
   // Play out the target moves on the board, and ensure they are valid
-  std::optional<Board> result = Board{};
+  Board result{};
   for (auto const& move_str : moves)
   {
-    if (!result->try_move_algebraic(move_str))
+      auto attempt = result.try_move_algebraic(move_str);
+    if (!attempt)
     {
-      return {};
+      return tl::unexpected(attempt.error());
     }
   }
 
-  return result;
+  return tl::expected<Board, std::string>{std::move(result)};
 }
 
 bool Board::update_castling_rights_fen_(char c)

@@ -222,7 +222,12 @@ TEST_CASE("A board should prevent illegal moves", "[board]")
 {
   Board board;
 
-  REQUIRE(!board.try_move_algebraic("d5")); // Black cannot move first
+  {
+    auto result = board.try_move_algebraic("d5"); // Black cannot move first
+    REQUIRE(!result);
+    REQUIRE(result.error() == "No piece can perform move");
+  }
+
   REQUIRE(!board.try_move_algebraic("Bc4")); // Bishops cannot jump over pieces
   REQUIRE(board.try_move_algebraic("e4"));
 
@@ -242,7 +247,12 @@ TEST_CASE("A board should prevent illegal moves", "[board]")
 
   REQUIRE(board.try_move_algebraic("f7+"));
 
-  REQUIRE(!board.try_move_algebraic("Nc6")); // A move cannot leave the king in check
+  {
+    auto result = board.try_move_algebraic("Nc6"); // A move cannot leave the king in check
+    REQUIRE(!result);
+    REQUIRE(result.error() == "Move leaves king in check"); // A move cannot leave the king in check
+  }
+
   REQUIRE(board.try_move_algebraic("Kxf7"));
 
   REQUIRE(board.try_move_algebraic("Qf3+"));
@@ -308,7 +318,7 @@ TEST_CASE("En passant move type", "[board]")
   REQUIRE(m->type() == Move_type::normal);
 }
 
-TEST_CASE("A board make moves in uci format", "[board]")
+TEST_CASE("A board can make moves in uci format", "[board]")
 {
   Board board;
   REQUIRE(board.try_move_uci("a2 a4"));

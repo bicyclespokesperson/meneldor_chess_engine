@@ -10,7 +10,7 @@
 class Board
 {
 public:
-  static std::optional<Board> from_pgn(std::string_view pgn);
+  static tl::expected<Board, std::string> from_pgn(std::string_view pgn);
 
   static tl::expected<Board, std::string> from_fen(std::string_view fen);
 
@@ -74,10 +74,9 @@ public:
   /**
    * Tries to make a move
    *
-   * Returns an empty optional for an illegal move, Piece::empty if the move
-   * succeeded but no piece was captured, and the piece if a piece was captured.
+   * Returns an error string for an illegal move
    */
-  bool try_move(Move m);
+  tl::expected<void, std::string> try_move(Move m);
 
   /**
    * Performs a move without validating the move
@@ -101,24 +100,20 @@ public:
   /**
    * Attempt to make a move encoded in uci format ("e2 e4")
    *
-   * Returns an empty optional for an illegal move or invalid string,
-   * Piece::empty if the move succeeded but no piece was captured, and the piece
-   * if a piece was captured.
+   * Returns an error string for an illegal move or invalid string
    */
-  bool try_move_uci(std::string_view move_str);
+  tl::expected<void, std::string> try_move_uci(std::string_view move_str);
 
   /**
    * Attempt to make a move encoded in algebraic notation ("Bxc3")
    *
-   * Returns an empty optional for an illegal move or invalid string,
-   * Piece::empty if the move succeeded but no piece was captured, and the piece
-   * if a piece was captured.
+   * Returns an error string for an invalid move
    */
-  bool try_move_algebraic(std::string_view move_str);
+  tl::expected<void, std::string> try_move_algebraic(std::string_view move_str);
 
-  std::optional<Move> move_from_algebraic(std::string_view move_param, Color color) const;
+  tl::expected<Move, std::string> move_from_algebraic(std::string_view move_param, Color color) const;
 
-  std::optional<Move> move_from_uci(std::string move_str) const;
+  tl::expected<Move, std::string> move_from_uci(std::string move_str) const;
 
   /**
    * Check if castling to the desired square is allowed
