@@ -41,3 +41,5 @@ Findings from Instruments (profiling 1 minute of a computer vs computer game)
   Generating all attack squares takes up a good chunk of time (15% just in evaluate, more in stalemate and checking for check in move generation)
   Almost half the time is spent quiescence searching, sometimes qsearch gets to depth 12
 
+Disable warnings clang/MSVS: https://stackoverflow.com/questions/32049296/how-to-disable-all-warnings-using-pragma-directives-in-gcc
+

@@ -2,6 +2,7 @@ To run an engine vs engine match in chessx (on mac)
     https://sourceforge.net/projects/chessx/
 
     Under preferences, set up both engines with their command and working direcotry
+      Make sure to check the "Send history" box, otherwise the engines will sometimes draw by repetition
     Open analysis window 1 and analysis window 2 with the respective engines
     Analysis window 1 will play as white
     Make sure both engines are stopped
