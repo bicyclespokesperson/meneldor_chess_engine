@@ -220,7 +220,9 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   bool has_any_moves{false};
   bool perform_full_search{true};
   auto eval_type = Transposition_table::Eval_type::alpha;
-  Move best{moves.front()}; //TODO: Could this list ever be empty?
+
+  // This list can't be empty, wouldn't have gotten this far if it was
+  Move best{moves.front()};
   Board tmp_board{board};
   for (auto const move : moves)
   {

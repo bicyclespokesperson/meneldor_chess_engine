@@ -252,3 +252,44 @@ TEST_CASE("Search_repetition_uci", "[.Meneldor_engine]")
   auto best_move = engine.go(params);
   REQUIRE(best_move != "e8g6");
 }
+
+TEST_CASE("No pseudo legal moves", "[Meneldor_engine]")
+{
+  Meneldor_engine engine;
+  engine.initialize();
+  SECTION("No moves")
+  {
+    std::string fen = "6k1/8/8/6p1/5pPp/5PRP/5PRQ/6BK w - - 0 1";
+    engine.setPosition(fen);
+
+    senjo::GoParams params;
+    auto m = engine.go(params);
+    params.depth = 6;
+
+    REQUIRE(m == "");
+  }
+
+  SECTION("Black can force a position with no moves")
+  {
+    std::string fen = "6k1/8/6p1/8/5pPp/5PRP/5PRQ/6BK b - - 0 1";
+    engine.setPosition(fen);
+
+    senjo::GoParams params;
+    auto m = engine.go(params);
+    params.depth = 6;
+
+    REQUIRE(m == "g6g5");
+  }
+
+  SECTION("Two moves away from position with no moves")
+  {
+    std::string fen = "6k1/8/6p1/8/5pPp/5nRP/4PPRQ/6BK w - - 0 1";
+    engine.setPosition(fen);
+
+    senjo::GoParams params;
+    auto m = engine.go(params);
+    params.depth = 6;
+
+    // No requires, only make sure we don't infinite loop or crash
+  }
+}
