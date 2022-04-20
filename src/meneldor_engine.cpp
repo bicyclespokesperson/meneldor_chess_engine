@@ -137,7 +137,7 @@ void Meneldor_engine::calc_time_for_move_(senjo::GoParams const& params)
   m_search_desired_end_time = m_search_start_time + time_for_move;
 }
 
-int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remaining)
+int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remaining, bool previous_move_was_null /* = false */)
 {
   ++m_visited_nodes;
   if (!has_more_time_())
@@ -157,11 +157,13 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
     return c_contempt_score; // Draw by repetition
   }
 
+  int eval{positive_inf};
   Move best_guess{};
   if (auto const entry = m_transpositions.get(board.get_hash_key()))
   {
     best_guess = entry->best_move;
     ++tt_hits;
+    eval = entry->evaluation;
 
     if (entry->depth >= depth_remaining)
     {
@@ -193,6 +195,35 @@ int Meneldor_engine::negamax_(Board& board, int alpha, int beta, int depth_remai
   else
   {
     ++tt_misses;
+    eval = evaluate(board);
+  }
+
+  // Don't use null move pruning if the node is part of the principal variation
+  bool is_pv_node = (beta - alpha != 1);
+
+  // Null move pruning
+  constexpr int c_min_depth_for_null_move_pruning{5};
+  static bool const skip_null_move_pruning = is_feature_enabled("skip_null_move_pruning");
+
+  if (!skip_null_move_pruning && !is_pv_node &&
+      !previous_move_was_null &&
+      depth_remaining >= c_min_depth_for_null_move_pruning &&
+      !board.is_in_check(board.get_active_color()) && 
+      eval > beta)
+  {
+    int const r = 3;
+
+    Move null_move{};
+    Board tmp_board{board};
+    tmp_board.move_no_verify(null_move, true);
+
+    constexpr bool previous_was_null{true};
+    int const null_score = -negamax_(tmp_board, -beta, -alpha, depth_remaining - 1 - r, previous_was_null);
+    if (null_score >= beta)
+    {
+      //TODO: Perform full search to verify?
+      return beta;
+    }
   }
 
   auto moves = Move_generator::generate_pseudo_legal_moves(board);

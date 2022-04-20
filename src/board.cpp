@@ -400,10 +400,10 @@ tl::expected<void, std::string> Board::try_move(Move m)
 
 bool Board::move_no_verify(Move m, bool skip_check_detection)
 {
+  auto const color = get_active_color();
+
   if (m.type() != Move_type::null)
   {
-    auto const color = get_active_color();
-
     auto capture_location = m.to();
     if (m.type() == Move_type::en_passant)
     {
@@ -435,20 +435,6 @@ bool Board::move_no_verify(Move m, bool skip_check_detection)
       add_piece_(color, m.promotion(), m.to());
     }
 
-    // Set en passant square if applicable
-    m_zhash.update_en_passant_square(m_en_passant_square);
-    m_en_passant_square.unset_all();
-    if (m.piece() == Piece::pawn && distance_between(m.from(), m.to()) == 2)
-    {
-      int const offset = (color == Color::white) ? -1 : 1;
-      m_en_passant_square.set_square(Coordinates{m.to().x(), m.to().y() + offset});
-    }
-    m_zhash.update_en_passant_square(m_en_passant_square);
-
-    if (color == Color::black)
-    {
-      ++m_fullmove_count;
-    }
     if (m.piece() == Piece::pawn || m.victim() != Piece::empty)
     {
       m_halfmove_clock = 0;
@@ -459,7 +445,22 @@ bool Board::move_no_verify(Move m, bool skip_check_detection)
     }
   }
 
-  m_active_color = opposite_color(m_active_color);
+  // Set en passant square if applicable
+  m_zhash.update_en_passant_square(m_en_passant_square);
+  m_en_passant_square.unset_all();
+  if (m.piece() == Piece::pawn && distance_between(m.from(), m.to()) == 2)
+  {
+    int const offset = (color == Color::white) ? -1 : 1;
+    m_en_passant_square.set_square(Coordinates{m.to().x(), m.to().y() + offset});
+  }
+  m_zhash.update_en_passant_square(m_en_passant_square);
+
+  if (color == Color::black)
+  {
+    ++m_fullmove_count;
+  }
+
+  m_active_color = opposite_color(color);
   m_zhash.update_player_to_move();
 
   MY_ASSERT(validate_(), "Board is in an incorrect state after move");

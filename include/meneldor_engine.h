@@ -93,7 +93,7 @@ private:
     time,
   };
 
-  int negamax_(Board& board, int alpha, int beta, int depth_remaining);
+  int negamax_(Board& board, int alpha, int beta, int depth_remaining, bool previous_move_was_null = false);
 
   int quiesce_(Board const& board, int alpha, int beta) const;
 
