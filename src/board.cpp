@@ -1123,7 +1123,7 @@ tl::expected<Board, std::string> Board::from_pgn(std::string_view pgn)
     {
       std::stringstream err_ss;
       err_ss << "Unexpected char at index " << std::to_string(index) << " while parsing pgn file: " << pgn[index]
-                << "Ascii code: " << std::to_string(static_cast<int32_t>(pgn[index])) << std::endl;
+             << "Ascii code: " << std::to_string(static_cast<int32_t>(pgn[index])) << std::endl;
       return tl::unexpected(err_ss.str());
     }
   }
@@ -1132,7 +1132,7 @@ tl::expected<Board, std::string> Board::from_pgn(std::string_view pgn)
   Board result{};
   for (auto const& move_str : moves)
   {
-      auto attempt = result.try_move_algebraic(move_str);
+    auto attempt = result.try_move_algebraic(move_str);
     if (!attempt)
     {
       return tl::unexpected(attempt.error());

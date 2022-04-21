@@ -200,9 +200,8 @@ int Meneldor_engine::negamax_(Board& board,
   {
     ++tt_misses;
   }
-    
-  eval = evaluate(board);
 
+  eval = evaluate(board);
 
   // Don't use null move pruning if the node is part of the principal variation
   bool is_pv_node = (beta - alpha != 1);
@@ -213,11 +212,8 @@ int Meneldor_engine::negamax_(Board& board,
 
   if (depth_remaining >= c_min_depth_for_null_move_pruning)
   {
-    if (!skip_null_move_pruning &&
-        !is_pv_node &&
-        !previous_move_was_null &&
-        !board.is_in_check(board.get_active_color()) &&
-        eval > beta)
+    if (!skip_null_move_pruning && !is_pv_node && !previous_move_was_null &&
+        !board.is_in_check(board.get_active_color()) && eval > beta)
     {
       int const r = 2;
 
