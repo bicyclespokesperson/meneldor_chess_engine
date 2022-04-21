@@ -1,16 +1,10 @@
-Right now I'm losing the principal variation (when adding all eval types, not just exact), 
-      might be due to TT overwrites:
-https://www.chessprogramming.org/Principal_Variation#Transposition_Table
 
 Fancy magics? Might have better cache performance
   Implemented, appears slower unfortunately
 
-Clean up stopping on stopSearch?
-
 Make move generator aware of check?
 
 Search
-  Principle variation search
   Null move pruning // See laser, search "null move pruning"
   Move ordering
     Attack piece that most recently moved, first?
@@ -20,8 +14,4 @@ Search
     https://chess.stackexchange.com/questions/27257/chess-engine-quiescence-search-increases-required-time-by-a-factor-of-20
       Use iterative deepening to order all moves, not just best move?
 
-Implement insufficient material draws? Would this actually affect anything?
-
-Should probably update create_build.sh to default to an out of source build, that would also make cleaning easier. 
-Would need to see if there's a way to add make run or something to avoid CDing everywhere to run things
-
+Board::get_piece could probably be implemented faster by unrolling the call to find_if
