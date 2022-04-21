@@ -22,6 +22,8 @@
 
 #include "EngineOption.h"
 
+#include <utility>
+
 namespace senjo {
 
 static const char* OPT_BUTTON_NAME  = "button";
@@ -66,19 +68,19 @@ std::string EngineOption::getTypeName(const EngineOption::OptionType type) {
 }
 
 //-----------------------------------------------------------------------------
-EngineOption::EngineOption(const std::string& optName,
+EngineOption::EngineOption(std::string  optName,
                            const std::string& defaultValue,
                            const OptionType optType,
                            const int64_t minValue,
                            const int64_t maxValue,
-                           const std::set<std::string>& comboValues)
+                           std::set<std::string>  comboValues)
   : optType(optType),
-    optName(optName),
+    optName(std::move(optName)),
     optValue(defaultValue),
     defaultValue(defaultValue),
     minValue(minValue),
     maxValue(maxValue),
-    comboValues(comboValues) {}
+    comboValues(std::move(comboValues)) {}
 
 //-----------------------------------------------------------------------------
 int64_t EngineOption::getIntValue() const {
@@ -93,8 +95,8 @@ int64_t EngineOption::getDefaultIntValue() const {
 //-----------------------------------------------------------------------------
 std::set<int64_t> EngineOption::getIntComboValues() const {
   std::set<int64_t> values;
-  for (auto value : comboValues) {
-    int64_t n = toNumber<int64_t>(value, -1);
+  for (const auto& value : comboValues) {
+    auto n = toNumber<int64_t>(value, -1);
     if (n >= 0) {
       values.insert(n);
     }
@@ -116,7 +118,7 @@ bool EngineOption::setValue(const std::string& value) {
     }
     break;
   case OptionType::Spin: {
-    int64_t intval = toNumber<int64_t>(value, (minValue - 1));
+    auto intval = toNumber<int64_t>(value, (minValue - 1));
     if ((intval < minValue) || (intval > maxValue)) {
       return false;
     }

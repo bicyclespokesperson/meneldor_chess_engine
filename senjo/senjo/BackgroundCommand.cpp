@@ -233,7 +233,7 @@ void PerftCommandHandle::doWork() {
         break;
       }
 
-      uint64_t leafs = params.popNumber<uint64_t>();
+      auto leafs = params.popNumber<uint64_t>();
       if (leafs < 1) {
         Output() << "--- invalid expected leaf count";
         break;

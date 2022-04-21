@@ -21,6 +21,8 @@
 //-----------------------------------------------------------------------------
 
 #include "Thread.h"
+
+#include <memory>
 #include "Output.h"
 
 namespace senjo {
@@ -42,7 +44,7 @@ bool Thread::run() {
     return false;
   }
 
-  thread.reset(new std::thread(Thread::staticRun, this));
+  thread = std::make_unique<std::thread>(Thread::staticRun, this);
   return true;
 }
 

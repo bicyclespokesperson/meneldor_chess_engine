@@ -304,7 +304,7 @@ void UCIAdapter::doNewCommand(Parameters& params) {
 //! Output current engine option values
 //-----------------------------------------------------------------------------
 void UCIAdapter::doOptsCommand(Parameters& /*params*/) {
-  for (auto opt : engine.getOptions()) {
+  for (const auto& opt : engine.getOptions()) {
     switch (opt.getType()) {
     case EngineOption::Checkbox:
     case EngineOption::Spin:
@@ -316,7 +316,7 @@ void UCIAdapter::doOptsCommand(Parameters& /*params*/) {
       const std::set<std::string>& values = opt.getComboValues();
       Output out;
       out << opt.getTypeName() << ':' << opt.getName();
-      for (auto value : values) {
+      for (const auto& value : values) {
         out << ' ' << value;
       }
       break;
@@ -436,7 +436,7 @@ void UCIAdapter::doIsReadyCommand(Parameters& params) {
 //!   Stop calculating as soon as possible, don't forget the "bestmove" and
 //!   possibly the "ponder" token when finishing the search.
 //-----------------------------------------------------------------------------
-void UCIAdapter::doStopCommand(Parameters params) {
+void UCIAdapter::doStopCommand(const Parameters& params) {
   if (params.firstParamIs(token::Help)) {
     Output() << "usage: " << token::Stop;
     Output() << "Stop engine if it is calculating.";
@@ -483,7 +483,7 @@ void UCIAdapter::doUCICommand(Parameters& params) {
     Output(Output::NoPrefix) << "id country " << country;
   }
 
-  for (auto opt : engine.getOptions()) {
+  for (const auto& opt : engine.getOptions()) {
     Output out(Output::NoPrefix);
     out << "option name " << opt.getName() << " type " << opt.getTypeName();
     if (opt.getDefaultValue().size()) {
@@ -495,7 +495,7 @@ void UCIAdapter::doUCICommand(Parameters& params) {
     if (opt.getMaxValue() < INT64_MAX) {
       out << " max " << opt.getMaxValue();
     }
-    for (auto val : opt.getComboValues()) {
+    for (const auto& val : opt.getComboValues()) {
       out << " var " << val;
     }
   }
@@ -532,7 +532,7 @@ void UCIAdapter::doUCICommand(Parameters& params) {
 //!   "isready" after "ucinewgame" to wait for the engine to finish its
 //!   operation.
 //-----------------------------------------------------------------------------
-void UCIAdapter::doUCINewGameCommand(Parameters params) {
+void UCIAdapter::doUCINewGameCommand(const Parameters& params) {
   if (params.firstParamIs(token::Help)) {
     Output() << "usage: " << token::UciNewGame;
     Output() << "Clear all search data.";

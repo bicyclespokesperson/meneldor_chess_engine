@@ -56,9 +56,9 @@ private:
   void doIsReadyCommand(Parameters& params);
   void doPonderHitCommand(Parameters& params);
   void doSetOptionCommand(Parameters& params);
-  void doStopCommand(Parameters params = {});
+  void doStopCommand(const Parameters& params = {});
   void doUCICommand(Parameters& params);
-  void doUCINewGameCommand(Parameters params = {});
+  void doUCINewGameCommand(const Parameters& params = {});
   void doPositionCommand(const std::string& line, Parameters& params);
   void execute(std::unique_ptr<BackgroundCommand> command, Parameters& params);
 

@@ -223,7 +223,7 @@ std::string MoveFinder::pawnMove(const char* p, Square from, Square to) const {
       move += ch;
       return move;
     }
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -232,7 +232,7 @@ std::string MoveFinder::pawnMove(const char* p, Square from, Square to) const {
 std::string MoveFinder::knightMove(const char* p, Square from, Square to) const {
   std::string move = pieceMove(p, friendPiece('N'), from, to);
   if (move.size() && *p && !isspace(*p)) {
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -242,7 +242,7 @@ std::string MoveFinder::bishopMove(const char* p, Square from, Square to) const
 {
   std::string move = pieceMove(p, friendPiece('B'), from, to);
   if (move.size() && *p && !isspace(*p)) {
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -252,7 +252,7 @@ std::string MoveFinder::rookMove(const char* p, Square from, Square to) const
 {
   std::string move = pieceMove(p, friendPiece('R'), from, to);
   if (move.size() && *p && !isspace(*p)) {
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -262,7 +262,7 @@ std::string MoveFinder::queenMove(const char* p, Square from, Square to) const
 {
   std::string move = pieceMove(p, friendPiece('Q'), from, to);
   if (move.size() && *p && !isspace(*p)) {
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -272,7 +272,7 @@ std::string MoveFinder::kingMove(const char* p, Square from, Square to) const
 {
   std::string move = pieceMove(p, friendPiece('K'), from, to);
   if (move.size() && *p && !isspace(*p)) {
-    return std::string();
+    return {};
   }
   return move;
 }
@@ -312,7 +312,7 @@ std::string MoveFinder::pieceMove(const char*& p, const char type,
   switch (*p) {
   case 'B': case 'N': case 'P': case 'Q': case 'R':
     if (cap == '-') {
-      return std::string();
+      return {};
     }
     cap = enemyPiece(*p++);
     break;
@@ -345,7 +345,7 @@ std::string MoveFinder::pieceMove(const char*& p, const char type,
   std::set<Square> origins;
   addOrigins(type, fromX, fromY, origins);
   if (origins.empty()) {
-    return std::string();
+    return {};
   }
 
   std::list<ChessMove> moves;
@@ -372,7 +372,7 @@ std::string MoveFinder::pieceMove(const char*& p, const char type,
   }
 
   if (moves.size() != 1) {
-    return std::string();
+    return {};
   }
 
   while (*p && ispunct(*p)) ++p;

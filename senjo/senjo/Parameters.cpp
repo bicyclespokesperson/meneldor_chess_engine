@@ -43,7 +43,7 @@ void Parameters::parse(const std::string& str) {
 std::string Parameters::toString() const {
   std::stringstream ss;
   bool first = true;
-  for (std::string param : *this) {
+  for (const std::string& param : *this) {
     if (first) {
       first = false;
     } else {
