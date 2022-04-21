@@ -22,7 +22,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
   set(CMAKE_XCODE_GENERATE_SCHEME TRUE)
 
-  #set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=./include)
+  #set(CMAKE_CXX_CLANG_TIDY /opt/homebrew/Cellar/llvm/13.0.1_1/bin/clang-tidy -header-filter=./include -fix-errors)
 
   # Let's nicely support folders in IDEs
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -38,7 +38,7 @@ endif()
 
 include(FetchContent)
 
-# Download catch2 (Need to include FetchContent in the parent CMakeLists.txt file)
+# Download catch2 (Need to include FetchContent for this to work)
 FetchContent_Declare(
     catch2
     GIT_REPOSITORY https://github.com/catchorg/Catch2
