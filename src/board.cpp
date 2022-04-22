@@ -241,15 +241,37 @@ Color Board::get_piece_color(Coordinates square) const
 
 Piece Board::get_piece(Coordinates square) const
 {
-  constexpr static std::array piece_types{Piece::pawn, Piece::bishop, Piece::knight,
-                                          Piece::rook, Piece::queen,  Piece::king};
-  auto const search = std::find_if(piece_types.cbegin(), piece_types.cend(),
-                                   [&](Piece piece)
-                                   {
-                                     return get_all(piece).is_set(square);
-                                   });
+  if (get_all(Piece::pawn).is_set(square))
+  {
+    return Piece::pawn;
+  }
 
-  return (search == piece_types.cend()) ? Piece::empty : *search;
+  if (get_all(Piece::bishop).is_set(square))
+  {
+    return Piece::bishop;
+  }
+
+  if (get_all(Piece::knight).is_set(square))
+  {
+    return Piece::knight;
+  }
+
+  if (get_all(Piece::rook).is_set(square))
+  {
+    return Piece::rook;
+  }
+
+  if (get_all(Piece::queen).is_set(square))
+  {
+    return Piece::queen;
+  }
+
+  if (get_all(Piece::king).is_set(square))
+  {
+    return Piece::king;
+  }
+
+  return Piece::empty;
 }
 
 Castling_rights Board::get_castling_rights() const
