@@ -161,13 +161,11 @@ int Meneldor_engine::negamax_(Board& board,
     return c_contempt_score; // Draw by repetition
   }
 
-  int eval{positive_inf};
   Move best_guess{};
   if (auto const entry = m_transpositions.get(board.get_hash_key()))
   {
     best_guess = entry->best_move;
     ++tt_hits;
-    eval = entry->evaluation;
 
     if (entry->depth >= depth_remaining)
     {
@@ -201,19 +199,17 @@ int Meneldor_engine::negamax_(Board& board,
     ++tt_misses;
   }
 
-  eval = evaluate(board);
-
   // Don't use null move pruning if the node is part of the principal variation
-  bool is_pv_node = (beta - alpha != 1);
+  bool const is_pv_node = (beta - alpha != 1);
 
   // Null move pruning
   constexpr int c_min_depth_for_null_move_pruning{4};
   static bool const skip_null_move_pruning = is_feature_enabled("skip_null_move_pruning");
 
-  if (depth_remaining >= c_min_depth_for_null_move_pruning)
+  if (depth_remaining >= c_min_depth_for_null_move_pruning && !skip_null_move_pruning && !is_pv_node &&
+      !previous_move_was_null && !board.is_in_check(board.get_active_color()))
   {
-    if (!skip_null_move_pruning && !is_pv_node && !previous_move_was_null &&
-        !board.is_in_check(board.get_active_color()) && eval > beta)
+    if (auto eval = evaluate(board); eval > beta)
     {
       int const r = 2;
 
