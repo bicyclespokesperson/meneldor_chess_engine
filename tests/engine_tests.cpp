@@ -6,7 +6,7 @@
 
 namespace
 {
-auto engine_stats_from_position(std::string_view fen, int depth = 6, bool debug = false)
+auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug = false)
 {
   static std::string const c_performance_log_filename{"output/performance_log.txt"};
   std::ofstream outfile{c_performance_log_filename, std::ios_base::app};

@@ -3,4 +3,5 @@ skip_guess_move = false
 piece_attacks_only = false
 use_id_sort = false
 use_pvs = false
+skip_null_move_pruning = false
 
