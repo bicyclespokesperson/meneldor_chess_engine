@@ -71,3 +71,13 @@ TEST_CASE("Perft position 6", "[.Move_generator]")
   uint64_t expected{3'894'594};
   test_perft(fen_str, depth, expected);
 }
+
+// Ensures castling rights are updated properly when one rook takes another from their starting positions
+TEST_CASE("Perft position 7", "[.Move_generator]")
+{
+  std::string fen_str = "r3kbnr/5ppp/2b1p3/3p4/3P4/2B5/1PN1PPPP/R3KBNR b KQkq - 0 17";
+
+  int depth{4};
+  uint64_t expected{865305};
+  test_perft(fen_str, depth, expected);
+}

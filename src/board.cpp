@@ -587,19 +587,21 @@ void Board::update_castling_rights_(Color color, Piece piece, Move m)
   }
   else
   {
-    if (Coordinates a1{0, 0}; m.to() == a1 || m.from() == a1)
+    auto const to = m.to();
+    auto const from = m.from();
+    if (Coordinates a1{0, 0}; to == a1 || from == a1)
     {
       set_white_long_castle_false(m_rights);
     }
-    else if (Coordinates h1{7, 0}; m.to() == h1 || m.from() == h1)
+    if (Coordinates h1{7, 0}; to == h1 || from == h1)
     {
       set_white_short_castle_false(m_rights);
     }
-    else if (Coordinates a8{0, 7}; m.to() == a8 || m.from() == a8)
+    if (Coordinates a8{0, 7}; to == a8 || from == a8)
     {
       set_black_long_castle_false(m_rights);
     }
-    else if (Coordinates h8{7, 7}; m.to() == h8 || m.from() == h8)
+    if (Coordinates h8{7, 7}; to == h8 || from == h8)
     {
       set_black_short_castle_false(m_rights);
     }
