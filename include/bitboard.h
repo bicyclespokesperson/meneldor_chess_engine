@@ -136,7 +136,17 @@ struct Bitboard
   constexpr int32_t occupancy() const
   {
 #ifdef _WIN32
-    return __popcnt64(val);
+    // Windows builtin popcount isn't constexpr
+    // Kernighan's algorithm
+    int32_t count = 0;
+    uint64_t value{this->val};
+ 
+    while (value)
+    {
+      ++count;
+      value &= value - 1; // reset LS1B
+    }
+    return count;
 #else
     return __builtin_popcountl(val);
 #endif
