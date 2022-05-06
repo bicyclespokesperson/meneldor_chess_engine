@@ -11,6 +11,7 @@ Meneldor chess engine is a UCI Compilant chess engine written in C++
   - Negamax search
   - Alpha beta pruning
   - Iterative deepening
+  - Null move pruning
   - Quiescense search
   - Principal variation search
   - MVV/LVA move ordering
