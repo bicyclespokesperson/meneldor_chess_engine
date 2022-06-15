@@ -133,9 +133,7 @@ inline bool isMove(const std::string& str) {
          (str[3] >= '1') && (str[3] <= '8') &&
          ((str.size() == 4) ||
           (str[4] == 'n') || (str[4] == 'b') ||
-          (str[4] == 'r') || (str[4] == 'q') ||
-          (str[4] == 'N') || (str[4] == 'B') ||
-          (str[4] == 'R') || (str[4] == 'Q'));
+          (str[4] == 'r') || (str[4] == 'q'));
 }
 
 } // namespace senjo
