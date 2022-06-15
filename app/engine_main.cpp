@@ -68,6 +68,12 @@ int main(int argc, char* argv[])
 
     while (std::getline(*stream, line))
     {
+      std::transform(line.begin(), line.end(), line.begin(),
+                     [](char c)
+                     {
+                       return std::tolower(c, std::locale());
+                     });
+
       if constexpr (c_log_uci_commands)
       {
         log_uci_command(line);
