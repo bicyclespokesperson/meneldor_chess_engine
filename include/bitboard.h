@@ -224,20 +224,18 @@ struct Bitboard_iterator
 
   constexpr Bitboard_iterator(Bitboard bb) : m_bitboard(bb)
   {
-    operator++();
   }
 
   constexpr Bitboard_iterator() = default;
 
-  constexpr reference operator*() const
+  constexpr value_type operator*() const
   {
-    return m_val;
+    return m_bitboard.bitscan_forward();
   }
 
   // Prefix increment
   constexpr Bitboard_iterator& operator++()
   {
-    m_val = m_bitboard.bitscan_forward();
     m_bitboard.val &= m_bitboard.val - 1;
 
     return *this;
@@ -253,7 +251,7 @@ struct Bitboard_iterator
 
   constexpr bool operator==(Bitboard_iterator const& other) const
   {
-    return m_bitboard == other.m_bitboard && m_val == other.m_val;
+    return m_bitboard == other.m_bitboard;
   }
 
   constexpr bool operator!=(Bitboard_iterator const& other) const
@@ -263,7 +261,6 @@ struct Bitboard_iterator
 
 private:
   Bitboard m_bitboard{};
-  int32_t m_val{-1};
 };
 
 constexpr Bitboard::Iterator Bitboard::begin() const
