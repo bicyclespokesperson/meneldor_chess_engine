@@ -2,7 +2,7 @@
 
 set -e
 
-CLANG_FORMAT_EXE="/opt/homebrew/Cellar/llvm/13.0.1_1/bin/clang-format"
+CLANG_FORMAT_EXE="$(find /opt/homebrew/Cellar/llvm -name clang-format)"
 
 find ./src \( -name '*.cpp' -o -name '*.h' \) -exec "$CLANG_FORMAT_EXE" -i {} \;
 find ./app \( -name '*.cpp' -o -name '*.h' \) -exec "$CLANG_FORMAT_EXE" -i {} \;

@@ -140,7 +140,7 @@ struct Bitboard
     // Kernighan's algorithm
     int32_t count = 0;
     uint64_t value{this->val};
- 
+
     while (value)
     {
       ++count;

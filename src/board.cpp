@@ -74,12 +74,12 @@ bool king_can_move(Coordinates from, Coordinates to, Board const& board)
     }
 
     // Make sure the knight is out of the way when long castling
-    if (to == Coordinates{2, 0} && board.is_occupied(Coordinates{1, 0}))
+    if (Coordinates{2, 0} == to && board.is_occupied(Coordinates{1, 0}))
     {
       return false;
     }
 
-    if (to == Coordinates{2, 7} && board.is_occupied(Coordinates{1, 7}))
+    if (Coordinates{2, 7} == to && board.is_occupied(Coordinates{1, 7}))
     {
       return false;
     }
