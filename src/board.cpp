@@ -74,12 +74,12 @@ bool king_can_move(Coordinates from, Coordinates to, Board const& board)
     }
 
     // Make sure the knight is out of the way when long castling
-    if (Coordinates{2, 0} == to && board.is_occupied(Coordinates{1, 0}))
+    if (c1 == to && board.is_occupied(b1))
     {
       return false;
     }
 
-    if (Coordinates{2, 7} == to && board.is_occupied(Coordinates{1, 7}))
+    if (c8 == to && board.is_occupied(b8))
     {
       return false;
     }
@@ -547,21 +547,21 @@ Zobrist_hash Board::get_hash_key() const
 
 Move Board::find_castling_rook_move_(Coordinates king_destination) const
 {
-  if (king_destination == Coordinates{2, 0})
+  if (king_destination == c1)
   {
-    return {{0, 0}, {3, 0}, Piece::rook, Piece::empty};
+    return {a1, d1, Piece::rook, Piece::empty};
   }
-  if (king_destination == Coordinates{6, 0})
+  if (king_destination == g1)
   {
-    return {{7, 0}, {5, 0}, Piece::rook, Piece::empty};
+    return {h1, f1, Piece::rook, Piece::empty};
   }
-  if (king_destination == Coordinates{2, 7})
+  if (king_destination == c8)
   {
-    return {{0, 7}, {3, 7}, Piece::rook, Piece::empty};
+    return {a8, d8, Piece::rook, Piece::empty};
   }
-  if (king_destination == Coordinates{6, 7})
+  if (king_destination == g8)
   {
-    return {{7, 7}, {5, 7}, Piece::rook, Piece::empty};
+    return {h8, f8, Piece::rook, Piece::empty};
   }
 
   MY_ASSERT(false, "Invalid castling move");
@@ -570,22 +570,22 @@ Move Board::find_castling_rook_move_(Coordinates king_destination) const
 
 bool Board::can_castle_to(Coordinates dest) const
 {
-  if (dest == Coordinates{2, 0})
+  if (dest == c1)
   {
     return white_can_long_castle(m_rights);
   }
 
-  if (dest == Coordinates{6, 0})
+  if (dest == g1)
   {
     return white_can_short_castle(m_rights);
   }
 
-  if (dest == Coordinates{2, 7})
+  if (dest == c8)
   {
     return black_can_long_castle(m_rights);
   }
 
-  if (dest == Coordinates{6, 7})
+  if (dest == g8)
   {
     return black_can_short_castle(m_rights);
   }
@@ -610,21 +610,22 @@ void Board::update_castling_rights_(Color color, Piece piece, Move m)
   }
   else
   {
+    // TODO: Could this be a lookup table, maybe with some sort of perfect hashing scheme?
     auto const to = m.to();
     auto const from = m.from();
-    if (Coordinates a1{0, 0}; to == a1 || from == a1)
+    if (to == a1 || from == a1)
     {
       set_white_long_castle_false(m_rights);
     }
-    if (Coordinates h1{7, 0}; to == h1 || from == h1)
+    if (to == h1 || from == h1)
     {
       set_white_short_castle_false(m_rights);
     }
-    if (Coordinates a8{0, 7}; to == a8 || from == a8)
+    if (to == a8 || from == a8)
     {
       set_black_long_castle_false(m_rights);
     }
-    if (Coordinates h8{7, 7}; to == h8 || from == h8)
+    if (to == h8 || from == h8)
     {
       set_black_short_castle_false(m_rights);
     }
@@ -975,11 +976,11 @@ tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move
   {
     if (color == Color::white)
     {
-      return Move{Coordinates{4, 0}, Coordinates{6, 0}, Piece::king, Piece::empty};
+      return Move{e1, g1, Piece::king, Piece::empty};
     }
     else
     {
-      return Move{Coordinates{4, 7}, Coordinates{6, 7}, Piece::king, Piece::empty};
+      return Move{e8, g8, Piece::king, Piece::empty};
     }
   }
 
@@ -987,11 +988,11 @@ tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move
   {
     if (color == Color::white)
     {
-      return Move{Coordinates{4, 0}, Coordinates{2, 0}, Piece::king, Piece::empty};
+      return Move{e1, c1, Piece::king, Piece::empty};
     }
     else
     {
-      return Move{Coordinates{4, 7}, Coordinates{2, 7}, Piece::king, Piece::empty};
+      return Move{e8, c8, Piece::king, Piece::empty};
     }
   }
 

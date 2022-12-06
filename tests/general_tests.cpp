@@ -456,19 +456,19 @@ TEST_CASE("Test is_square_attacked", "[Move_generator]")
   Move_generator::generate_legal_moves(board);
 
   Bitboard bb;
-  bb.set_square(*Coordinates::from_str("a3"));
+  bb.set_square(a3);
   REQUIRE(!Move_generator::is_square_attacked(board, Color::black, bb));
 
   bb.unset_all();
-  bb.set_square(*Coordinates::from_str("a3"));
+  bb.set_square(a3);
   REQUIRE(Move_generator::is_square_attacked(board, Color::white, bb));
 
   bb.unset_all();
-  bb.set_square(*Coordinates::from_str("e6"));
+  bb.set_square(e6);
   REQUIRE(Move_generator::is_square_attacked(board, Color::black, bb));
 
   bb.unset_all();
-  bb.set_square(*Coordinates::from_str("e6"));
+  bb.set_square(e6);
   REQUIRE(!Move_generator::is_square_attacked(board, Color::white, bb));
 }
 
@@ -626,4 +626,11 @@ TEST_CASE("Transposition table", "[Transposition_table]")
   auto e2 = tt.get(board2.get_hash_key());
   REQUIRE(e2 != nullptr);
   REQUIRE(e2->evaluation == 1);
+}
+
+TEST_CASE("Coordinate constants are correct", "[Coordinates]")
+{
+  std::stringstream ss;
+  ss << a1 << a7 << b1 << b7 << d5 << c7 << h8;
+  REQUIRE(ss.str() == "a1a7b1b7d5c7h8");
 }

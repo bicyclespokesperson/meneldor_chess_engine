@@ -8,8 +8,8 @@ struct Move
 {
   constexpr Move()
   {
-    set_from(Coordinates{0, 0});
-    set_to(Coordinates{0, 0});
+    set_from(a1);
+    set_to(a1);
     set_piece(Piece::black);
     set_victim(Piece::black);
     set_promotion(Piece::black);

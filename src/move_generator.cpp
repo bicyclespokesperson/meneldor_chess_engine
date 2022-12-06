@@ -481,7 +481,7 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
 
     if (white_can_long_castle(castling_rights) &&
         (occupied & Bitboard_constants::long_castling_empty_squares_white).is_empty() &&
-        !occupied.is_set(Coordinates{1, 0}))
+        !occupied.is_set(b1))
     {
       auto const attacks = Move_generator::get_all_attacked_squares(board, Color::black);
       if ((attacks & Bitboard_constants::long_castling_empty_squares_white).is_empty() &&
@@ -506,7 +506,7 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
 
     if (black_can_long_castle(castling_rights) &&
         (occupied & Bitboard_constants::long_castling_empty_squares_black).is_empty() &&
-        !occupied.is_set(Coordinates{1, 7}))
+        !occupied.is_set(b8))
     {
       auto const attacks = Move_generator::get_all_attacked_squares(board, Color::white);
       if ((attacks & Bitboard_constants::long_castling_empty_squares_black).is_empty() &&
