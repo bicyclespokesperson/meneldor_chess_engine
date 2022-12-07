@@ -41,6 +41,10 @@ echo "Build type: ${BUILD_TYPE}"
 
 CMAKE_ARGS="-D CMAKE_CXX_COMPILER=$CXX_COMPILER -D CMAKE_BUILD_TYPE=$BUILD_TYPE"
 
+if [[ $(command -v "ccache") ]]; then
+  CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_COMPILER_LAUNCHER=ccache"
+fi
+
 if [[ "$1" == "-x" ]]; then
   CMAKE_ARGS="$CMAKE_ARGS -GXcode"
 fi
