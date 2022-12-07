@@ -5,7 +5,6 @@ Fancy magics? Might have better cache performance
 Make move generator aware of check?
 
 Search
-  Null move pruning // See laser, search "null move pruning"
   Move ordering
     Attack piece that most recently moved, first?
     SEE?
@@ -14,4 +13,3 @@ Search
     https://chess.stackexchange.com/questions/27257/chess-engine-quiescence-search-increases-required-time-by-a-factor-of-20
       Use iterative deepening to order all moves, not just best move?
 
-Board::get_piece could probably be implemented faster by unrolling the call to find_if
