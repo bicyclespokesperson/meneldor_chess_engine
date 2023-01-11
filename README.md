@@ -45,7 +45,7 @@ Use CMake to generate a Visual Studio solution and build the project in Visual S
 There are four executables in the `bin` directory
 
   - `meneldor` The UCI complient executable for the engine
-  - `chess_game` Plays a game of chess with against a human player using standard input and output
+  - `chess_game` Plays a game of chess using standard input and output. Supports human and computer players.
   - `perft` A perft script used for correctness and performance testing
   - `tests` Runs the catch2 test executable
 
