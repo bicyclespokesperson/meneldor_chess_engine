@@ -184,7 +184,7 @@ std::string Uci_engine_player::receive_message_()
 {
   constexpr size_t c_buffer_size{1024};
   std::array<char, c_buffer_size> buffer{};
-  int bytes_read{0};
+  long bytes_read{0};
   if ((bytes_read = read(m_from_child[0], buffer.data(), c_buffer_size)) <= 0)
   {
     // Failed to read message
