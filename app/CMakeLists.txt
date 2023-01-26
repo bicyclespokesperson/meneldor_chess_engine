@@ -53,7 +53,7 @@ target_precompile_headers(perft
     <unordered_map>
     <vector>
 )
-target_link_libraries(perft PRIVATE chess_engine_lib )
+target_link_libraries(perft PRIVATE senjo chess_engine_lib )
 
 
 add_executable(meneldor engine_main.cpp)
@@ -84,4 +84,4 @@ target_precompile_headers(meneldor
     <unordered_map>
     <vector>
 )
-target_link_libraries(meneldor PRIVATE chess_engine_lib senjo)
+target_link_libraries(meneldor PRIVATE senjo chess_engine_lib senjo)

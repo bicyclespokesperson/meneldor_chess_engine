@@ -44,6 +44,8 @@ else()
   target_compile_options(chess_engine_lib PRIVATE -Wall -Wextra -pedantic -Wno-missing-braces)
 endif()
 
+target_link_libraries(chess_engine_lib PRIVATE senjo)
+
 # IDEs should put the headers in a nice place
 source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
