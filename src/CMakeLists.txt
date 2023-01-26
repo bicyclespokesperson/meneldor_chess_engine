@@ -20,10 +20,12 @@ target_precompile_headers(chess_engine_lib
     <fstream>
     <iostream>
     <iomanip>
+    <iterator>
     <locale>
     <limits>
     <map>
     <numeric>
+    <optional>
     <random>
     <set>
     <span>

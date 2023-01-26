@@ -5,13 +5,16 @@ target_precompile_headers(chess_game
   PRIVATE
     <algorithm>
     <array>
+    <atomic>
     <compare>
     <cstdint>
     <filesystem>
     <fstream>
     <iostream>
+    <iterator>
     <map>
     <numeric>
+    <optional>
     <random>
     <set>
     <span>
@@ -31,13 +34,16 @@ target_precompile_headers(perft
   PRIVATE
     <algorithm>
     <array>
+    <atomic>
     <compare>
     <cstdint>
     <filesystem>
     <fstream>
     <iostream>
+    <iterator>
     <map>
     <numeric>
+    <optional>
     <random>
     <set>
     <span>
@@ -57,6 +63,7 @@ target_precompile_headers(meneldor
   PRIVATE
     <algorithm>
     <array>
+    <atomic>
     <compare>
     <cstdint>
     <ctime>
@@ -64,8 +71,10 @@ target_precompile_headers(meneldor
     <fstream>
     <iomanip>
     <iostream>
+    <iterator>
     <map>
     <numeric>
+    <optional>
     <random>
     <set>
     <span>

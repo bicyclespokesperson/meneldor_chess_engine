@@ -1,6 +1,7 @@
 
 #ifndef _WIN32 // Not supported on Windows
 #include "uci_engine_player.h"
+#include <sys/wait.h>
 #include <unistd.h>
 
 std::unique_ptr<Uci_engine_player> Uci_engine_player::create(std::filesystem::path const& name, int search_depth)

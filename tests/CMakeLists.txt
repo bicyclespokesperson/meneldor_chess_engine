@@ -15,14 +15,17 @@ target_precompile_headers(tests
   PRIVATE
     <algorithm>
     <array>
+    <atomic>
     <compare>
     <cstdint>
     <ctime>
     <filesystem>
     <fstream>
     <iostream>
+    <iterator>
     <map>
     <numeric>
+    <optional>
     <random>
     <set>
     <span>
