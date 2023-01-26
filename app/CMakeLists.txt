@@ -16,6 +16,7 @@ target_precompile_headers(chess_game
     <numeric>
     <optional>
     <random>
+    <ranges>
     <set>
     <span>
     <string>
@@ -45,6 +46,7 @@ target_precompile_headers(perft
     <numeric>
     <optional>
     <random>
+    <ranges>
     <set>
     <span>
     <string>
@@ -76,6 +78,7 @@ target_precompile_headers(meneldor
     <numeric>
     <optional>
     <random>
+    <ranges>
     <set>
     <span>
     <sstream>

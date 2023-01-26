@@ -3,6 +3,7 @@
 #include "my_assert.h"
 #include "utils.h"
 
+namespace rs = std::ranges;
 namespace
 {
 

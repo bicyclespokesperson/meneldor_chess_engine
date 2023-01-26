@@ -27,6 +27,7 @@ target_precompile_headers(chess_engine_lib
     <numeric>
     <optional>
     <random>
+    <ranges>
     <set>
     <span>
     <tl/expected.hpp>

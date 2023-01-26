@@ -138,6 +138,7 @@ etc/clusto*.conf
 
 # CMake Files
 _build
+build
 compile_commands.json
 
 *.tcl

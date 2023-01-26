@@ -4,6 +4,8 @@
 #include "senjo/Output.h"
 #include "utils.h"
 
+namespace rs = std::ranges;
+
 namespace
 {
 int tt_hits{0};

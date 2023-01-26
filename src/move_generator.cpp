@@ -3,6 +3,7 @@
 #include "feature_toggle.h"
 #include "my_assert.h"
 
+namespace rs = std::ranges;
 namespace
 {
 
@@ -924,7 +925,7 @@ bool Move_generator::has_any_legal_moves(Board const& board)
   {
     generate_pawn_moves<Color::white>(board, pseudo_legal_moves);
   }
-  return std::any_of(pseudo_legal_moves.cbegin(), pseudo_legal_moves.cend(),
+  return rs::any_of(pseudo_legal_moves,
                      [&](auto m)
                      {
                        tmp_board = board;
