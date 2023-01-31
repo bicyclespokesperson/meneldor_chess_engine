@@ -4,9 +4,9 @@
 #include "senjo/UCIAdapter.h"
 #include "utils.h"
 
-namespace
+namespace rs = std::ranges;
+namespace Meneldor
 {
-using namespace Meneldor;
 auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug = false)
 {
   static std::string const c_performance_log_filename{"output/performance_log.txt"};
@@ -46,11 +46,6 @@ auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug 
   std::cout << out.str();
   outfile << out.str();
 }
-
-} // namespace
-
-namespace Meneldor
-{
 
 TEST_CASE("Evaluate", "[Meneldor_engine]")
 {
@@ -142,8 +137,7 @@ TEST_CASE("Mate_in_3_attack", "[.Meneldor_engine]")
   std::vector<std::string> const expected_pv{"e2h5", "g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("e2h5");
 
-  bool match = actual_pv.has_value() &&
-               std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
+  bool match = actual_pv.has_value() && rs::equal(expected_pv, *actual_pv);
   REQUIRE(match);
 }
 
@@ -162,8 +156,7 @@ TEST_CASE("Mate_in_2_defend", "[.Meneldor_engine]")
   std::vector<std::string> const expected_pv{"g6g5", "d1g1", "g5f4", "c3e2"};
   auto actual_pv = engine.get_principal_variation("g6g5");
 
-  bool match = actual_pv.has_value() &&
-               std::equal(expected_pv.cbegin(), expected_pv.cend(), actual_pv->cbegin(), actual_pv->cend());
+  bool match = actual_pv.has_value() && rs::equal(expected_pv, *actual_pv);
   REQUIRE(match);
 }
 

@@ -9,7 +9,8 @@
 #include "utils.h"
 #include "zobrist_hash.h"
 
-namespace
+namespace rs = std::ranges;
+namespace Meneldor
 {
 std::optional<std::string> read_file_contents(std::string const& filename)
 {
@@ -20,11 +21,6 @@ std::optional<std::string> read_file_contents(std::string const& filename)
   }
   return std::string{std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>()};
 }
-
-} // namespace
-
-namespace Meneldor
-{
 
 static const std::string c_fischer_spassky_result = R"(
 8  ___ ___ ___ ___ ___ ___ ___ ___ 
@@ -121,8 +117,8 @@ TEST_CASE("A board can be constructed from a pgn file", "[board]")
 
   std::string result = out.str();
   std::string expected = c_fischer_spassky_result;
-  result.erase(std::remove_if(result.begin(), result.end(), isspace), result.end());
-  expected.erase(std::remove_if(expected.begin(), expected.end(), isspace), expected.end());
+  result.erase(rs::remove_if(result, isspace).begin(), result.end());
+  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
 
   // Compare ignoring whitespace
   REQUIRE(result == expected);
@@ -142,8 +138,8 @@ TEST_CASE("A pgn file from chess.com", "[board]")
 
   std::string result = out.str();
   std::string expected = c_sigrist_result;
-  result.erase(std::remove_if(result.begin(), result.end(), isspace), result.end());
-  expected.erase(std::remove_if(expected.begin(), expected.end(), isspace), expected.end());
+  result.erase(rs::remove_if(result, isspace).begin(), result.end());
+  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
 
   // Compare ignoring whitespace
   REQUIRE(result == expected);
@@ -182,8 +178,8 @@ TEST_CASE("A board can be created from a FEN string", "[board]")
 
   std::string result = out.str();
   std::string expected = c_fen_test_result;
-  result.erase(std::remove_if(result.begin(), result.end(), isspace), result.end());
-  expected.erase(std::remove_if(expected.begin(), expected.end(), isspace), expected.end());
+  result.erase(rs::remove_if(result, isspace).begin(), result.end());
+  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
   REQUIRE(result == expected);
 
   REQUIRE(!board->try_move_algebraic("O-O-O")); // Should fail as black does not have queenside castling rights

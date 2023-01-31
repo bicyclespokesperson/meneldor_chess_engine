@@ -1,6 +1,7 @@
 #include "transposition_table.h"
 #include "utils.h"
 
+namespace rs = std::ranges;
 namespace Meneldor
 {
 size_t Transposition_table::hash_fn_(zhash_t key) const
@@ -54,7 +55,7 @@ Transposition_table::Entry const* Transposition_table::get(zhash_t key) const
 
 void Transposition_table::clear()
 {
-  std::fill(m_table.begin(), m_table.end(), Transposition_table::Entry{});
+  rs::fill(m_table, Transposition_table::Entry{});
 }
 
 Transposition_table::Entry const* Transposition_table::walk_(zhash_t key) const
@@ -88,10 +89,9 @@ size_t Transposition_table::get_capacity() const
 
 size_t Transposition_table::count() const
 {
-  return std::count_if(m_table.cbegin(), m_table.cend(),
-                       [](auto const& entry)
-                       {
-                         return entry.best_move.type() != Move_type::null;
-                       });
+  return rs::count_if(m_table, [](auto const& entry)
+                               {
+                                 return entry.best_move.type() != Move_type::null;
+                               });
 }
 } // namespace Meneldor

@@ -1,5 +1,6 @@
 #include "move_orderer.h"
 
+namespace rs = std::ranges;
 namespace Meneldor
 {
 int Move_orderer::score_move_(Move m, Board const& /* board */)
@@ -46,10 +47,9 @@ std::array<std::array<int, Move_orderer::c_piece_count>, Move_orderer::c_piece_c
 
 void Move_orderer::sort_moves(std::span<Move> moves, Board const& board) const
 {
-  std::sort(moves.begin(), moves.end(),
-            [&board](Move m1, Move m2)
-            {
-              return score_move_(m1, board) > score_move_(m2, board);
-            });
+  rs::sort(moves, [&board](Move m1, Move m2)
+                  {
+                    return score_move_(m1, board) > score_move_(m2, board);
+                  });
 }
 } // namespace Meneldor

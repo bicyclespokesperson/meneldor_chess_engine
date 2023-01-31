@@ -740,7 +740,7 @@ std::vector<Move> Move_generator::generate_legal_moves(Board const& board)
   legal_moves.reserve(pseudo_legal_moves.size());
   Board tmp_board(board);
 
-  std::copy_if(pseudo_legal_moves.cbegin(), pseudo_legal_moves.cend(), std::back_inserter(legal_moves),
+  rs::copy_if(pseudo_legal_moves, std::back_inserter(legal_moves),
                [&](auto m)
                {
                  tmp_board = board;
@@ -777,7 +777,7 @@ std::vector<Move> Move_generator::generate_legal_attack_moves(Board const& board
   std::vector<Move> legal_attacks;
   legal_attacks.reserve(64);
   Board tmp_board(board);
-  std::copy_if(pseudo_legal_attacks.cbegin(), pseudo_legal_attacks.cend(), std::back_inserter(legal_attacks),
+  rs::copy_if(pseudo_legal_attacks, std::back_inserter(legal_attacks),
                [&](auto m)
                {
                  tmp_board = board;
