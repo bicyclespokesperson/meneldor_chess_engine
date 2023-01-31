@@ -4,7 +4,7 @@
 #include "senjo/UCIAdapter.h"
 #include "utils.h"
 
-namespace
+namespace Meneldor
 {
 auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug = false)
 {
@@ -45,8 +45,6 @@ auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug 
   std::cout << out.str();
   outfile << out.str();
 }
-
-} // namespace
 
 TEST_CASE("Evaluate", "[Meneldor_engine]")
 {
@@ -293,3 +291,4 @@ TEST_CASE("No pseudo legal moves", "[.Meneldor_engine]")
     // No requires, only make sure we don't infinite loop or crash
   }
 }
+} // namespace Meneldor

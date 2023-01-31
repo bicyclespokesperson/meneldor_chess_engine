@@ -6,15 +6,11 @@
 
 namespace rs = std::ranges;
 
-namespace
-{
+namespace Meneldor {
+
 int tt_hits{0};
 int tt_misses{0};
 int tt_sufficient_depth{0};
-
-} // namespace
-
-namespace Meneldor {
 
 // Returns a number that is positive if the side to move is winning, and
 // negative if losing
