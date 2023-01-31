@@ -27,7 +27,7 @@ Meneldor engine uses CMake (version 3.17+).
 
 CMake can be used directly, or a `create_build.sh` script is provided for convenience. The path to the compiler
 can be set in the `create_build.sh` script. Build files are placed in the `_build` directory. The engine has 
-been built with Clang 15, though other C++20 compliant compilers may work as well.
+been built with Clang 15, though other C++23 compliant compilers may work as well.
 
 The project can be built with the `build.sh` script.
 

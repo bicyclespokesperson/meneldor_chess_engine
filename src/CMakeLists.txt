@@ -7,7 +7,7 @@ add_library(chess_engine_lib ${SOURCES} ${HEADERS})
 
 target_include_directories(chess_engine_lib PUBLIC ../include ../senjo)
 
-target_compile_features(chess_engine_lib PRIVATE cxx_std_20)
+target_compile_features(chess_engine_lib PRIVATE cxx_std_23)
 
 target_precompile_headers(chess_engine_lib
   PRIVATE

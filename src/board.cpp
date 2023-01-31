@@ -947,13 +947,13 @@ tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 
 tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move_param, Color color) const
 {
-  std::string move_str{move_param};
-  move_str.erase(std::remove_if(move_str.begin(), move_str.end(),
-                                [chars = std::string("x+#?!")](char c)
-                                {
-                                  return isspace(c) || (chars.find(c) != std::string::npos);
-                                }),
-                 move_str.end());
+
+  std::string move_str;
+  rs::copy_if(move_param, std::back_inserter(move_str), [&](char c)
+  {
+    constexpr std::string_view chars = "x+#?!";
+    return !(std::isspace(c) || chars.contains(c));
+  });
 
   if (move_str.size() < 2)
   {

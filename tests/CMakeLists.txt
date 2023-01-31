@@ -9,7 +9,7 @@ set_property(TARGET tests PROPERTY XCODE_SCHEME_WORKING_DIRECTORY "${CMAKE_SOURC
 
 include_directories(../include)
 
-target_compile_features(tests PRIVATE cxx_std_20)
+target_compile_features(tests PRIVATE cxx_std_23)
 
 target_precompile_headers(tests
   PRIVATE
