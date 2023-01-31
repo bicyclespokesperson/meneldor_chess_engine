@@ -4,7 +4,8 @@
 #include "chess_types.h"
 #include "my_assert.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class Coordinates
 {
 public:
@@ -117,6 +118,6 @@ constexpr Coordinates h5{7, 4};
 constexpr Coordinates h6{7, 5};
 constexpr Coordinates h7{7, 6};
 constexpr Coordinates h8{7, 7};
-}
+} // namespace Meneldor
 
 #endif

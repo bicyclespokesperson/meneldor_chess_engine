@@ -1,6 +1,7 @@
 #include "utils.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 std::string move_to_string(Move m)
 {
   std::stringstream ss;
@@ -15,4 +16,4 @@ std::string move_to_string_extended(Move m)
      << static_cast<int32_t>(m.type()) << "]";
   return ss.str();
 }
-}
+} // namespace Meneldor

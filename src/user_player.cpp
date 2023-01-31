@@ -1,7 +1,8 @@
 #include "user_player.h"
 #include "utils.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 User_player::User_player(std::string name) : Player(std::move(name))
 {
 }
@@ -59,4 +60,4 @@ void User_player::reset()
 {
   m_board = {};
 }
-}
+} // namespace Meneldor

@@ -1,6 +1,7 @@
 #include <coordinates.h>
 
-namespace Meneldor {
+namespace Meneldor
+{
 std::optional<Coordinates> Coordinates::from_str(std::string_view str)
 {
   if (str.size() < 2)
@@ -23,4 +24,4 @@ std::ostream& operator<<(std::ostream& os, Coordinates const& self)
   os << static_cast<char>(self.x() + 'a') << static_cast<char>(self.y() + '1');
   return os;
 }
-}
+} // namespace Meneldor

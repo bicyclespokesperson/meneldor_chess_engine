@@ -1,7 +1,8 @@
 #include "engine_player.h"
 #include "utils.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 Engine_player::Engine_player(std::string name) : Player(std::move(name))
 {
   m_engine.initialize();
@@ -40,4 +41,4 @@ void Engine_player::reset()
   m_engine.resetEngineStats();
   m_engine.initialize();
 }
-}
+} // namespace Meneldor

@@ -3,7 +3,8 @@
 
 #include "move.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 template <class T>
 std::string format_with_commas(T value)
 {
@@ -29,5 +30,5 @@ void unused(T&&...)
 {
 }
 
-}
+} // namespace Meneldor
 #endif // UTILS_H

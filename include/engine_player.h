@@ -3,7 +3,8 @@
 
 #include "player.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 
 class Engine_player : public Player
 {
@@ -23,6 +24,6 @@ public:
 private:
   Meneldor_engine m_engine{};
 };
-}
+} // namespace Meneldor
 
 #endif // ENGINE_PLAYER_H

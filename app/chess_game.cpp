@@ -17,7 +17,8 @@
 #include "utils.h"
 #include "zobrist_hash.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 void print_bitboard_with_squares(std::vector<std::string> const& squares)
 {
   Bitboard bb;
@@ -113,7 +114,7 @@ void benchmark()
     std::cout << total << std::endl;
   }
 }
-}
+} // namespace Meneldor
 
 /**
  * Play the chess game.

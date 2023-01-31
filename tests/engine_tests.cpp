@@ -6,6 +6,7 @@
 
 namespace
 {
+using namespace Meneldor;
 auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug = false)
 {
   static std::string const c_performance_log_filename{"output/performance_log.txt"};
@@ -47,6 +48,9 @@ auto engine_stats_from_position(std::string_view fen, int depth = 9, bool debug 
 }
 
 } // namespace
+
+namespace Meneldor
+{
 
 TEST_CASE("Evaluate", "[Meneldor_engine]")
 {
@@ -293,3 +297,4 @@ TEST_CASE("No pseudo legal moves", "[.Meneldor_engine]")
     // No requires, only make sure we don't infinite loop or crash
   }
 }
+} // namespace Meneldor

@@ -7,7 +7,8 @@
 #include "move.h"
 #include "zobrist_hash.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 
 class Board
 {
@@ -194,6 +195,6 @@ private:
 
 std::ostream& operator<<(std::ostream& out, Board const& self);
 
-}
+} // namespace Meneldor
 
 #endif

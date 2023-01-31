@@ -4,7 +4,8 @@
 #include "chess_types.h"
 #include "move.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class Board;
 
 class Move_orderer
@@ -21,6 +22,6 @@ private:
   static constexpr size_t c_piece_count = static_cast<uint8_t>(Piece::_count) - static_cast<uint8_t>(Piece::pawn);
   static const std::array<std::array<int, c_piece_count>, c_piece_count> mvv_lva_table;
 };
-}
+} // namespace Meneldor
 
 #endif // MOVE_ORDERER_H

@@ -2,7 +2,8 @@
 #include "senjo/Output.h"
 #include "senjo/UCIAdapter.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 constexpr bool c_log_uci_commands{true};
 
 void log_uci_command(std::string const& cmd)
@@ -30,7 +31,7 @@ void log_uci_command(std::string const& cmd)
   command_log << cmd << std::endl;
   command_log.close();
 }
-}
+} // namespace Meneldor
 
 int main(int argc, char* argv[])
 {

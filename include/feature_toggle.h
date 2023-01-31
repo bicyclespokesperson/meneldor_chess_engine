@@ -1,7 +1,8 @@
 #ifndef FEATURE_TOGGLE_H
 #define FEATURE_TOGGLE_H
 
-namespace Meneldor {
+namespace Meneldor
+{
 /**
  * Returns true if a feature is enabled
  *
@@ -10,5 +11,5 @@ namespace Meneldor {
  * toggle_name=false. Spaces within the line are ignored.
  */
 bool is_feature_enabled(std::string const& feature_name);
-}
+} // namespace Meneldor
 #endif // FEATURE_TOGGLE_H

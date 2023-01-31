@@ -6,6 +6,7 @@
 namespace rs = std::ranges;
 namespace
 {
+using namespace Meneldor;
 
 // Generated with code from: https://www.chessprogramming.org/Looking_for_Magics
 std::array<uint64_t, 64> const c_rook_magics{
@@ -270,7 +271,8 @@ constexpr int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
 
 } // namespace
 
-namespace Meneldor {
+namespace Meneldor
+{
 Move_generator::Tables const Move_generator::m_tables{};
 
 Move_generator::Tables::Tables()
@@ -482,8 +484,7 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
     }
 
     if (white_can_long_castle(castling_rights) &&
-        (occupied & Bitboard_constants::long_castling_empty_squares_white).is_empty() &&
-        !occupied.is_set(b1))
+        (occupied & Bitboard_constants::long_castling_empty_squares_white).is_empty() && !occupied.is_set(b1))
     {
       auto const attacks = Move_generator::get_all_attacked_squares(board, Color::black);
       if ((attacks & Bitboard_constants::long_castling_empty_squares_white).is_empty() &&
@@ -507,8 +508,7 @@ constexpr void generate_castling_moves(Board const& board, std::vector<Move>& mo
     }
 
     if (black_can_long_castle(castling_rights) &&
-        (occupied & Bitboard_constants::long_castling_empty_squares_black).is_empty() &&
-        !occupied.is_set(b8))
+        (occupied & Bitboard_constants::long_castling_empty_squares_black).is_empty() && !occupied.is_set(b8))
     {
       auto const attacks = Move_generator::get_all_attacked_squares(board, Color::white);
       if ((attacks & Bitboard_constants::long_castling_empty_squares_black).is_empty() &&
@@ -927,11 +927,11 @@ bool Move_generator::has_any_legal_moves(Board const& board)
     generate_pawn_moves<Color::white>(board, pseudo_legal_moves);
   }
   return rs::any_of(pseudo_legal_moves,
-                     [&](auto m)
-                     {
-                       tmp_board = board;
-                       return !tmp_board.move_results_in_check_destructive(m);
-                     });
+                    [&](auto m)
+                    {
+                      tmp_board = board;
+                      return !tmp_board.move_results_in_check_destructive(m);
+                    });
 }
 
 uint64_t Move_generator::perft(int depth, Board& board, std::atomic_flag& is_cancelled)
@@ -963,4 +963,4 @@ uint64_t Move_generator::perft(int depth, Board& board, std::atomic_flag& is_can
 
   return nodes;
 }
-}
+} // namespace Meneldor

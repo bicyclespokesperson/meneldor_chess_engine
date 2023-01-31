@@ -11,7 +11,8 @@ namespace
 std::atomic_flag is_cancelled{};
 } // namespace
 
-namespace Meneldor {
+namespace Meneldor
+{
 void my_handler(int /* s */)
 {
   is_cancelled.test_and_set();
@@ -195,4 +196,4 @@ void Game::play_game(Player& white_player, Player& black_player)
   }
   std::cout << "\n";
 }
-}
+} // namespace Meneldor

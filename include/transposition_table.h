@@ -3,7 +3,8 @@
 
 #include "zobrist_hash.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class Transposition_table
 {
 public:
@@ -52,6 +53,6 @@ private:
   const size_t m_table_capacity{0};
   std::vector<Entry> m_table;
 };
-}
+} // namespace Meneldor
 
 #endif // TRANSPOSITION_TABLE_H

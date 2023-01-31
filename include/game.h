@@ -3,7 +3,8 @@
 
 #include "chess_types.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class Player;
 
 /**
@@ -39,5 +40,5 @@ private:
 
   std::string m_starting_position_fen{c_start_position_fen};
 };
-}
+} // namespace Meneldor
 #endif

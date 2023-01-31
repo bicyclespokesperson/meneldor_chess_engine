@@ -4,7 +4,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-namespace Meneldor {
+namespace Meneldor
+{
 std::unique_ptr<Uci_engine_player> Uci_engine_player::create(std::filesystem::path const& name, int search_depth)
 {
   auto engine_path = c_engine_binary_dir / name;
@@ -221,5 +222,5 @@ void Uci_engine_player::terminate_engine_process_()
     std::cout << get_name() << " exited successfully\n";
   }
 }
-}
+} // namespace Meneldor
 #endif

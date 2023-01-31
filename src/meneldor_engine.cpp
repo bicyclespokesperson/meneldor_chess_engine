@@ -14,7 +14,8 @@ int tt_sufficient_depth{0};
 
 } // namespace
 
-namespace Meneldor {
+namespace Meneldor
+{
 
 // Returns a number that is positive if the side to move is winning, and
 // negative if losing
@@ -769,4 +770,4 @@ std::optional<std::vector<std::string>> Meneldor_engine::get_principal_variation
 
   return result;
 }
-}
+} // namespace Meneldor

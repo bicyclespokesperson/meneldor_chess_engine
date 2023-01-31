@@ -4,7 +4,8 @@
 #include "chess_types.h"
 #include "coordinates.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 struct Move
 {
   constexpr Move()
@@ -148,6 +149,6 @@ private:
 static_assert(sizeof(Move) == 4);
 
 std::ostream& operator<<(std::ostream& os, Move const& self);
-}
+} // namespace Meneldor
 
 #endif // MOVE_H

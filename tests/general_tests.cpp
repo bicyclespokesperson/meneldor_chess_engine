@@ -23,6 +23,9 @@ std::optional<std::string> read_file_contents(std::string const& filename)
 
 } // namespace
 
+namespace Meneldor
+{
+
 static const std::string c_fischer_spassky_result = R"(
 8  ___ ___ ___ ___ ___ ___ ___ ___ 
 
@@ -634,3 +637,4 @@ TEST_CASE("Coordinate constants are correct", "[Coordinates]")
   ss << a1 << a7 << b1 << b7 << d5 << c7 << h8;
   REQUIRE(ss.str() == "a1a7b1b7d5c7h8");
 }
+} // namespace Meneldor

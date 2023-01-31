@@ -13,7 +13,8 @@
 #define MY_ASSERT(Expr, Msg) ;
 #endif
 
-namespace Meneldor {
+namespace Meneldor
+{
 constexpr void my_assert_utl_macro_(char const* expr_str, bool expr, char const* file, int line, char const* msg)
 {
   if (!expr)
@@ -24,6 +25,6 @@ constexpr void my_assert_utl_macro_(char const* expr_str, bool expr, char const*
     abort();
   }
 }
-}
+} // namespace Meneldor
 
 #endif // MY_ASSERT_H_2323

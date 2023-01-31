@@ -3,7 +3,8 @@
 
 #include "player.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class User_player : public Player
 {
 public:
@@ -22,6 +23,6 @@ public:
 private:
   Board m_board{};
 };
-}
+} // namespace Meneldor
 
 #endif // USER_PLAYER_H

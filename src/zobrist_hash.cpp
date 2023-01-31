@@ -3,7 +3,8 @@
 
 // https://www.chessprogramming.org/Zobrist_Hashing
 
-namespace Meneldor {
+namespace Meneldor
+{
 Zobrist_hash::Zobrist_hash(Board const& board)
 {
   for (auto piece : piece_types)
@@ -35,4 +36,4 @@ std::ostream& operator<<(std::ostream& os, Zobrist_hash const& self)
   os << std::to_string(self.get_hash());
   return os;
 }
-}
+} // namespace Meneldor

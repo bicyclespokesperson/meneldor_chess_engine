@@ -1,7 +1,8 @@
 #ifndef CHESS_TYPES_H
 #define CHESS_TYPES_H
 
-namespace Meneldor {
+namespace Meneldor
+{
 constexpr int positive_inf = 100'000;
 constexpr int negative_inf = -positive_inf;
 constexpr int c_max_supported_depth{1000};
@@ -83,5 +84,5 @@ std::ostream& operator<<(std::ostream& os, Piece const& self);
 
 std::ostream& operator<<(std::ostream& os, Color const& self);
 
-}
+} // namespace Meneldor
 #endif // CHESS_TYPES_H

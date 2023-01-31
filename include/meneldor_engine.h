@@ -9,7 +9,8 @@
 #include "senjo/ChessEngine.h"
 #include "transposition_table.h"
 
-namespace Meneldor {
+namespace Meneldor
+{
 class Meneldor_engine : public senjo::ChessEngine
 {
 public:
@@ -129,6 +130,6 @@ private:
   // opponent.
   static constexpr int c_contempt_score{-10};
 };
-}
+} // namespace Meneldor
 
 #endif // MENELDOR_ENGINE
