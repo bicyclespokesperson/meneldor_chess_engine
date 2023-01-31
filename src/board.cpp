@@ -6,7 +6,6 @@
 namespace rs = std::ranges;
 namespace Meneldor
 {
-using namespace Meneldor;
 
 bool piece_can_move(Coordinates from, Coordinates to, Board const& board);
 
