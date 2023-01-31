@@ -3,6 +3,8 @@
 
 #include "player.h"
 
+namespace Meneldor {
+
 class Engine_player : public Player
 {
 public:
@@ -21,5 +23,6 @@ public:
 private:
   Meneldor_engine m_engine{};
 };
+}
 
 #endif // ENGINE_PLAYER_H

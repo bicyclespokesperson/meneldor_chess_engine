@@ -1,6 +1,7 @@
 #include "transposition_table.h"
 #include "utils.h"
 
+namespace Meneldor {
 size_t Transposition_table::hash_fn_(zhash_t key) const
 {
   // We'd like to store two entries at each position. This
@@ -91,4 +92,5 @@ size_t Transposition_table::count() const
                        {
                          return entry.best_move.type() != Move_type::null;
                        });
+}
 }

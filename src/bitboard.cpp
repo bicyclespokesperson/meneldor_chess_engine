@@ -1,5 +1,6 @@
 #include "bitboard.h"
 
+namespace Meneldor {
 std::ostream& operator<<(std::ostream& os, Bitboard const& self)
 {
   for (int y{7}; y >= 0; --y)
@@ -13,4 +14,5 @@ std::ostream& operator<<(std::ostream& os, Bitboard const& self)
   }
   os << self.hex_str() << "\n";
   return os;
+}
 }

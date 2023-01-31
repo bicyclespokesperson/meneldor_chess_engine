@@ -1,6 +1,8 @@
 #ifndef CASTLING_RIGHTS_H
 #define CASTLING_RIGHTS_H
 
+namespace Meneldor{
+
 using Castling_rights = uint8_t;
 
 constexpr Castling_rights c_castling_rights_all{0x0f};
@@ -60,6 +62,8 @@ constexpr void set_black_short_castle_true(Castling_rights& rights)
 constexpr void set_black_long_castle_true(Castling_rights& rights)
 {
   rights |= c_black_long_castle;
+}
+
 }
 
 #endif // CASTLING_RIGHTS_H

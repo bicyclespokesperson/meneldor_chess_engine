@@ -4,6 +4,8 @@
 
 int main(int argc, char* argv[])
 {
+  using namespace Meneldor;
+
   if (argc != 2 && argc != 3)
   {
     std::cerr << "Usage: perft [depth] [fen]\n";

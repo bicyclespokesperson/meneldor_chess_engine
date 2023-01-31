@@ -1,5 +1,6 @@
 #include "move.h"
 
+namespace Meneldor {
 std::ostream& operator<<(std::ostream& os, Move const& self)
 {
   // Output move in uci format (e.g. e7e5, or a2a1q for promotions)
@@ -18,4 +19,5 @@ std::ostream& operator<<(std::ostream& os, Move const& self)
   }
 
   return os;
+}
 }

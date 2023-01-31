@@ -6,6 +6,7 @@
 namespace rs = std::ranges;
 namespace
 {
+  using namespace Meneldor;
 
 bool piece_can_move(Coordinates from, Coordinates to, Board const& board);
 
@@ -193,6 +194,8 @@ bool is_en_passant(Piece piece, Coordinates from, Coordinates to, Board const& b
 }
 
 } // namespace
+
+namespace Meneldor {
 
 Board::Board()
 {
@@ -1538,4 +1541,5 @@ std::ostream& operator<<(std::ostream& out, Board const& self)
   }
 
   return out;
+}
 }

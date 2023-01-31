@@ -7,6 +7,8 @@
 #include <intrin.h>
 #endif
 
+namespace Meneldor {
+
 struct Bitboard_iterator;
 
 struct Bitboard
@@ -274,5 +276,7 @@ constexpr Bitboard::Iterator Bitboard::end() const
 }
 
 std::ostream& operator<<(std::ostream& os, Bitboard const& self);
+
+}
 
 #endif // BITBOARD_H

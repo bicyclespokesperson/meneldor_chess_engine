@@ -7,6 +7,7 @@
 
 #include "chess_types.h"
 
+namespace Meneldor {
 class Board;
 
 using zhash_t = uint64_t;
@@ -293,5 +294,6 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, Zobrist_hash const& self);
+}
 
 #endif // ZOBRIST_HASH_H

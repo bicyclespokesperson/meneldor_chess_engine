@@ -6,6 +6,8 @@
 #include "coordinates.h"
 #include "move.h"
 
+namespace Meneldor {
+
 class Board;
 
 class Move_generator
@@ -75,5 +77,6 @@ struct Bitboard_constants
   static constexpr Bitboard all{std::numeric_limits<uint64_t>::max()};
   static constexpr Bitboard none{0};
 };
+}
 
 #endif // MOVE_GENERATOR_H

@@ -17,6 +17,7 @@
 #include "utils.h"
 #include "zobrist_hash.h"
 
+namespace Meneldor {
 void print_bitboard_with_squares(std::vector<std::string> const& squares)
 {
   Bitboard bb;
@@ -112,6 +113,7 @@ void benchmark()
     std::cout << total << std::endl;
   }
 }
+}
 
 /**
  * Play the chess game.
@@ -122,7 +124,7 @@ void benchmark()
 int main(int argc, char* argv[])
 {
 #if 1
-  run_chess_game(argc, argv);
+  Meneldor::run_chess_game(argc, argv);
 #else
   benchmark();
 #endif

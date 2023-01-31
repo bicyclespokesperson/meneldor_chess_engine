@@ -1,5 +1,6 @@
 #include "move_orderer.h"
 
+namespace Meneldor {
 int Move_orderer::score_move_(Move m, Board const& /* board */)
 {
   auto const m_victim_index{static_cast<uint8_t>(m.victim()) - static_cast<uint8_t>(Piece::pawn)};
@@ -49,4 +50,5 @@ void Move_orderer::sort_moves(std::span<Move> moves, Board const& board) const
             {
               return score_move_(m1, board) > score_move_(m2, board);
             });
+}
 }

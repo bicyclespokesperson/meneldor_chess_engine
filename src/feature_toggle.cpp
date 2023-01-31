@@ -49,9 +49,11 @@ std::unordered_set<std::string> parse_features(std::string const& filename)
 }
 } // namespace
 
+namespace Meneldor {
 bool is_feature_enabled(std::string const& feature_name)
 {
   static auto const features = parse_features(c_feature_toggle_file_path);
 
   return features.contains(feature_name);
+}
 }

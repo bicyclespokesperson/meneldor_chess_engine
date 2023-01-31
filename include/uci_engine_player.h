@@ -3,6 +3,7 @@
 
 #include "player.h"
 
+namespace Meneldor {
 class Uci_engine_player : public Player
 {
 #ifdef _WIN32
@@ -45,5 +46,5 @@ private:
   pid_t m_child_pid{};
 #endif
 };
-
+}
 #endif // UCI_ENGINE_PLAYER_H

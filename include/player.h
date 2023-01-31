@@ -5,6 +5,7 @@
 #include "chess_types.h"
 #include "meneldor_engine.h"
 
+namespace Meneldor {
 /**
  * A player class represents one of the players in a chess game. It
  * can keep track of its pieces and make a move.
@@ -38,5 +39,6 @@ protected:
 private:
   std::string m_name;
 };
+}
 
 #endif

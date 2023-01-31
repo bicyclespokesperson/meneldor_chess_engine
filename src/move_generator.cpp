@@ -270,6 +270,7 @@ constexpr int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
 
 } // namespace
 
+namespace Meneldor {
 Move_generator::Tables const Move_generator::m_tables{};
 
 Move_generator::Tables::Tables()
@@ -961,4 +962,5 @@ uint64_t Move_generator::perft(int depth, Board& board, std::atomic_flag& is_can
   }
 
   return nodes;
+}
 }

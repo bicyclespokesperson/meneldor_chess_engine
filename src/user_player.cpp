@@ -1,6 +1,7 @@
 #include "user_player.h"
 #include "utils.h"
 
+namespace Meneldor {
 User_player::User_player(std::string name) : Player(std::move(name))
 {
 }
@@ -57,4 +58,5 @@ bool User_player::set_position(std::string_view fen)
 void User_player::reset()
 {
   m_board = {};
+}
 }

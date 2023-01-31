@@ -1,4 +1,6 @@
 #include "chess_types.h"
+
+namespace Meneldor {
 Piece from_char(char c)
 {
   switch (c)
@@ -81,4 +83,5 @@ std::ostream& operator<<(std::ostream& os, Color const& self)
 {
   os << ((self == Color::white) ? std::string{"white"} : std::string{"black"});
   return os;
+}
 }
