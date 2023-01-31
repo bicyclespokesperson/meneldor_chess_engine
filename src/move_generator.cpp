@@ -4,9 +4,8 @@
 #include "my_assert.h"
 
 namespace rs = std::ranges;
-namespace
+namespace Meneldor
 {
-using namespace Meneldor;
 
 // Generated with code from: https://www.chessprogramming.org/Looking_for_Magics
 std::array<uint64_t, 64> const c_rook_magics{
@@ -269,10 +268,6 @@ constexpr int magic_hash_fn(uint64_t blockers, uint64_t magic, int bits)
   return (int)((blockers * magic) >> (64 - bits));
 }
 
-} // namespace
-
-namespace Meneldor
-{
 Move_generator::Tables const Move_generator::m_tables{};
 
 Move_generator::Tables::Tables()

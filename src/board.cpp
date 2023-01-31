@@ -4,7 +4,7 @@
 #include "utils.h"
 
 namespace rs = std::ranges;
-namespace
+namespace Meneldor
 {
 using namespace Meneldor;
 
@@ -192,11 +192,6 @@ bool is_en_passant(Piece piece, Coordinates from, Coordinates to, Board const& b
   }
   return false;
 }
-
-} // namespace
-
-namespace Meneldor
-{
 
 Board::Board()
 {

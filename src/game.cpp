@@ -5,14 +5,11 @@
 #include "uci_engine_player.h"
 #include "user_player.h"
 
-namespace
+namespace Meneldor
 {
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables) Can't be a member variable because we want to use it in a handler
 std::atomic_flag is_cancelled{};
-} // namespace
 
-namespace Meneldor
-{
 void my_handler(int /* s */)
 {
   is_cancelled.test_and_set();
