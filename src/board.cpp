@@ -912,7 +912,7 @@ std::vector<Coordinates> Board::find_pieces_that_can_move_to(Piece piece, Color 
 tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 {
   move_str.erase(std::remove_if(move_str.begin(), move_str.end(), isspace), move_str.end());
-  std::transform(move_str.begin(), move_str.end(), move_str.begin(),
+  rs::transform(move_str, move_str.begin(),
                  [](char c)
                  {
                    return std::toupper(c, std::locale());
