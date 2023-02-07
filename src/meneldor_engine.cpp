@@ -12,7 +12,6 @@ int tt_hits{0};
 int tt_misses{0};
 int tt_sufficient_depth{0};
 
-
 // Returns a number that is positive if the side to move is winning, and
 // negative if losing
 int Meneldor_engine::evaluate(Board const& board) const

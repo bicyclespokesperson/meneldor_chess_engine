@@ -89,9 +89,10 @@ size_t Transposition_table::get_capacity() const
 
 size_t Transposition_table::count() const
 {
-  return rs::count_if(m_table, [](auto const& entry)
-                               {
-                                 return entry.best_move.type() != Move_type::null;
-                               });
+  return rs::count_if(m_table,
+                      [](auto const& entry)
+                      {
+                        return entry.best_move.type() != Move_type::null;
+                      });
 }
 } // namespace Meneldor

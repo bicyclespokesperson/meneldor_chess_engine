@@ -913,10 +913,10 @@ tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 {
   move_str.erase(std::remove_if(move_str.begin(), move_str.end(), isspace), move_str.end());
   rs::transform(move_str, move_str.begin(),
-                 [](char c)
-                 {
-                   return std::toupper(c, std::locale());
-                 });
+                [](char c)
+                {
+                  return std::toupper(c, std::locale());
+                });
 
   Piece promotion_result{Piece::empty};
   if (move_str.size() == 5 && !isdigit(move_str.back()))
@@ -947,13 +947,13 @@ tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 
 tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move_param, Color color) const
 {
-
   std::string move_str;
-  rs::copy_if(move_param, std::back_inserter(move_str), [&](char c)
-  {
-    constexpr std::string_view chars = "x+#?!";
-    return !(std::isspace(c) || chars.contains(c));
-  });
+  rs::copy_if(move_param, std::back_inserter(move_str),
+              [&](char c)
+              {
+                constexpr std::string_view chars = "x+#?!";
+                return !(std::isspace(c) || chars.contains(c));
+              });
 
   if (move_str.size() < 2)
   {
