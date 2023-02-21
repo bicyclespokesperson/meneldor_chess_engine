@@ -144,7 +144,7 @@ void Game::play_game(Player& white_player, Player& black_player)
         white_to_move = !white_to_move;
         detector.add_fen(board.to_fen());
 
-        std::cout << "Board state after " << move_list.size() << " half moves\n";
+        std::cout << "Board state after " << move_list.size() << " ply\n";
         std::cout << board;
         state = board.calc_game_state();
         if (state == Game_state::in_progress && is_drawn(board, detector))

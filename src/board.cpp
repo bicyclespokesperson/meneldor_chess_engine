@@ -1314,7 +1314,7 @@ tl::expected<Board, std::string> Board::from_fen(std::string_view fen)
     ++index;
   }
 
-  // Full move and half move counts are optional
+  // Full move and ply counts are optional
   if (index < fen_str.size())
   {
     size_t last_char{0};
