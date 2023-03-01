@@ -116,12 +116,10 @@ TEST_CASE("A board can be constructed from a pgn file", "[board]")
   out << *board;
 
   std::string result = out.str();
-  std::string expected = c_fischer_spassky_result;
-  result.erase(rs::remove_if(result, isspace).begin(), result.end());
-  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
 
   // Compare ignoring whitespace
-  REQUIRE(result == expected);
+  REQUIRE(rs::equal(result | rs::views::filter(std::not_fn(isspace)),
+                    c_fischer_spassky_result | rs::views::filter(std::not_fn(isspace))));
 }
 
 TEST_CASE("A pgn file from chess.com", "[board]")
@@ -138,11 +136,10 @@ TEST_CASE("A pgn file from chess.com", "[board]")
 
   std::string result = out.str();
   std::string expected = c_sigrist_result;
-  result.erase(rs::remove_if(result, isspace).begin(), result.end());
-  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
 
   // Compare ignoring whitespace
-  REQUIRE(result == expected);
+  REQUIRE(rs::equal(result | rs::views::filter(std::not_fn(isspace)),
+                    c_sigrist_result | rs::views::filter(std::not_fn(isspace))));
 }
 
 TEST_CASE("A board should be initially setup", "[board]")
@@ -177,10 +174,8 @@ TEST_CASE("A board can be created from a FEN string", "[board]")
   out << *board;
 
   std::string result = out.str();
-  std::string expected = c_fen_test_result;
-  result.erase(rs::remove_if(result, isspace).begin(), result.end());
-  expected.erase(rs::remove_if(expected, isspace).begin(), expected.end());
-  REQUIRE(result == expected);
+  REQUIRE(rs::equal(result | rs::views::filter(std::not_fn(isspace)),
+                    c_fen_test_result | rs::views::filter(std::not_fn(isspace))));
 
   REQUIRE(!board->try_move_algebraic("O-O-O")); // Should fail as black does not have queenside castling rights
   REQUIRE(board->try_move_algebraic("axb3")); // En passant should succeed

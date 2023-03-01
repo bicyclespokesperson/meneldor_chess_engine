@@ -2,6 +2,8 @@
 #include "senjo/Output.h"
 #include "senjo/UCIAdapter.h"
 
+namespace rs = std::ranges;
+
 namespace Meneldor
 {
 constexpr bool c_log_uci_commands{true};
@@ -73,11 +75,11 @@ int main(int argc, char* argv[])
 
     while (std::getline(*stream, line))
     {
-      std::transform(line.begin(), line.end(), line.begin(),
-                     [](char c)
-                     {
-                       return std::tolower(c, std::locale());
-                     });
+      rs::transform(line, line.begin(),
+                    [](char c)
+                    {
+                      return std::tolower(c, std::locale());
+                    });
 
       if constexpr (c_log_uci_commands)
       {

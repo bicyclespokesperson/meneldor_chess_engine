@@ -3,9 +3,8 @@
 #include "board.h"
 #include "move_generator.h"
 
-namespace
+namespace Meneldor
 {
-using namespace Meneldor;
 
 void test_perft(std::string_view fen, int depth, uint64_t expected)
 {
@@ -17,10 +16,6 @@ void test_perft(std::string_view fen, int depth, uint64_t expected)
   REQUIRE(actual == expected);
 }
 
-} // namespace
-
-namespace Meneldor
-{
 // Perft results source: https://www.chessprogramming.org/Perft_Results
 
 TEST_CASE("Perft position 1", "[Move_generator]")

@@ -17,7 +17,7 @@ std::string format_with_commas(T value)
 template <typename T>
 void print_vector(std::ostream& os, std::vector<T> const& v)
 {
-  std::copy(v.begin(), v.end(), std::ostream_iterator<T>(os, " "));
+  std::ranges::copy(v, std::ostream_iterator<T>(os, " "));
   os << "\n";
 }
 

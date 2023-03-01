@@ -1,5 +1,7 @@
 #include "feature_toggle.h"
 
+namespace rs = std::ranges;
+
 namespace
 {
 std::string const c_feature_toggle_file_path{"feature_set.txt"};
@@ -19,12 +21,12 @@ std::unordered_set<std::string> parse_features(std::string const& filename)
   line.reserve(256);
   while (std::getline(infile, line))
   {
-    line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
-    std::transform(line.begin(), line.end(), line.begin(),
-                   [](char c)
-                   {
-                     return std::tolower(c, std::locale());
-                   });
+    line.erase(rs::remove_if(line, isspace).begin(), line.end());
+    rs::transform(line, line.begin(),
+                  [](char c)
+                  {
+                    return std::tolower(c, std::locale());
+                  });
 
     if (line.empty())
     {

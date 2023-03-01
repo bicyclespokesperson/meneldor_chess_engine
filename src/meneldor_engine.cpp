@@ -155,8 +155,7 @@ int Meneldor_engine::negamax_(Board& board,
     return quiesce_(board, alpha, beta);
   }
 
-  if (std::find(m_previous_positions.cbegin(), m_previous_positions.cend(), board.get_hash_key()) !=
-      m_previous_positions.cend())
+  if (rs::find(m_previous_positions, board.get_hash_key()) != m_previous_positions.cend())
   {
     return c_contempt_score; // Draw by repetition
   }
@@ -235,7 +234,7 @@ int Meneldor_engine::negamax_(Board& board,
   {
     if (best_guess.type() != Move_type::null)
     {
-      auto const guess_location = std::find(moves.begin(), moves.end(), best_guess);
+      auto const guess_location = rs::find(moves, best_guess);
       if (guess_location != moves.end())
       {
         std::rotate(moves.begin(), guess_location, guess_location + 1);
@@ -535,11 +534,11 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   }
   else
   {
-    std::stable_sort(legal_moves.begin(), legal_moves.end(),
-                     [](Move m1, Move m2)
-                     {
-                       return m1.score() > m2.score();
-                     });
+    rs::stable_sort(legal_moves,
+                    [](Move m1, Move m2)
+                    {
+                      return m1.score() > m2.score();
+                    });
   }
 
   std::string move_string{""};
@@ -614,7 +613,7 @@ void Meneldor_engine::print_stats(std::pair<Move, int> best_move, std::optional<
   if (pv)
   {
     out << " pv ";
-    std::copy(pv->cbegin(), pv->cend(), std::ostream_iterator<std::string>(out, " "));
+    rs::copy(*pv, std::ostream_iterator<std::string>(out, " "));
   }
 
   // Output() adds the prefix "info string" by default to make UCI clients

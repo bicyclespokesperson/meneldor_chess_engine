@@ -666,43 +666,7 @@ int Board::distance_between(Coordinates from, Coordinates to) const
 
 void Board::reset()
 {
-  m_bitboards.fill(Bitboard{0});
-  m_en_passant_square = Bitboard{0};
-  m_active_color = Color::white;
-  m_halfmove_clock = 0;
-  m_fullmove_count = 1;
-  m_rights = c_castling_rights_all;
-
-  // White pieces
-  add_piece_(Color::white, Piece::rook, {0, 0});
-  add_piece_(Color::white, Piece::knight, {1, 0});
-  add_piece_(Color::white, Piece::bishop, {2, 0});
-  add_piece_(Color::white, Piece::queen, {3, 0});
-  add_piece_(Color::white, Piece::king, {4, 0});
-  add_piece_(Color::white, Piece::bishop, {5, 0});
-  add_piece_(Color::white, Piece::knight, {6, 0});
-  add_piece_(Color::white, Piece::rook, {7, 0});
-  for (int8_t i{0}; i < c_board_dimension; ++i)
-  {
-    add_piece_(Color::white, Piece::pawn, {i, 1});
-  }
-
-  // Black pieces
-  add_piece_(Color::black, Piece::rook, {0, 7});
-  add_piece_(Color::black, Piece::knight, {1, 7});
-  add_piece_(Color::black, Piece::bishop, {2, 7});
-  add_piece_(Color::black, Piece::queen, {3, 7});
-  add_piece_(Color::black, Piece::king, {4, 7});
-  add_piece_(Color::black, Piece::bishop, {5, 7});
-  add_piece_(Color::black, Piece::knight, {6, 7});
-  add_piece_(Color::black, Piece::rook, {7, 7});
-  for (int8_t i{0}; i < c_board_dimension; ++i)
-  {
-    add_piece_(Color::black, Piece::pawn, {i, 6});
-  }
-
-  m_zhash = {*this};
-
+  *this = *from_fen(c_start_position_fen);
   MY_ASSERT(validate_(), "Board is in an incorrect state");
 }
 
@@ -911,7 +875,7 @@ std::vector<Coordinates> Board::find_pieces_that_can_move_to(Piece piece, Color 
 
 tl::expected<Move, std::string> Board::move_from_uci(std::string move_str) const
 {
-  move_str.erase(std::remove_if(move_str.begin(), move_str.end(), isspace), move_str.end());
+  move_str.erase(rs::remove_if(move_str, isspace).begin(), move_str.end());
   rs::transform(move_str, move_str.begin(),
                 [](char c)
                 {
@@ -1043,11 +1007,12 @@ tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move
   {
     // Drop candidates that are not on the correct column
     auto start_column = static_cast<int32_t>(move_str[0] - 'a');
-    candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
-                                    [start_column](Coordinates piece_loc)
-                                    {
-                                      return piece_loc.x() != start_column;
-                                    }),
+    candidates.erase(rs::remove_if(candidates,
+                                   [start_column](Coordinates piece_loc)
+                                   {
+                                     return piece_loc.x() != start_column;
+                                   })
+                       .begin(),
                      candidates.end());
 
     move_str = move_str.substr(1);
@@ -1071,11 +1036,12 @@ tl::expected<Move, std::string> Board::move_from_algebraic(std::string_view move
   {
     // Drop candidates that are not on the correct column
     auto start_row = static_cast<int32_t>(move_str[0] - '1');
-    candidates.erase(std::remove_if(candidates.begin(), candidates.end(),
-                                    [start_row](Coordinates piece_loc)
-                                    {
-                                      return piece_loc.y() != start_row;
-                                    }),
+    candidates.erase(rs::remove_if(candidates,
+                                   [start_row](Coordinates piece_loc)
+                                   {
+                                     return piece_loc.y() != start_row;
+                                   })
+                       .begin(),
                      candidates.end());
     move_str = move_str.substr(1);
     if (candidates.size() == 1)
