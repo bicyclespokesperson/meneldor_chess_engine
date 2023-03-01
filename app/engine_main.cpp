@@ -75,7 +75,19 @@ int main(int argc, char* argv[])
 
     while (std::getline(*stream, line))
     {
-      rs::transform(line, line.begin(),
+      auto start = line.begin();
+
+      if (line.starts_with("position")) {
+        // Don't downcase the fen
+        auto moves_token = line.find("moves");
+        start = (moves_token != std::string::npos) ? line.begin() + moves_token : line.end();
+      }
+      else if (line.starts_with("setoption") || line.starts_with("register"))
+      {
+        start = line.end();
+      }
+
+      std::transform(start, line.end(), line.begin(),
                     [](char c)
                     {
                       return std::tolower(c, std::locale());
