@@ -27,6 +27,7 @@ target_precompile_headers(tests
     <numeric>
     <optional>
     <random>
+    <ranges>
     <set>
     <span>
     <string>
