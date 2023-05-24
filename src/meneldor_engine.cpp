@@ -229,7 +229,7 @@ int Meneldor_engine::negamax_(Board& board,
   auto moves = Move_generator::generate_pseudo_legal_moves(board);
   m_orderer.sort_moves(moves, board);
 
-  static const bool skip_guess_move = is_feature_enabled("skip_guess_move");
+  static bool const skip_guess_move = is_feature_enabled("skip_guess_move");
   if (!skip_guess_move)
   {
     if (best_guess.type() != Move_type::null)
@@ -527,7 +527,7 @@ std::pair<Move, int> Meneldor_engine::search(int depth, std::vector<Move>& legal
   // TODO: Is this useful? Revisit after null move pruning is implemented
   // Currently use_id_sort appears to slightly slow down the engine, and shows
   // no benefit over the MVV/LVA tables
-  static const bool skip_id_sort = is_feature_enabled("skip_id_sort");
+  static bool const skip_id_sort = is_feature_enabled("skip_id_sort");
   if (skip_id_sort || depth < c_depth_to_use_id_score)
   {
     m_orderer.sort_moves(legal_moves, m_board);

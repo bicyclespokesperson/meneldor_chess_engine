@@ -77,7 +77,8 @@ int main(int argc, char* argv[])
     {
       auto start = line.begin();
 
-      if (line.starts_with("position")) {
+      if (line.starts_with("position"))
+      {
         // Don't downcase the fen
         auto moves_token = line.find("moves");
         start = (moves_token != std::string::npos) ? line.begin() + moves_token : line.end();
@@ -88,10 +89,10 @@ int main(int argc, char* argv[])
       }
 
       std::transform(start, line.end(), line.begin(),
-                    [](char c)
-                    {
-                      return std::tolower(c, std::locale());
-                    });
+                     [](char c)
+                     {
+                       return std::tolower(c, std::locale());
+                     });
 
       if constexpr (c_log_uci_commands)
       {

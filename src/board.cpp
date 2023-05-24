@@ -492,7 +492,7 @@ tl::expected<void, std::string> Board::try_move_algebraic(std::string_view move_
 {
   return move_from_algebraic(move_str, get_active_color())
     .and_then(
-      [&](const auto m)
+      [&](auto const m)
       {
         return try_move(m);
       });
@@ -502,7 +502,7 @@ tl::expected<void, std::string> Board::try_move_uci(std::string_view move_str)
 {
   return move_from_uci(std::string{move_str})
     .and_then(
-      [&](const auto m)
+      [&](auto const m)
       {
         return try_move(m);
       });
