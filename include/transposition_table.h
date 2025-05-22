@@ -50,7 +50,7 @@ private:
 
   size_t hash_fn_(zhash_t key) const;
 
-  const size_t m_table_capacity{0};
+  size_t const m_table_capacity{0};
   std::vector<Entry> m_table;
 };
 } // namespace Meneldor

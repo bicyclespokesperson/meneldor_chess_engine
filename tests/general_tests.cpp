@@ -22,7 +22,7 @@ std::optional<std::string> read_file_contents(std::string const& filename)
   return std::string{std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>()};
 }
 
-static const std::string c_fischer_spassky_result = R"(
+static std::string const c_fischer_spassky_result = R"(
 8  ___ ___ ___ ___ ___ ___ ___ ___ 
 
 7  ___ ___ ___ ___ ___ ___ ___ ___ 
@@ -42,7 +42,7 @@ static const std::string c_fischer_spassky_result = R"(
     A   B   C   D   E   F   G   H  
 )";
 
-static const std::string c_sigrist_result = R"(
+static std::string const c_sigrist_result = R"(
 8  R_b ___ ___ ___ ___ ___ ___ ___ 
 
 7  P_b P_b P_b ___ ___ ___ ___ P_b 
@@ -62,7 +62,7 @@ static const std::string c_sigrist_result = R"(
     A   B   C   D   E   F   G   H  
 )";
 
-static const std::string c_fen_test_result = R"(
+static std::string const c_fen_test_result = R"(
 8  R_b ___ ___ ___ K_b ___ ___ R_b 
 
 7  Q_b P_b P_b B_b ___ P_b P_b ___ 
@@ -82,7 +82,7 @@ static const std::string c_fen_test_result = R"(
     A   B   C   D   E   F   G   H  
 )";
 
-static const std::string c_uci_moves_result = R"(
+static std::string const c_uci_moves_result = R"(
 8  R_b N_b B_b Q_b K_b B_b ___ R_b 
 
 7  P_b P_b P_b P_b P_b P_b P_b P_b 
@@ -166,7 +166,7 @@ TEST_CASE("A board should be initially setup", "[board]")
 
 TEST_CASE("A board can be created from a FEN string", "[board]")
 {
-  static const std::string fen_string{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 0 19"};
+  static std::string const fen_string{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 0 19"};
 
   auto board = Board::from_fen(fen_string);
 
@@ -186,7 +186,7 @@ TEST_CASE("A board can be created from a FEN string", "[board]")
 
 TEST_CASE("Fen round trip", "[board]")
 {
-  static const std::string fen{"r1b4r/p1kppPP1/2p5/1pP5/1B2N3/KP6/P2P2pp/R2Q4 w - - 0 1"};
+  static std::string const fen{"r1b4r/p1kppPP1/2p5/1pP5/1B2N3/KP6/P2P2pp/R2Q4 w - - 0 1"};
   auto board1 = Board::from_fen(fen);
 
   std::string generated_fen = board1->to_fen();
@@ -205,7 +205,7 @@ TEST_CASE("Fen round trip", "[board]")
 TEST_CASE("Fen castling rights and en passant"
           "[board]")
 {
-  static const std::string fen{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 0 1"};
+  static std::string const fen{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 0 1"};
   auto board = Board::from_fen(fen);
 
   std::string generated_fen = board->to_fen();
@@ -329,7 +329,7 @@ TEST_CASE("A board can make moves in uci format", "[board]")
 
 TEST_CASE("Pawn promotion", "[board]")
 {
-  static const std::string fen{"r1b4r/p1kppPP1/2p5/1pP5/1B2N3/KP6/P2P2pp/R2Q4 w - - 0 1"};
+  static std::string const fen{"r1b4r/p1kppPP1/2p5/1pP5/1B2N3/KP6/P2P2pp/R2Q4 w - - 0 1"};
   auto board = Board::from_fen(fen);
   REQUIRE(board.has_value()); // Pawn promotion is invalid without a specified
     // promotion piece
@@ -401,7 +401,7 @@ TEST_CASE("Bitboard iterator", "[bitboard]")
 
 TEST_CASE("Undo move", "[board]")
 {
-  static const std::string fen_string{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 7 9"};
+  static std::string const fen_string{"r3k2r/qppb1pp1/2nbpn2/1B1N4/pP1PP1qP/P1P3N1/3BQP2/R3K2R b Qk b3 7 9"};
   auto board = Board::from_fen(fen_string);
   auto color = board->get_active_color();
 
@@ -420,7 +420,7 @@ TEST_CASE("Undo move", "[board]")
 
 TEST_CASE("Undo move 2", "[board]")
 {
-  static const std::string fen_string{"rn1qk2r/pbpp1ppp/1p2pn2/8/3P4/b1NQB2P/PPP1PPP1/R3KBNR w KQkq - 9 15"};
+  static std::string const fen_string{"rn1qk2r/pbpp1ppp/1p2pn2/8/3P4/b1NQB2P/PPP1PPP1/R3KBNR w KQkq - 9 15"};
   auto board = Board::from_fen(fen_string);
 
   // Save state
@@ -505,7 +505,7 @@ TEST_CASE("Threefold repetition", "[Threefold_repetition_detector]")
 
 TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 {
-  static const std::string fen_string{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
+  static std::string const fen_string{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
   auto board = *Board::from_fen(fen_string);
 
   auto hash1 = Zobrist_hash(board);
@@ -513,7 +513,7 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
   SECTION("White to play should change hash")
   {
     // Ensure that white to play yields a different hash
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
+    static std::string const fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
                                          "P2P4/1PP1N1PP/R1B2RK1 w kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
@@ -524,7 +524,7 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("Different en passant square should change hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq - 1 1"};
+    static std::string const fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/P2P4/1PP1N1PP/R1B2RK1 b kq - 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
     REQUIRE(hash1 != hash2);
@@ -532,7 +532,7 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("Different castling rights should change hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
+    static std::string const fen_string2{"r1bqk2r/p2p1pbp/1pn3p1/1p1Np2n/4PP2/"
                                          "P2P4/1PP1N1PP/R1B2RK1 b kQ f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
@@ -558,7 +558,7 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("The same board with piece colors swapped should change the hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
+    static std::string const fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
                                          "p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);
@@ -567,7 +567,7 @@ TEST_CASE("Zobrist hashing", "[Zobrist_hash]")
 
   SECTION("The same board with piece colors swapped should change the hash")
   {
-    static const std::string fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
+    static std::string const fen_string2{"r1bqk2r/p2p1pbp/1Pn3p1/1p1Np2n/4PP2/"
                                          "p2P4/1PP1N1PP/R1B2RK1 b kq f3 1 1"};
     auto board2 = *Board::from_fen(fen_string2);
     auto hash2 = Zobrist_hash(board2);

@@ -52,7 +52,7 @@ public:
     void initialize_king_attacks_();
   };
 
-  static const Tables m_tables;
+  static Tables const m_tables;
 };
 
 struct Bitboard_constants
