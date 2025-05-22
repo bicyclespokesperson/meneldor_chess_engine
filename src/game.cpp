@@ -25,9 +25,7 @@ void Game::init_handler_()
 #ifndef _WIN32
   // We still want to print out moves if the game is cancelled, so
   // set a handler for ctrl-c that sets a flag that is tested in the loop
-  struct sigaction sigIntHandler
-  {
-  };
+  struct sigaction sigIntHandler{};
 
   sigIntHandler.sa_handler = my_handler;
   sigemptyset(&sigIntHandler.sa_mask);
@@ -75,18 +73,18 @@ void Game::player_vs_computer(Color player_color)
 
 void Game::computer_vs_computer()
 {
-  Engine_player white_player("Meneldor_w");
-  Engine_player black_player("Meneldor_b");
+  auto white_player = std::make_unique<Engine_player>("Meneldor_w");
+  //auto black_player = std::make_unique<Engine_player>("Meneldor_b");
   //auto white_player = Uci_engine_player::create("laser", 10);
   //auto white_player = Uci_engine_player::create("Defenchess", 10);
   //auto white_player = Uci_engine_player::create("stockfish", 10);
   //auto white_player = Uci_engine_player::create("shallowblue", 8);
   //auto white_player = std::make_unique<Uci_engine_player>("Meneldor_white", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
-  //auto black_player = std::make_unique<Uci_engine_player>("Meneldor_black", "/Users/jeremysigrist/Desktop/meneldor_chess_engine/bin/meneldor", 8);
+  auto black_player = std::make_unique<Uci_engine_player>("stockfish", "stockfish", 10);
 
   //auto black_player = Uci_engine_player::create("stockfish", 8);
 
-  play_game(white_player, black_player);
+  play_game(*white_player, *black_player);
 }
 
 bool is_drawn(Board const& board, Threefold_repetition_detector const& detector)

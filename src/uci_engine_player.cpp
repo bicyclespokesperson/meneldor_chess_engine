@@ -123,7 +123,7 @@ Uci_engine_player::~Uci_engine_player()
 std::optional<std::string> Uci_engine_player::get_next_move(std::istream& /* in */, std::ostream& out)
 {
   out << get_name() << " thinking:\n";
-  static const std::string move_prefix{"bestmove "};
+  static std::string const move_prefix{"bestmove "};
   send_message_(std::string{"position fen "} + m_board.to_fen());
 
   send_message_(std::string{"go depth "} + std::to_string(m_search_depth));
@@ -139,7 +139,7 @@ std::optional<std::string> Uci_engine_player::get_next_move(std::istream& /* in 
 
   index += move_prefix.size();
   constexpr int c_uci_move_length{5};
-  auto const best_move = msg.substr(index, c_uci_move_length);
+  auto best_move = msg.substr(index, c_uci_move_length);
   return best_move;
 }
 

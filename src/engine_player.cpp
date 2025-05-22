@@ -14,7 +14,7 @@ std::optional<std::string> Engine_player::get_next_move(std::istream& /* in */, 
   senjo::GoParams params;
   params.depth = 6;
   auto const start = std::chrono::system_clock::now();
-  auto const engine_move = m_engine.go(params, nullptr);
+  auto engine_move = m_engine.go(params, nullptr);
   auto const end = std::chrono::system_clock::now();
   std::chrono::duration<double> const elapsed_time = end - start;
   auto search_stats = m_engine.getSearchStats();

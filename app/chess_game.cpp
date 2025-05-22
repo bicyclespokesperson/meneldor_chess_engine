@@ -87,7 +87,7 @@ void benchmark()
 {
   uint64_t val = 0x8100000000000081;
 
-  volatile size_t total{0};
+  size_t volatile total{0};
   size_t const iterations = 1'000'000'000;
   {
     auto const start = std::chrono::system_clock::now();
